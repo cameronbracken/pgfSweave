@@ -1,0 +1,16 @@
+December 29, 2008
+
+* Documentation has a boatload of warnings
+* Adding white space at the end of a code chunk causes all of the following code chunks to be registered as changed
+* [RESOLVED, if pgf is TRUE it supercedes everything else] Using the 'pdf' option and 'external' option will conflict suggest using one or the other or possibly have a default when this is the case
+* Changing the width and height of a figure ONLY but not the code chunk does not register as a change
+* A stray Rplots.pdf gets generated using caching
+* [RESOLVED, use \usepackage[nogin]{Sweave}] output pdf size when included in document is refined by textwidth by default, need a feature to add the 'width' and 'height' and possibly and other option 'scale' the \includegraphics[width=,height=,scale=]{file}
+* external only works if a single plot is generated with a single code chunk, 
+* need to determine if pgf 2.00 contains the external capabilities so that can be stated in the vignette and the documentation.
+* possibly automatically add the \pgfrealjobname command if it is not already in the file like the Sweave style file is added when stylepath=TRUE.
+* latex/pdflatex is not found when using R.app unless path to pdflatex is hardcoded (but R CMD pdfSweave <file> works)
+* Need to determin the limitations R CMD pgfSweave
+* Need more extensive testing with plain latex 
+* not all latex commands work in labels for example \scshape works but \textsc{} does not
+* can not figure out how to get the package vignette to compile when package is loaded because file is not normal Sweave (Solution for the final document may just be to save images separately and create a standard Sweave file)
