@@ -1,6 +1,7 @@
 Last Updated: January 11, 2009 
 
 TODO:
+* Finish the vignette
 * Determine if pgf 2.00 contains the external capabilities so that can be stated in the vignette and the documentation.
 * Determine the limitations R CMD pgfSweave.
 * More extensive testing with plain latex and with windows.
