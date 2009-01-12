@@ -102,7 +102,7 @@ hist(a)
 \caption{This is normal \pkg{Sweave}.}\label{normalSweave}
 \end{minipage}
 \begin{minipage}[!ht]{.45\linewidth}
-%% pgf file will get regenerated every time slowing doen the whole compilation.
+%% pgf file will get regenerated every time slowing down the whole compilation.
 %% even though cache=TRUE. 
 \centering
 <<pgfSweave-hist,width=3,height=3>>=

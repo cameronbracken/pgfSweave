@@ -118,8 +118,8 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
 pgfSweaveSetup <- function(file, syntax,
                              output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
                              eval=TRUE, split=FALSE, stylepath=TRUE, pdf=FALSE,
-                             eps=FALSE, cache = FALSE, pgf = TRUE, external=FALSE,
-                             pdflatex=TRUE) {
+                             eps=FALSE, cache=FALSE, pgf=TRUE, external=FALSE,
+                             tex.driver="pdflatex") {
 
         out <- utils::RweaveLatexSetup(file, syntax, output=NULL, quiet=FALSE,
                                        debug=FALSE, echo=TRUE, eval=TRUE,
@@ -134,7 +134,7 @@ pgfSweaveSetup <- function(file, syntax,
         ## The pgfSweave options [CWB]
         out$options[["pgf"]] <- pgf
         out$options[["external"]] <- external
-        out$options[["pdflatex"]] <- pdflatex
+        out[["tex.driver"]] <- tex.driver
         ## end [CWB]
 
         ## We assume that each .Rnw file gets its own map file
@@ -459,8 +459,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         if( chunkChanged | !pdfExists && (!options$pdf && !options$eps)){
 
                                 shellFile <- object[["shellFile"]]
-                                cat(class(object$output))
-                                tex.driver <- ifelse(options$pdflatex,'pdflatex','latex')
+                                tex.driver <- object[["tex.driver"]]
+                                
                                 cat(tex.driver,' --jobname=',chunkprefix,' ',object[["srcfileName"]],
                                     '\n',sep='',file=shellFile,append=TRUE)
                         }

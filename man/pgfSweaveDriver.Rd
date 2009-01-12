@@ -1,32 +1,66 @@
 \name{pgfSweaveDriver}
 \alias{pgfSweaveDriver}
-\title{The Sweave driver for pgfSweave.}
+\alias{pgfSweaveSetup}
+\title{The Sweave driver for pgfSweave}
 
 \description{
-An Sweave driver for caching code chunks and image files making for speedy compilation.
+An Sweave driver for caching code chunks and image files making for speedy compilation. 
 }
 \usage{
-Sweave(file,driver=pgfSweaveDriver)
-pgfSweave(file,...)
+pgfSweaveDriver()
+
+pgfSweaveSetup(file, syntax,
+               output = NULL, quiet = FALSE, debug = FALSE, echo = TRUE,
+               eval = TRUE, split = FALSE, stylepath = TRUE, pdf = FALSE,
+               eps = FALSE, cache = FALSE, pgf = TRUE, external=FALSE,
+               tex.driver = "pdflatex")
 }
 \arguments{
     \item{file}{A connection or a character string giving the name of the Sweave file to load.}
-    \item{driver}{The Sweave driver from the pgfSweave package.}
-    \item{...}{Other options to be passed to texi2dvi}
+    \item{syntax}{See \code{\link{RweaveLatex}}}
+    \item{output}{See \code{\link{RweaveLatex}}}
+    \item{quiet}{See \code{\link{RweaveLatex}}}
+    \item{debug}{See \code{\link{RweaveLatex}}}
+    \item{echo}{See \code{\link{RweaveLatex}}}
+    \item{eval}{See \code{\link{RweaveLatex}}}
+    \item{split}{See \code{\link{RweaveLatex}}}
+    \item{stylepath}{See \code{\link{RweaveLatex}}}
+    \item{pdf}{See \code{\link{RweaveLatex}}. Note the default is changed to \code{FALSE}}
+    \item{eps}{See \code{\link{RweaveLatex}}. Note the default is changed to \code{FALSE}}
+    \item{cache}{See \code{\link[cacheSweavecacheSweaveDriver]{cacheSweaveDriver}}}
+    \item{pgf}{Set default for option \code{pgf}, see details below.}
+    \item{external}{Set default for option \code{external}, see details below.}
+    \item{tex.driver}{Set default for option \code{tex.driver}, see details below.}
 }
 \details{
-To only compile an Rnw to a a tex file, Sweave can be called directly.  Otherwise use the \code{\link{pgfSweave}} function to compile to pdf.
+To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as the \code{driver} option to \code{\link{Sweave}}.  Otherwise use the \code{\link[pgfSweave]{pgfSweave}} function for a simple way to compile to pdf.
 }
+\section{New options}{
+    This function provides new options for use in code chunks 
+\tabular{ll}{
+\code{external}\tab Use the graphics externalization feature of the TeX package pgf.  Once a graphic is created, a code chunk is not evaluated again until changes are made.  Essentially the graphic is 'cached'(defaults to \code{FALSE}).\cr 
+\code{pgf}\tab Generate an eps file and use the eps2pgf utility to generate a pgf graphic for inclusion with \code{\input{graphic.pgf}} thi takes the place of an \code{\includegraphics} statement. The \code{-m directcopy} option is used so that LaTeX code can be directly used in titles (see the eps2pgf manual, \url{http://sourceforge.net/projects/eps2pgf/}).  This also causes the font in the graphic to match that of the main document. (defaults to \code{TRUE}) \cr
+\code{tex.driver}\tab A character string giving the LaTeX driver to use for compiling external graphics (defaults to "pdflatex") \cr
+}
+All the \code{\link{Sweave}} and \code{\link[cacheSweave]{cacheSweave}} options are available. Note that the defaults for the \code{\link{Sweave}} options \code{pdf} and \code{eps} are set to \code{FALSE} unlike \code{\link{Sweave}} and \code{\link[cacheSweave]{cacheSweave}}.
+}
+ 
+
 \value{
-  If Sweave is used a tex file is generated. If pgfSweave is used a pdf file is generated.
+Nothing useful returned.
 }
+
 \references{Sweave manual and cacheSweave vignette}
-\author{ Cameron Bracken and Charlie Sharpsteen }
+
+\author{ Cameron Bracken \email{cameron.bracken@gmail.com} and Charlie Sharpsteen }
 
 \note{ 
-\item For myfile.Rnw, Make sure to call the command \code{\pgfrealjobname{myfile}} in the \LaTeX{} header.
-\item Calling \code{\link{pgfSweave}} with \code{compile.tex=FALSE} is equivalent to directly calling Sweave.  
-\item To obtain the speedup from using pgf external graphics be sure to set \code{external=TRUE} on all code chunks which generate a plot. The default code options for the driver are \code{pdf=FALSE,eps=FALSE,pgf=TRUE,external=FALSE}.
+    \itemize{
+    \item For myfile.Rnw, Make sure to call the command \code{\pgfrealjobname{myfile}} in the \LaTeX{} header.
+    \item Calling \code{\link[pgfSweave]{pgfSweave}} with \code{compile.tex=FALSE} is equivalent to directly calling Sweave.  
+    \item To obtain the speedup from using pgf external graphics be sure to set \code{external=TRUE} on all code chunks which generate a plot. The default code options for the driver are \code{pdf=FALSE,eps=FALSE,pgf=TRUE,external=FALSE}.
+    }
 }
 
-\seealso{\code{\link{pgfSweave}},\code{\link{cacheSweave}},\code{\link{Sweave}}}
+
+\seealso{\code{\link[pgfSweave]{pgfSweave}},\code{\link[cacheSweave]{cacheSweave}},\code{\link{Sweave}}}

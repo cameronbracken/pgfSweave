@@ -1,13 +1,13 @@
-pgfSweave <- function(filename, compile.tex=TRUE, syntax = getOption("SweaveSyntax"), ...){
+pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax"), ...){
     
     #Run Sweave
-    Sweave(filename,driver=pgfSweaveDriver,syntax=syntax)
+    Sweave(file,driver=pgfSweaveDriver,syntax=syntax)
     
 	#if available compile pgf graphics
     if(compile.tex){
         
         #Strip the extension and compile the pgf graphics separately
-	    fn <- strsplit(filename,'\\.')[[1]][1]
+	    fn <- strsplit(file,'\\.')[[1]][1]
         cmds <- readLines(paste(fn,'sh',sep='.'))
         dummy <- lapply(cmds,system)
 
@@ -18,7 +18,7 @@ pgfSweave <- function(filename, compile.tex=TRUE, syntax = getOption("SweaveSynt
             Sys.setenv(PDFLATEX=paste("pdflatex --jobname=",fn,sep=''))
     
         #run texi2dvi on the tex file        
-        texi2dvi(paste(fn,'tex',sep='.'),...)
+        tools::texi2dvi(paste(fn,'tex',sep='.'),...)
     }
 
 }
