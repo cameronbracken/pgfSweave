@@ -45,7 +45,7 @@ A pdf file is generated if \code{compile.tex=TRUE} and a tex file only is genera
 
 \note{ 
 \item Assuming \code{compile.tex=TRUE} the function will issue any system commands needed to ``externalize'' the pgf graphics.  To take advantage of the speedup, set \code{external=TRUE} on every code chunk that creates a plot.  
-\item the command \code{\pgfrealjobname} MUST in the header of your \code{LaTeX} file for the external graphics capablities.
+\item the command \code{pgfrealjobname} MUST in the header of your \code{LaTeX} file for the external graphics capablities.
 
 Known issues:
 

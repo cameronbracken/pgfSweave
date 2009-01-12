@@ -24,7 +24,7 @@ To only compile an Rnw to a a tex file, Sweave can be called directly.  Otherwis
 \author{ Cameron Bracken and Charlie Sharpsteen }
 
 \note{ 
-\item For myfile.Rnw, Make sure to call the command \pgfrealjobname{myfile} in the \LaTeX{} header.
+\item For myfile.Rnw, Make sure to call the command \code{\pgfrealjobname{myfile}} in the \LaTeX{} header.
 \item Calling \code{\link{pgfSweave}} with \code{compile.tex=FALSE} is equivalent to directly calling Sweave.  
 \item To obtain the speedup from using pgf external graphics be sure to set \code{external=TRUE} on all code chunks which generate a plot. The default code options for the driver are \code{pdf=FALSE,eps=FALSE,pgf=TRUE,external=FALSE}.
 }

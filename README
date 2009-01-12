@@ -1,0 +1,28 @@
+Last Updated: January 11, 2009 
+
+TODO:
+* Documentation has a boatload of warnings under R CMD check.
+* Determine if pgf 2.00 contains the external capabilities so that can be stated in the vignette and the documentation.
+* Determine the limitations R CMD pgfSweave.
+* More extensive testing with plain latex and with windows.
+
+BUGS:
+* No checking for correct version of pgf.
+* If java does not exist the compilation is reported as successful though the pgf file did not properly get created. 
+* Adding white space at the end of a code chunk causes all of the following code chunks to be registered as changed
+* A stray Rplots.pdf gets generated using caching. Not sure if this a cacheSweave problem or a pgfSweave problem.  When using a gui interface a plotting window opens up.
+* latex/pdflatex is not found when using R.app unless path to pdflatex is hardcoded (but R CMD pdfSweave <file> works)
+* Vignette does not compile with R CMD {check,build,install} because file is not normal Sweave (Solution for the final document may just be to save images separately and create a standard Sweave file). For now vignette moved to inst/doc/src.
+
+ISSUES (not bugs but things to note):
+* external=T only works if a single plot is generated with a single code chunk.  This is an issue with Sweave as well. The offered fix in Sweave is to cat() your own includegraphics commands.
+* Not all latex commands work in labels for example \scshape works but \textsc{} does not
+* Changing the width and height of a figure ONLY but not the code chunk does not register as a change and thus the code chunk will not recompile.
+
+POSSIBLE NEW FEATURES:
+* Automatically add the \pgfrealjobname command if it is not already in the file like the Sweave style file is added when stylepath=TRUE.
+
+RESOLVED (resolution in brackets):
+* [If pgf is TRUE it supercedes everything else] Using the 'pdf' option and 'external' option will conflict suggest using one or the other or possibly have a default when this is the case
+* [Use \usepackage[nogin]{Sweave}] output pdf size when included in document is refined by textwidth by default, need a feature to add the 'width' and 'height' and possibly and other option 'scale' the \includegraphics[width=,height=,scale=]{file}
+
