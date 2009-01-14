@@ -1,4 +1,6 @@
 pgfSweave-example.pdf:
-	R CMD pgfSweave pgfSweave-example.Rnw
+	../misc/pgfsweave pgfSweave-example.Rnw
 clean:
-	rm -rf cache Rplots.* pgfSweave-example.{sh,map,aux,log,pdf,dvi} pgfSweave-example-*
+	rm -rf cache Rplots.* pgfSweave-example.{sh,map,aux,log,pdf,tex} pgfSweave-example-*
+cleanforbuild:
+	rm -rf cache Rplots.* pgfSweave-example.{sh,map,aux,log,pdf} pgfSweave-example-*

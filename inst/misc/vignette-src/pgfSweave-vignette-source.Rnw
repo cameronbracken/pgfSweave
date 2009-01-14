@@ -1,0 +1,156 @@
+\documentclass{article}
+
+%% R> library(pgfSweave)
+%% R> pgfSweave
+
+
+% \VignetteIndexEntry{The pgfSweave Package}
+% \VignetteDepends{cacheSweave}
+% \VignetteDepends{pgfSweave}
+
+\usepackage[nogin]{Sweave}
+\usepackage{pgf}
+\usepackage{fancyvrb}
+\usepackage{color}
+\usepackage[left=1.2in,right=1.2in,top=1.2in,bottom=1.2in]{geometry}
+\newcommand{\lang}{\textsf}
+\newcommand{\code}{\texttt}
+\newcommand{\pkg}{\texttt}
+\newcommand{\ques}[1]{{\bf\large#1}}
+
+\title{The \pkg{pgfSweave} Package}
+\author{Cameron Bracken and Charlie Sharpsteen}
+
+\pgfrealjobname{pgfSweave-vignette-source}
+%pgfSweave-vignette
+
+\begin{document}
+
+<<setup,echo=F>>=
+setCacheDir("cache")
+@ 
+
+%% Cache all of the code chunks and generate external figures by default 
+%% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=TRUE.
+%% to get normal Sweave behavior set pgf=FALSE and external=FALSE 
+\SweaveOpts{prefix.string=figs/fig,fig=T,cache=T,pgf=T,external=T}
+
+
+\maketitle
+
+The \pkg{pgfSweave} provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver} and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}
+
+\section{Motivation and Background} 
+
+\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  Two main drawbacks to this approach are: 
+\begin{enumerate} 
+\item Code chunks with lengthy computations and plotting commands are executed every time a document is compiled  
+\item Consistency in style (font, point size) in automatically generated graphics is difficult to achieve.  
+\end{enumerate}
+
+The \pkg{cacheSweave} package addresses the first issue of lengthy computations by storing the result of computations in a \pkg{filehash} databases.  This provides significant speedup of certain computations, namely those which create objects in the global environment.  Unfortunately most plotting commands do not create objects which can be cached.  This is the first issue addressed by \pkg{pgfSweave}.  So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{pgf} (\texttt{http://sourceforge.net/projects/pgf/}) and the command line utility \pkg{eps2pgf} \\(http://\texttt{sourceforge.net/projects/eps2pgf/}).  
+
+The \pkg{pgf} package provides the ability to ``externalize graphics.''  MORE ABOUT THE EXTERNALIZATION PROCESS AND EPS2PGF. %%http://sourceforge.net/cvs/?group_id=142562 
+
+This package is built directly upon the \pkg{cacheSweave} and therefore also \pkg{Sweave}. 
+
+\section{Usage}
+
+We assume a familiarity with the usage \pkg{Sweave}, for more information see the \pkg{Sweave} manual (\texttt{http://www.stat.uni-muenchen.de/$\sim$leisch/Sweave/Sweave-manual.pdf}).   We first suggest setting a subdirectory for the cached code chunks with a code chunk like:
+
+\begin{verbatim}
+	<<setup,echo=F>>=
+	setCacheDir("cache")
+	@
+\end{verbatim}
+
+We also suggest using a separate subdirectory\footnote{make sure to create the directory first!} for your figures with the \pkg{Sweave} option \code{prefix.string} like:
+
+\begin{verbatim}\SweaveOpts{prefix.string=figs/fig}\end{verbatim}
+
+At this point we will provide a complete example.  The example from the \pkg{Sweave} manual is used to highlight the differences. The two frame below show the input Sweave file \texttt{example.Rnw} and the resulting tex file \texttt{example.tex}.
+
+\VerbatimInput[frame=single,label={pgfSweave-example.Rnw},labelposition=all]{../../example/pgfSweave-example.Rnw}
+
+On the input file run:
+\begin{Verbatim}
+R> library(pgfSweave)
+R> pgfSweave('example.Rnw',pdf=T)
+\end{Verbatim}
+And we get:
+
+\VerbatimInput[frame=single,label={pgfSweave-example.tex},labelposition=all]{../../example/pgfSweave-example.tex}
+
+
+%% initial calculations
+<<first,echo=F,results=hide,fig=F>>=
+a <- rnorm(500)
+b <- a * .4 * rnorm(100, sd = 0.8)
+fit <- lm(b ~ a)
+@
+
+\newpage
+ In figure \ref{normalSweave} Notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In figure \ref{pgfSweave-hist} The text is consistent with the rest of the document.
+
+\begin{figure}
+\begin{minipage}[!ht]{.45\linewidth}
+\centering
+<<normalSweave,echo=T,pdf=T,pgf=F,external=F,width=3,height=3>>=
+hist(a)
+@
+\caption{This is normal \pkg{Sweave}.}\label{normalSweave}
+\end{minipage}
+\begin{minipage}[!ht]{.45\linewidth}
+%% pgf file will get regenerated every time slowing down the whole compilation.
+%% even though cache=TRUE. 
+\centering
+<<pgfSweave-hist,width=3,height=3>>=
+hist(a)
+@
+\caption{This is from \texttt{pgfSweave}.}\label{pgfSweave-hist}
+\end{minipage}
+\end{figure}
+
+\clearpage
+The example below illustrates some of the power of \pkg{pgfSweave}.  \LaTeX{} code can be directly input into captions.  This sort of thing is already available in \lang{R} but again consistency in font and text size is difficult to achieve.  
+
+%% only compiled once
+\begin{figure}[ht] 
+\centering
+<<third,results=hide,fig=T,width=5,height=5>>=
+plot(a,b,xlab="",ylab="")
+title(xlab="$\\alpha\\beta\\gamma\\delta\\epsilon\\Re\\ell\\hbar\\odot\\otimes\\oplus$")
+title(ylab="\\color{red}{\\scshape Red Label in Small Caps}")
+title(main="{\\large This is a plot of $\\displaystyle\\int_a^b \\frac{x}{y}dx$}")
+abline(fit)
+@
+\caption{Large size plot but still consistant. Also \LaTeX{} can be put directly into the titles of the plot which matches the style of your paper.  All $\backslash$'s must be escaped using this method.}
+\end{figure}
+
+
+\clearpage
+Every part of \texttt{Sweave} and \texttt{cacheSweave} work the same but do not cache explicit print statements or they will not show up on a second compile.
+
+\section{Frequently Asked Questions}
+
+\ques{Can \pkg{pgfSweave} be run from the command line?}
+
+Sure! Use:
+\begin{Verbatim}
+R CMD pgfSweave <myfile>.Rnw
+\end{Verbatim}
+OR use this shell script:
+\begin{Verbatim}[frame=single]
+#!/usr/bin/Rscript
+
+library(pgfSweave)
+args <- commandArgs(T)
+pgfSweave(args[1],pdf=TRUE,quiet=FALSE)
+\end{Verbatim}
+Just save the script above as \code{pgfsweave} then run 
+\begin{Verbatim}
+$> pgfsweave <yourfile>.Rnw
+\end{Verbatim}
+
+
+\end{document}

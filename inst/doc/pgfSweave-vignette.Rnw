@@ -1,13 +1,12 @@
 \documentclass{article}
 
-%% Compile this with
 %% R> library(pgfSweave)
 %% R> pgfSweave
 
 
-%%\VignetteIndexEntry{The pgfSweave Package}
-%%\VignetteDepends{cacheSweave}
-%%\VignetteDepends{pgfSweave}
+% \VignetteIndexEntry{The pgfSweave Package}
+% \VignetteDepends{cacheSweave}
+% \VignetteDepends{pgfSweave}
 
 \usepackage[nogin]{Sweave}
 \usepackage{pgf}
@@ -22,19 +21,15 @@
 \title{The \pkg{pgfSweave} Package}
 \author{Cameron Bracken and Charlie Sharpsteen}
 
-\pgfrealjobname{pgfSweave-vignette}
 %pgfSweave-vignette
 
 \begin{document}
 
-<<setup,echo=F>>=
-setCacheDir("cache")
-@ 
 
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=TRUE.
 %% to get normal Sweave behavior set pgf=FALSE and external=FALSE 
-\SweaveOpts{prefix.string=figs/fig,fig=T,cache=T,pgf=T,external=T}
+
 
 
 \maketitle
@@ -71,7 +66,7 @@ We also suggest using a separate subdirectory\footnote{make sure to create the d
 
 At this point we will provide a complete example.  The example from the \pkg{Sweave} manual is used to highlight the differences. The two frame below show the input Sweave file \texttt{example.Rnw} and the resulting tex file \texttt{example.tex}.
 
-\VerbatimInput[frame=single,label={pgfSweave-example.Rnw},labelposition=all]{../../example/pgfSweave-example.Rnw}
+\VerbatimInput[frame=single,label={pgfSweave-example-Rnw.in},labelposition=all]{pgfSweave-example-Rnw.in}
 
 On the input file run:
 \begin{Verbatim}
@@ -80,15 +75,10 @@ R> pgfSweave('example.Rnw',pdf=T)
 \end{Verbatim}
 And we get:
 
-\VerbatimInput[frame=single,label={pgfSweave-example.tex},labelposition=all]{../../example/pgfSweave-example.tex}
+\VerbatimInput[frame=single,label={pgfSweave-example-tex.in},labelposition=all]{pgfSweave-example-tex.in}
 
 
 %% initial calculations
-<<first,echo=F,results=hide,fig=F>>=
-a <- rnorm(500)
-b <- a * .4 * rnorm(100, sd = 0.8)
-fit <- lm(b ~ a)
-@
 
 \newpage
  In figure \ref{normalSweave} Notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In figure \ref{pgfSweave-hist} The text is consistent with the rest of the document.
@@ -96,18 +86,26 @@ fit <- lm(b ~ a)
 \begin{figure}
 \begin{minipage}[!ht]{.45\linewidth}
 \centering
-<<normalSweave,echo=T,pdf=T,pgf=F,external=F,width=3,height=3>>=
-hist(a)
-@
+\begin{Schunk}
+\begin{Sinput}
+> hist(a)
+\end{Sinput}
+\end{Schunk}
+\includegraphics{figs/fig-normalSweave}
 \caption{This is normal \pkg{Sweave}.}\label{normalSweave}
 \end{minipage}
 \begin{minipage}[!ht]{.45\linewidth}
 %% pgf file will get regenerated every time slowing down the whole compilation.
 %% even though cache=TRUE. 
 \centering
-<<pgfSweave-hist,width=3,height=3>>=
-hist(a)
-@
+\begin{Schunk}
+\begin{Sinput}
+> hist(a)
+\end{Sinput}
+\end{Schunk}
+\beginpgfgraphicnamed{figs/fig-pgfSweave-hist}
+\input{figs/fig-pgfSweave-hist.pgf}
+\endpgfgraphicnamed
 \caption{This is from \texttt{pgfSweave}.}\label{pgfSweave-hist}
 \end{minipage}
 \end{figure}
@@ -118,13 +116,18 @@ The example below illustrates some of the power of \pkg{pgfSweave}.  \LaTeX{} co
 %% only compiled once
 \begin{figure}[ht] 
 \centering
-<<third,results=hide,fig=T,width=5,height=5>>=
-plot(a,b,xlab="",ylab="")
-title(xlab="$\\alpha\\beta\\gamma\\delta\\epsilon\\Re\\ell\\hbar\\odot\\otimes\\oplus$")
-title(ylab="\\color{red}{\\scshape Red Label in Small Caps}")
-title(main="{\\large This is a plot of $\\displaystyle\\int_a^b \\frac{x}{y}dx$}")
-abline(fit)
-@
+\begin{Schunk}
+\begin{Sinput}
+> plot(a, b, xlab = "", ylab = "")
+> title(xlab = "$\\alpha\\beta\\gamma\\delta\\epsilon\\Re\\ell\\hbar\\odot\\otimes\\oplus$")
+> title(ylab = "\\color{red}{\\scshape Red Label in Small Caps}")
+> title(main = "{\\large This is a plot of $\\displaystyle\\int_a^b \\frac{x}{y}dx$}")
+> abline(fit)
+\end{Sinput}
+\end{Schunk}
+\beginpgfgraphicnamed{figs/fig-third}
+\input{figs/fig-third.pgf}
+\endpgfgraphicnamed
 \caption{Large size plot but still consistant. Also \LaTeX{} can be put directly into the titles of the plot which matches the style of your paper.  All $\backslash$'s must be escaped using this method.}
 \end{figure}
 
