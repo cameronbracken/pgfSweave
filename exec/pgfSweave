@@ -1,0 +1,43 @@
+#!/bin/sh
+
+revision='$Id$'
+version=`set - ${revision}; echo ${2}`
+version="pgfSweave front-end r${version}
+
+Copyright (C) 2006-7 The R Core Development Team.
+This is free software; see the GNU General Public License version 2
+or later for copying conditions.  There is NO warranty."
+
+usage="Usage: R CMD pgfSweave [options] file
+
+A simple front-end for pgfSweave()
+
+Options:
+  -h, --help        print short help message and exit
+  -v, --version     print Sweave version info and exit
+  -p, --pdf         use texi2dvi option pdf=T
+  -s, --sweave-only dont compile to pdf/dvi, only run Sweave
+
+Package repository http://www.rforge.net/pgfSweave/"
+
+pdf=FALSE
+quiet=FALSE
+compiletex=TRUE
+
+case ${1} in
+  -h|--help)
+     echo "${usage}"; exit 0 ;;
+  -v|--version)
+     echo "${version}"; exit 0 ;;
+  -p|--pdf)
+     pdf=TRUE;;
+  -q|--quiet)
+     quiet=TRUE;;
+esac
+
+R_EXE="/usr/bin/R"
+#R_EXE="${R_HOME}/bin/R"
+echo "library(\"pgfSweave\");
+      pgfSweave(\"$1\",pdf=$pdf,quiet=$quiet,compile.tex=$compiletex)" | \
+  "${R_EXE}" --no-restore --slave
+

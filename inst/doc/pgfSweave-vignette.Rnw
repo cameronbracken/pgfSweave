@@ -1,11 +1,10 @@
 \documentclass{article}
 
 %% R> library(pgfSweave)
-%% R> pgfSweave
+%% R> pgfSweave("pgfSweave-vignette-source.Rnw",pdf=T)
 
 
 % \VignetteIndexEntry{The pgfSweave Package}
-% \VignetteDepends{cacheSweave}
 % \VignetteDepends{pgfSweave}
 
 \usepackage[nogin]{Sweave}
@@ -15,7 +14,7 @@
 \usepackage[left=1.2in,right=1.2in,top=1.2in,bottom=1.2in]{geometry}
 \newcommand{\lang}{\textsf}
 \newcommand{\code}{\texttt}
-\newcommand{\pkg}{\texttt}
+\newcommand{\pkg}{\textbf}
 \newcommand{\ques}[1]{{\bf\large#1}}
 
 \title{The \pkg{pgfSweave} Package}
@@ -106,7 +105,7 @@ And we get:
 \beginpgfgraphicnamed{figs/fig-pgfSweave-hist}
 \input{figs/fig-pgfSweave-hist.pgf}
 \endpgfgraphicnamed
-\caption{This is from \texttt{pgfSweave}.}\label{pgfSweave-hist}
+\caption{This is from \pkg{pgfSweave}.}\label{pgfSweave-hist}
 \end{minipage}
 \end{figure}
 
@@ -133,27 +132,20 @@ The example below illustrates some of the power of \pkg{pgfSweave}.  \LaTeX{} co
 
 
 \clearpage
-Every part of \texttt{Sweave} and \texttt{cacheSweave} work the same but do not cache explicit print statements or they will not show up on a second compile.
+Every part of \pkg{Sweave} and \pkg{cacheSweave} work the same but do not cache explicit print statements or they will not show up on a second compile.
 
 \section{Frequently Asked Questions}
 
 \ques{Can \pkg{pgfSweave} be run from the command line?}
 
-Sure! Use:
+Sure! Use:  (HOPEFULLY THIS WILL WORK IT DOES NOT YET!)
 \begin{Verbatim}
 R CMD pgfSweave <myfile>.Rnw
 \end{Verbatim}
-OR use this shell script:
-\begin{Verbatim}[frame=single]
-#!/usr/bin/Rscript
-
-library(pgfSweave)
-args <- commandArgs(T)
-pgfSweave(args[1],pdf=TRUE,quiet=FALSE)
-\end{Verbatim}
-Just save the script above as \code{pgfsweave} then run 
+OR use the shell script provided in the \pkg{pgfSweave} package source in the \texttt{exec/} directory
+Save the script somewhere in your \texttt{PATH} and run
 \begin{Verbatim}
-$> pgfsweave <yourfile>.Rnw
+$ pgfsweave <yourfile>.Rnw
 \end{Verbatim}
 
 
