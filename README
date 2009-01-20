@@ -34,3 +34,16 @@ RESOLVED (resolution in brackets):
 
 DONE (old TODO items):
 * Documentation has a boatload of warnings under R CMD check.
+
+POSSIBLE POST TO R-devel:
+I am writing a package that includes a shell script in the exec/ directory say "ABC".  This script is a wrapper to an R function "abc" which takes a file as an input.  I want to be able to use R CMD ABC <file> similar to Sweave.  It it possible to have R CMD search for a script that is not in R_HOME/bin?  
+
+From the other angle would it be possible to have a package install a script in R_HOME/bin? 
+
+I realize this would just be a convenience but
+
+echo "system('<file>')" | R --vanilla --slave
+or
+`R HOME`/library/mypackage/exec/ABC <file>
+
+are less desirable.  
