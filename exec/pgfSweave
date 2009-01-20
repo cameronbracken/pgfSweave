@@ -1,14 +1,9 @@
 #!/bin/sh
 
 revision='$Id$'
-version=`set - ${revision}; echo ${2}`
-version="pgfSweave front-end r${version}
+version="pgfSweave package ${revision}"
 
-Copyright (C) 2006-7 The R Core Development Team.
-This is free software; see the GNU General Public License version 2
-or later for copying conditions.  There is NO warranty."
-
-usage="Usage: R CMD pgfSweave [options] file
+usage="Usage: pgfSweave [options] file
 
 A simple front-end for pgfSweave()
 
@@ -18,26 +13,39 @@ Options:
   -p, --pdf         use texi2dvi option pdf=T
   -s, --sweave-only dont compile to pdf/dvi, only run Sweave
 
-Package repository http://www.rforge.net/pgfSweave/"
+Package repository http://www.rforge.net/pgfSweave/\n"
 
 pdf=FALSE
 quiet=FALSE
 compiletex=TRUE
 
-case ${1} in
-  -h|--help)
-     echo "${usage}"; exit 0 ;;
-  -v|--version)
-     echo "${version}"; exit 0 ;;
-  -p|--pdf)
-     pdf=TRUE;;
-  -q|--quiet)
-     quiet=TRUE;;
+while true
+do
+  case $# in 0) break ;; esac
+  case $1 in
+    -q|--quiet) quiet=TRUE;shift;;
+    -p|--pdf) pdf=TRUE;shift;;
+    -v|--version) echo "${version}"; exit 0 ;;
+    -h|--help) echo "${usage}"; exit 0 ;;
+    -|--) shift; break;;
+    -*) echo "$0: Unknown or ambiguous option \`$1'." >&2
+        echo "$0: Try \`--help' for more information." >&2
+        exit 1;; 
+     *) break ;;
+  esac
+done
+
+case $# in
+ 0)
+  echo "$0: Missing file arguments." >&2
+  echo "$0: Try \`--help' for more information." >&2
+  exit 2;;
+ 1) ;;
 esac
 
-R_EXE="/usr/bin/R"
+R_EXE=`which R`
 #R_EXE="${R_HOME}/bin/R"
 echo "library(\"pgfSweave\");
       pgfSweave(\"$1\",pdf=$pdf,quiet=$quiet,compile.tex=$compiletex)" | \
-  "${R_EXE}" --no-restore --slave
+                                            "${R_EXE}" --no-restore --slave
 
