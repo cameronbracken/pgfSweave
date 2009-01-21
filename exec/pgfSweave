@@ -13,7 +13,7 @@ Options:
   -p, --pdf         use texi2dvi option pdf=T
   -s, --sweave-only dont compile to pdf/dvi, only run Sweave
 
-Package repository http://www.rforge.net/pgfSweave/\n"
+Package repository http://www.rforge.net/pgfSweave/"
 
 pdf=FALSE
 quiet=FALSE
@@ -28,8 +28,8 @@ do
     -v|--version) echo "${version}"; exit 0 ;;
     -h|--help) echo "${usage}"; exit 0 ;;
     -|--) shift; break;;
-    -*) echo "$0: Unknown or ambiguous option \`$1'." >&2
-        echo "$0: Try \`--help' for more information." >&2
+    -*) echo "pgfSweave: Unknown or ambiguous option \`$1'." >&2
+        echo "Try \`--help' for more information." >&2
         exit 1;; 
      *) break ;;
   esac
@@ -37,8 +37,8 @@ done
 
 case $# in
  0)
-  echo "$0: Missing file arguments." >&2
-  echo "$0: Try \`--help' for more information." >&2
+  echo "pgfSweave: No Input Files." >&2
+  echo "Try \`--help' for more information." >&2
   exit 2;;
  1) ;;
 esac
