@@ -446,7 +446,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         if(inherits(err, "try-error")) stop(err)
 
                         eps2pgf <- system.file(package='pgfSweave')
-                        eps2pgf <- paste('java -jar ',eps2pgf,'/misc/eps2pgf/eps2pgf.jar -m directcopy',sep='')
+                        eps2pgf <- paste('java -jar ',eps2pgf,'/java/eps2pgf/eps2pgf.jar -m directcopy',sep='')
                                                 
                         cat('Generating pgf file from:',paste(chunkprefix, "eps",sep="."),'\n')
                         err <- try(system(paste(eps2pgf,paste(chunkprefix, "eps",sep="."))))

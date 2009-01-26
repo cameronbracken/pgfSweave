@@ -1,4 +1,4 @@
-Last Updated: January 11, 2009 
+Last Updated: January 26, 2009 
 
 TODO:
 * Finish the vignette
@@ -7,10 +7,10 @@ TODO:
 * More extensive testing with plain latex and with windows.
 * Figure out how to fill the environment variable $R_HOME in exec/pgfSweave
 * Figure out how to call the script exec/pgfSweave when using R CMD pgfSweave
-
+* Figure out how to call eps2pgf.jar with the rJava package 
 
 BUGS:
-* Package currently generates a bash shell script to compile external graphics, which will obviously not work in windows.  
+* Package currently generates a bash shell script to compile external graphics, which will obviously not work in windows.
 * No checking for correct version of pgf.
 * If java does not exist the compilation is reported as successful though the pgf file did not properly get created. 
 * Adding white space at the end of a code chunk causes all of the following code chunks to be registered as changed
@@ -27,6 +27,7 @@ POSSIBLE NEW FEATURES:
 * Automatically add the \pgfrealjobname command if it is not already in the file like the Sweave style file is added when stylepath=TRUE.
 * When a pgf/TikZ graphic is included manually (not in a code chunk) add the commands to externalize into the graphics into the shell script that is created. This may need to be a separate function that gives the tex file a once over and checks if the pdf file exists corresponding to the name in \beginpgfgraphicnamed{name} or the corresponding TikZ externalization command. There are already scripts available on example to do stuff like this so maybe integration of one of those may be possible. 
 * Add support for TikZ externalization.  TikZ externalization library is more elegant and could provide more advanced options. Though this is not really necessary currently.
+* pgf graphics device.
 
 RESOLVED (resolution in brackets):
 * [If pgf is TRUE it supercedes everything else] Using the 'pdf' option and 'external' option will conflict suggest using one or the other or possibly have a default when this is the case

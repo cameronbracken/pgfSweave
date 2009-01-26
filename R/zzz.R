@@ -1,5 +1,5 @@
 .onLoad <- function(lib, pkg) {
-        pkgList <- c("filehash", "stashR", "cacheSweave")
+        pkgList <- c("filehash", "stashR", "cacheSweave", 'rJava')
         
         for(pkg in pkgList) {
                 status <- suppressMessages({
@@ -8,6 +8,7 @@
                 if(!status)
                         stop(gettextf("'%s' package required", pkg))
         }
+        .jpackage(pkg, morePaths = 'eps2pgf')
 }
 
 .onAttach <- function(lib, pkg) {
