@@ -25,6 +25,7 @@ do
   case $1 in
     -q|--quiet) quiet=TRUE;shift;;
     -p|--pdf) pdf=TRUE;shift;;
+    -s|--sweave-only) compiletex=FALSE;shift;;
     -v|--version) echo "${version}"; exit 0 ;;
     -h|--help) echo "${usage}"; exit 0 ;;
     -|--) shift; break;;
