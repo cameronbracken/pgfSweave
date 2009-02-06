@@ -8,7 +8,6 @@
                 if(!status)
                         stop(gettextf("'%s' package required", pkg))
         }
-        .jpackage(pkg, morePaths = 'eps2pgf')
 }
 
 .onAttach <- function(lib, pkg) {
