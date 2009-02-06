@@ -1,0 +1,7 @@
+export("pgfSweaveDriver")
+export("pgfSweave")
+
+import(utils)
+importFrom(digest, "digest")
+importFrom(cacheSweave, "getCacheDir", "setCacheDir")
+importFrom(tools, "texi2dvi")

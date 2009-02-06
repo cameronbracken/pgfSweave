@@ -1,0 +1,52 @@
+#!/bin/sh
+
+revision='$Id: pgfSweave 16 2009-01-27 08:45:26Z cameronbracken $'
+version="pgfSweave package ${revision}"
+
+usage="Usage: pgfSweave [options] file
+
+A simple front-end for pgfSweave()
+
+Options:
+  -h, --help        print short help message and exit
+  -v, --version     print Sweave version info and exit
+  -p, --pdf         use texi2dvi option pdf=T
+  -s, --sweave-only dont compile to pdf/dvi, only run Sweave
+
+Package repository http://www.rforge.net/pgfSweave/"
+
+pdf=FALSE
+quiet=FALSE
+compiletex=TRUE
+
+while true
+do
+  case $# in 0) break ;; esac
+  case $1 in
+    -q|--quiet) quiet=TRUE;shift;;
+    -p|--pdf) pdf=TRUE;shift;;
+    -s|--sweave-only) compiletex=FALSE;shift;;
+    -v|--version) echo "${version}"; exit 0 ;;
+    -h|--help) echo "${usage}"; exit 0 ;;
+    -|--) shift; break;;
+    -*) echo "pgfSweave: Unknown or ambiguous option \`$1'." >&2
+        echo "Try \`--help' for more information." >&2
+        exit 1;; 
+     *) break ;;
+  esac
+done
+
+case $# in
+ 0)
+  echo "pgfSweave: No Input Files." >&2
+  echo "Try \`--help' for more information." >&2
+  exit 2;;
+ 1) ;;
+esac
+
+R_EXE=`which R`
+#R_EXE="${R_HOME}/bin/R"
+echo "library(\"pgfSweave\");
+      pgfSweave(\"$1\",pdf=$pdf,quiet=$quiet,compile.tex=$compiletex)" | \
+                                            "${R_EXE}" --no-restore --slave
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment></comment>
+    <entry key="ArialMT">Helvetica</entry>
+	<entry key="Palatino-Roman">Times-Roman</entry>
+	<entry key="Palatino-Italic">Times-Italic</entry>
+	<entry key="Palatino-Bold">Times-Bold</entry>
+	<entry key="Palatino-BoldItalic">Times-BoldItalic</entry>
+</properties>
