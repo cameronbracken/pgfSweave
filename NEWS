@@ -1,4 +1,16 @@
+$Id$
+
+Please see the README directory for development info
+
+2009-02-19 Cameron Bracken <cameron.bracken@gmail.com>
+
+* Vignette is somewhat complete
+* Robust shell script for compiling in exec/ directory
+* Project now also on r-forge (https://r-forge.r-project.org/projects/pgfsweave/), code is still tracked on rforge.net
+* Tagged version 0.6, current version in trunk is 0.7
+
 2009-01-11 Cameron Bracken <cameron.bracken@gmail.com>
 
 * pgfSweave added to rforge.net (http://www.rforge.net/pgfSweave/)
-* Tagged version 0.5, current version in trunk is 0.6
+* Tagged version 0.5, current version in trunk is 0.6 previous versions were internal 
+

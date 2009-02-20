@@ -1,8 +1,8 @@
 Package: pgfSweave
 Type: Package
 Title: Extending the functionality of cacheSweave to include quality speedy graphics compilation
-Version: 0.6
-Date: 2008-01-11
+Version: 0.7
+Date: 2009-02-19
 Author: Cameron Bracken <cameron.bracken@gmail.com> and Charlie Sharpsteen <source@sharpsteen.net>
 Maintainer: Cameron Bracken <cameron.bracken@gmail.com> 
 Depends: grDevices, utils, stashR, filehash, cacheSweave
