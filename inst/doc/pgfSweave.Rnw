@@ -32,17 +32,19 @@
 
 \maketitle
 
-The \pkg{pgfSweave} provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver} and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built directly upon \pkg{cacheSweave} and therefore also \pkg{Sweave}. 
+The \pkg{pgfSweave} package also provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver} and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built directly upon \pkg{cacheSweave} and therefore also \pkg{Sweave}. 
 
 \section{Motivation and Background} 
 
-\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  Two main drawbacks to this approach are: 
+\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of preforming lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave}\footnote{\texttt{http://cran.r-project.org/package=cacheSweave}} and the \pkg{weaver} (\footnote{\texttt{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}).  Specifically these packages address the problem that code chunks with lengthy computations and plotting commands are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves the 
+
+Additional drawbacks of all of these methods are \pkg{}
 \begin{enumerate} 
-\item Code chunks with lengthy computations and plotting commands are executed every time a document is compiled  
-\item Consistency in style (font, point size) in automatically generated graphics is difficult to achieve.  
+\item Plots are not cached. If a plot takes a long time to generate this process must be repeated each time the document is compiled.
+\item Consistency in style (font, point size) in automatically generated graphics is difficult to achieve.  The default font and point size in \lang{R} does not match \LaTeX very well and getting this to match precisely is tricky business. 
 \end{enumerate}
 
-The \pkg{cacheSweave} package addresses the first issue of lengthy computations by storing the result of computations in a \pkg{filehash} databases.  This provides significant speedup of certain computations, namely those which create objects in the global environment.  Unfortunately most plotting commands do not create objects which can be cached.  This is the first issue addressed by \pkg{pgfSweave}.  So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{pgf}\footnote{\texttt{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\texttt{http://sourceforge.net/projects/eps2pgf/}}.  
+The \pkg{cacheSweave} package addresses the first issue of lengthy computations by storing the result of computations in a \pkg{filehash}\footnote{\texttt{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  This provides significant speedup of most computations, namely those which create objects in the global environment.  Unfortunately most plotting commands do not create objects which can be cached.  This is the first issue addressed by \pkg{pgfSweave}.  So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{pgf}\footnote{\texttt{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\texttt{http://sourceforge.net/projects/eps2pgf/}}.  
 
 When we refer to the ``caching'' of an graphic we mean that if the code chunk which generated the graphic is unchanged, an image is read from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf}\footnote{Latest CVS available at \texttt{http://sourceforge.net/cvs/?group\_id=142562}} provides the ability to ``externalize graphics.''  The externalization chapter in the \pkg{pgf/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   
 
