@@ -68,6 +68,7 @@ pgf manual externalization section: \url{http://sourceforge.net/projects/pgf/}
 \author{Cameron Bracken \email{cameron.bracken@gmail.com} and Charlie Sharpsteen }
 
 \seealso{
+\code{\link{pgfSweaveDriver}}, 
 \code{\link{Sweave}}, 
 \code{\link[cacheSweave]{cacheSweave}}
 }

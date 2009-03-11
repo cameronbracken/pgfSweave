@@ -27,7 +27,7 @@ pgfSweaveSetup(file, syntax,
     \item{stylepath}{See \code{\link{RweaveLatex}}}
     \item{pdf}{See \code{\link{RweaveLatex}}. Note the default is changed to \code{FALSE}}
     \item{eps}{See \code{\link{RweaveLatex}}. Note the default is changed to \code{FALSE}}
-    \item{cache}{See \code{\link[cacheSweavecacheSweaveDriver]{cacheSweaveDriver}}}
+    \item{cache}{See \code{\link[cacheSweaveDriver]{cacheSweaveDriver}}}
     \item{pgf}{Set default for option \code{pgf}, see details below.}
     \item{external}{Set default for option \code{external}, see details below.}
     \item{tex.driver}{Set default for option \code{tex.driver}, see details below.}
@@ -75,4 +75,5 @@ cacheSweave vignette: \url{http://cran.r-project.org/web/packages/cacheSweave/vi
 \code{\link[pgfSweave]{pgfSweave}},  
 \code{\link[pgfSweaveDriver]{pgfSweaveDriver}}, 
 \code{\link[cacheSweave]{cacheSweave}}, 
-\code{\link{Sweave}}}
+\code{\link{Sweave}}
+}
