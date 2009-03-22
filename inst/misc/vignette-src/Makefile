@@ -15,7 +15,7 @@ rmpath={*,../../doc/*}
 rmsuffix={sh,map,aux,tex,log,pdf,dvi,in}
 
 ../../doc/pgfSweave.pdf: ../../doc/pgfSweave.Rnw
-	(cd ../../doc/ ; R CMD Sweave pgfSweave.Rnw ; pdflatex pgfSweave.tex)
+	(cd ../../doc/ ; R CMD Sweave pgfSweave.Rnw; pdflatex pgfSweave.tex)
 
 ../../doc/pgfSweave.Rnw: ../../example/pgfSweave-example.tex pgfSweave-vignette-source.pdf
 	cp Sweave.sty ../../doc/
@@ -26,6 +26,7 @@ rmsuffix={sh,map,aux,tex,log,pdf,dvi,in}
 	cat tmp | sed 's/pgfSweave-example\.Rnw/pgfSweave-example-Rnw.in/g' | sed 's/pgfSweave-example\.tex/pgfSweave-example-tex\.in/g' > ../../doc/pgfSweave.Rnw
 
 pgfSweave-vignette-source.pdf:
+	echo `pwd`
 	../../../exec/pgfSweave pgfSweave-vignette-source.Rnw
 
 ../../example/pgfSweave-example.tex:

@@ -11,7 +11,7 @@
 \usepackage{pgf}
 \usepackage[parfill]{parskip}
 \usepackage{fancyvrb}
-\usepackage[left=1.2in,right=1.2in,top=1.2in,bottom=1.2in]{geometry}
+\usepackage[margin=1.2in]{geometry}
 \newcommand{\lang}{\textsf}
 \newcommand{\code}{\texttt}
 \newcommand{\pkg}{\textbf}
@@ -36,23 +36,50 @@ setCacheDir("cache")
 
 \maketitle
 
-The \pkg{pgfSweave} package also provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver} and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built directly upon \pkg{cacheSweave} and therefore also \pkg{Sweave}. 
+The \pkg{pgfSweave} package provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver} and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built directly upon \pkg{cacheSweave} and therefore also \pkg{Sweave}.  This document assumes familiarity with \pkg{Sweave}.  
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motivation and Background} 
 
-\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of preforming lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave}\footnote{\texttt{http://cran.r-project.org/package=cacheSweave}} and the \pkg{weaver}\footnote{\texttt{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}.  Specifically these packages address the problem that code chunks with lengthy computations and plotting commands are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves the 
+\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of preforming lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave}\footnote{\texttt{http://cran.r-project.org/package=cacheSweave}} and the \pkg{weaver}\footnote{\texttt{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}.  Specifically these packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\texttt{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provides significant speedup of most computations, namely only those which create objects in the global environment.
 
-Additional drawbacks of all of these methods are \pkg{}
+Additional drawbacks of the existing methods are:
 \begin{enumerate} 
-\item Plots are not cached. If a plot takes a long time to generate this process must be repeated each time the document is compiled.
+\item Plots are not cached (since plots does not create objects in the global environment). If a plot takes a long time to generate, the same problem exists as when lengthy computations are present.  
 \item Consistency in style (font, point size) in automatically generated graphics is difficult to achieve.  The default font and point size in \lang{R} does not match \LaTeX{} very well and getting this to match precisely is tricky business. 
 \end{enumerate}
 
-The \pkg{cacheSweave} package addresses the first issue of lengthy computations by storing the result of computations in a \pkg{filehash}\footnote{\texttt{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  This provides significant speedup of most computations, namely those which create objects in the global environment.  Unfortunately most plotting commands do not create objects which can be cached.  This is the first issue addressed by \pkg{pgfSweave}.  So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{pgf}\footnote{\texttt{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\texttt{http://sourceforge.net/projects/eps2pgf/}}.  
-
-When we refer to the ``caching'' of an graphic we mean that if the code chunk which generated the graphic is unchanged, an image is read from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf}\footnote{Latest CVS available at \texttt{http://sourceforge.net/cvs/?group\_id=142562}} provides the ability to ``externalize graphics.''  The externalization chapter in the \pkg{pgf/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   
+So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{PGF}\footnote{\texttt{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\texttt{http://sourceforge.net/projects/eps2pgf/}}.  When we refer to the ``caching'' of an graphic we mean that if the code chunk which generated the graphic is unchanged, an image included from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf}\footnote{Latest CVS available at \texttt{http://sourceforge.net/cvs/?group\_id=142562}} provides the ability to ``externalize graphics.''  The externalization chapter in the \pkg{PGF/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{System Requirements}
+In general \pkg{pgfSweave} depends on:
+\begin{enumerate}
+\item A working \TeX distribution (such as TeXLive for linux and mac and MiKTex for Windows)
+\item The java command line interpreter (i.e. the \code{java} command).  This is standard on most systems and is free to download otherwise. 
+\item At least version 2.00 of the \pkg{PGF/Ti\textit{k}Z} package for \LaTeX{}. 
+\end{enumerate}
+
+That should be it for any *nix or Mac OS X system. 
+
+\subsection{Windows specific requirements}
+
+The \pkg{pgfSweave} package can work on windows with some special care.  First of all it is strongly recommendeed that you install R in in a location that does not have spaces in its path name such as \texttt{C:$\backslash$R}.  This will save you much grief when using \pkg{Sweave}. Other wise do the following in the order listed. 
+\begin{enumerate}
+\item Install Java. 
+\item Install MiK\TeX{}. 
+\item Upgrade to or install PGF 2.0 if not already done. 
+\item Install Rtools \footnote{\texttt{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
+\end{enumerate}
+If everything is set up correctly, the commands \code{java} and \code{pdflatex} or \code{latex} should be available at the command prompt.    
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Usage}
 
 We assume a familiarity with the usage of \pkg{Sweave}, for more information see the \pkg{Sweave} manual\footnote{\texttt{http://www.stat.uni-muenchen.de/$\sim$leisch/Sweave/Sweave-manual.pdf}}.  This section will explain the usage of the \code{pgf} and \code{external} options and then provide a complete example.
@@ -63,24 +90,24 @@ The first new code chunk option \code{pgf}, acts the same as the \code{pdf} or \
 \begin{minipage}[!ht]{.5\linewidth}
 Input:
 \begin{Verbatim}[frame=single]
-\begin{figure}[ht]
+ \begin{figure}[ht]
  <<pgf-option,fig=T,pgf=T,echo=F>>=
      x <- rnorm(100)
      plot(x)
  @  
-\caption{caption}
-\label{fig:pgf-option}
-\end{figure}
+ \caption{caption}
+ \label{fig:pgf-option}
+ \end{figure}
 \end{Verbatim}
 \end{minipage}
 \begin{minipage}[!ht]{.5\linewidth}
 Output:
 \begin{Verbatim}[frame=single]
-\begin{figure}[ht]
-\input{pgf-option.pgf}
-\caption{caption}
-\label{fig:pgf-option}
-\end{figure}
+ \begin{figure}[ht]
+ \input{pgf-option.pgf}
+ \caption{caption}
+ \label{fig:pgf-option}
+ \end{figure}
 \end{Verbatim}
 \end{minipage}
 
@@ -94,26 +121,26 @@ is run on every code chunk that has \code{fig=TRUE} and \code{pgf=TRUE}.  {\colo
 \begin{minipage}[!ht]{.55\linewidth}
 Input:
 \begin{Verbatim}[frame=single]
-\begin{figure}[ht]
+ \begin{figure}[ht]
  <<external,fig=T,pgf=T,external=T,echo=F>>=
      x <- rnorm(100)
      plot(x)
  @  
-\caption{caption}
-\label{fig:pgf-option}
-\end{figure}
+ \caption{caption}
+ \label{fig:pgf-option}
+ \end{figure}
 \end{Verbatim}
 \end{minipage}
 \begin{minipage}[!ht]{.45\linewidth}
 Output:
 \begin{Verbatim}[frame=single]
-\begin{figure}[ht]
-\beginpgfgraphicnamed{external}
-\input{external.pgf}
-\endpgfgraphicnamed
-\caption{caption}
-\label{fig:external}
-\end{figure}
+ \begin{figure}[ht]
+ \beginpgfgraphicnamed{external}
+ \input{external.pgf}
+ \endpgfgraphicnamed
+ \caption{caption}
+ \label{fig:external}
+ \end{figure}
 \end{Verbatim}
 \end{minipage}
 
@@ -133,6 +160,8 @@ And we get:
 \VerbatimInput[frame=single,label={pgfSweave-example.tex},labelposition=all]{../../example/pgfSweave-example.tex}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Consistency in style between graphics and text}
 %% initial calculations
 <<first,echo=F,results=hide,fig=F>>=
@@ -178,26 +207,27 @@ abline(fit)
 \caption{Large size plot but still consistant. Also \LaTeX{} can be put directly into the titles of the plot which matches the style of your paper.  All $\backslash$'s must be escaped using this method.}
 \end{figure}
 
+Every other part of \pkg{Sweave} and \pkg{cacheSweave} work the same.
 
 \clearpage
-Every part of \pkg{Sweave} and \pkg{cacheSweave} work the same but do not cache explicit print statements or they will not show up on a second compile.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Frequently Asked Questions}
 
+%--------------------------------------
+%--------------------------------------
 \ques{Can \pkg{pgfSweave} be run from the command line?}
 
-Sure! Use:  (HOPEFULLY THIS WILL WORK IT DOES NOT YET!)
-\begin{Verbatim}
-R CMD pgfSweave <myfile>.Rnw
-\end{Verbatim}
-OR use the shell script provided in the \pkg{pgfSweave} package source in the \texttt{exec/} directory
+Sure! Use the shell script provided in the \pkg{pgfSweave} package source in the \texttt{exec/} directory
 Save the script somewhere in your \texttt{PATH} and run
 \begin{Verbatim}
 $ pgfsweave <yourfile>.Rnw
 \end{Verbatim}
 
 
-
+%--------------------------------------
+%--------------------------------------
 \ques{How do I set subdirectories for figures and caches?}
 
 This is strait out of the \pkg{Sweave} and \pkg{cacheSweave} manuals (nothing new here).  For a figures subdirectory \footnote{make sure to create the directory first!} use the \code{prefix.string} option:
@@ -211,17 +241,56 @@ For a caching subdirectory use a code chunk at the beginning or your document li
 	@
 \end{verbatim}
 
-
-
+%--------------------------------------
+%--------------------------------------
 \ques{Why are the width and height options being ignored?}
 
 This is another one from \pkg{Sweave}. You must use the \code{nogin} option in \code{Sweave.sty} for the width and height parameters to actually affect the size of the image in the document:
 \begin{verbatim}\usepackage[nogin]{Sweave}\end{verbatim}
 
+%--------------------------------------
+%--------------------------------------
 \ques{latex/pdflatex is not found in R.app (Mac OS X) and [Possibly] R.exe (Windows)}
 
 Your latex program is not in the default search path.  Put a line such as:
 
 \begin{verbatim}Sys.setenv("PATH" = paste(Sys.getenv("PATH"),"/usr/texbin",sep=":"))\end{verbatim}
 in your \verb".Rprofile" file.  
+
+%--------------------------------------
+%--------------------------------------
+\ques{I get a bunch of ``Incompatible list can't be unboxed'' errors when compiling.}
+
+This is a problem with PGF.  The workaround is to load the \pkg{atbegshi} package before PGF or TikZ:
+
+\begin{verbatim}
+\usepackage{atbegshi}
+\usepackage{pgf}
+\end{verbatim}
+
+or
+
+\begin{verbatim}
+\usepackage{atbegshi}
+\usepackage{tikz}
+\end{verbatim}
+
+%--------------------------------------
+%--------------------------------------
+\ques{The vignette in \texttt{/inst/doc/} does not contain any code chunks!}
+
+That is because the vignette in \texttt{/inst/doc/} is a ``fake'' vignette generated from the ``real'' vignette in \texttt{/inst/misc/vignette-src/}.  The reason for this extra step is because compiling this vignette requires some from of the \pkg{pgfSweave} be installed.  The other problem is that package vignettes must be able to be compiled with \texttt{R CMD Sweave <vignette>.Rnw}, which is just what we don't want to use! Sort of a chicken or the egg problem.  
+
+To compile this vignette yourself use the following:
+
+\begin{verbatim}
+$ svn checkout svn://svn.rforge.net/pgfSweave/trunk pgfSweave
+$ R CMD INSTALL pgfSweave
+$ cd pgfSweave/inst/misc/vignette-src/
+$ make
+\end{verbatim}
+
+
+
+
 \end{document}

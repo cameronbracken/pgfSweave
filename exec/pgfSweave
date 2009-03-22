@@ -18,6 +18,8 @@ Package repository http://www.rforge.net/pgfSweave/"
 pdf=FALSE
 quiet=FALSE
 compiletex=TRUE
+R_EXE=`which R`
+#R_EXE="${R_HOME}/bin/R"
 
 while true
 do
@@ -44,8 +46,6 @@ case $# in
  1) ;;
 esac
 
-R_EXE=`which R`
-#R_EXE="${R_HOME}/bin/R"
 echo "library(\"pgfSweave\");
       pgfSweave(\"$1\",pdf=$pdf,quiet=$quiet,compile.tex=$compiletex)" | \
                                             "${R_EXE}" --no-restore --slave

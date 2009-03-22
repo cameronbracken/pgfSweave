@@ -14,11 +14,14 @@ pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax
         cmds <- readLines(paste(fn,'sh',sep='.'))
         dummy <- lapply(cmds,system)
 
+        #if using miktex on windows the flag is different than texlive on linux/macosx
+        flag <- ifelse( Sys.info()[['sysname']] == 'windows', '-job-name=', '--jobname=')
+    
         #set special versions of calls to latex or pdflatex
         if(is.null(match.call()$pdf))
-            Sys.setenv(LATEX=paste("latex --jobname=",bn,sep=''))
+            Sys.setenv(LATEX=paste("latex ",flag,bn,sep=''))
         else
-            Sys.setenv(PDFLATEX=paste("pdflatex --jobname=",bn,sep=''))
+            Sys.setenv(PDFLATEX=paste("pdflatex ",flag,bn,sep=''))
     
         #run texi2dvi on the tex file        
         tools::texi2dvi(paste(fn,'tex',sep='.'),...)
