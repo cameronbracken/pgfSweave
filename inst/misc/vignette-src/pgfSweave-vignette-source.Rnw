@@ -159,7 +159,11 @@ And we get:
 
 \VerbatimInput[frame=single,label={pgfSweave-example.tex},labelposition=all]{../../example/pgfSweave-example.tex}
 
+\begin{figure}[!hp]
+\framebox{\includegraphics[width=\textwidth]{../../example/pgfSweave-example.pdf}}
+\end{figure}
 
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Consistency in style between graphics and text}
@@ -170,7 +174,7 @@ b <- a * .4 * rnorm(100, sd = 0.8)
 fit <- lm(b ~ a)
 @
 
- In figure \ref{normalSweave} Notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In figure \ref{pgfSweave-hist} the text is consistent with the rest of the document.
+ In Figure \ref{normalSweave} Notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In figure \ref{pgfSweave-hist} the text is consistent with the rest of the document.
 
 \begin{figure}[!ht]
 \begin{minipage}{.45\linewidth}
@@ -184,7 +188,7 @@ hist(a)
 %% pgf file will get regenerated every time slowing down the whole compilation.
 %% even though cache=TRUE. 
 \centering
-<<pgfSweave-hist,width=3,height=3>>=
+<<pgfSweave-hist,external=T,width=3,height=3>>=
 hist(a)
 @
 \caption{This is from \pkg{pgfSweave}.}\label{pgfSweave-hist}
@@ -279,12 +283,12 @@ or
 %--------------------------------------
 \ques{The vignette in \texttt{/inst/doc/} does not contain any code chunks!}
 
-That is because the vignette in \texttt{/inst/doc/} is a ``fake'' vignette generated from the ``real'' vignette in \texttt{/inst/misc/vignette-src/}.  The reason for this extra step is because compiling this vignette requires some from of the \pkg{pgfSweave} be installed.  The other problem is that package vignettes must be able to be compiled with \texttt{R CMD Sweave <vignette>.Rnw}, which is just what we don't want to use! Sort of a chicken or the egg problem.  
+That is because the vignette in \texttt{/inst/doc/} is a ``fake'' vignette generated from the ``real'' vignette in \texttt{/inst/misc/vignette-src/}.  The reason for this extra step is  that package vignettes must be able to be compiled with \texttt{R CMD Sweave <vignette>.Rnw}, which is precisely what we don't want to use!
 
 To compile this vignette yourself use the following:
 
 \begin{verbatim}
-$ svn checkout svn://svn.rforge.net/pgfSweave/trunk pgfSweave
+$ svn checkout http://svn.rforge.net/pgfSweave/trunk pgfSweave
 $ R CMD INSTALL pgfSweave
 $ cd pgfSweave/inst/misc/vignette-src/
 $ make
