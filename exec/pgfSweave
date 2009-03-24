@@ -32,7 +32,7 @@ do
     -h|--help) echo "${usage}"; exit 0 ;;
     -|--) shift; break;;
     -*) echo "pgfSweave: Unknown or ambiguous option \`$1'." >&2
-        echo "Try \`--help' for more information." >&2
+        echo "pgfSweave: Try \`--help' for more information." >&2
         exit 1;; 
      *) break ;;
   esac
@@ -41,7 +41,7 @@ done
 case $# in
  0)
   echo "pgfSweave: No Input Files." >&2
-  echo "Try \`--help' for more information." >&2
+  echo "pgfSweave: Try \`--help' for more information." >&2
   exit 2;;
  1) ;;
 esac
