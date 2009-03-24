@@ -14,8 +14,10 @@ pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax
         cmds <- readLines(paste(fn,'sh',sep='.'))
         dummy <- lapply(cmds,system)
 
-        #if using miktex on windows the flag is different than texlive on linux/macosx
-        flag <- ifelse( Sys.info()[['sysname']] == 'windows', '-job-name=', '--jobname=')
+        #if using miktex on windows the flag is 
+        #different than texlive on linux/macosx
+        flag <- ifelse( any(Sys.info()[['sysname']] == c('Windows','windows')), 
+                '-job-name=', '--jobname=')
     
         #set special versions of calls to latex or pdflatex
         if(is.null(match.call()$pdf))
