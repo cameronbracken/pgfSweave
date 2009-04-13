@@ -90,14 +90,14 @@ setwd(oldcwd)
 #    pgfSweave("pgfSweave-example.Rnw",pdf=T) 
 ## which calls texi2dvi 
 #ifdef unix
-## NOTE: LaTeX may not be included in your path by default, please see the FAQ in the pgfSweave manual if you latex or pdflatex are not found when using the R GUI.
+## NOTE: LaTeX may not be included in your path by default when using the R GUI, please see the FAQ in the pgfSweave manual if your latex or pdflatex are not found.
 #endif
 #ifdef windows
-## NOTE: does not work currently in R.exe 
+## WINDOWS USERS: This has only been tested with MiKTeX
 #endif
 }
 
-## Use outside of R with the script provided in the pgfSweave exec/ directory
+## Use pgfSweave outside of R with the script provided in the pgfSweave exec/ directory
 }
 \keyword{utilities}
 \concept{Reproducible research}

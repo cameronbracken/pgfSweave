@@ -9,7 +9,8 @@ TODO:
 * More extensive testing with plain latex and with windows.
 * Figure out how to fill the environment variable $R_HOME in exec/pgfSweave
 * Figure out how to call the script exec/pgfSweave when using R CMD pgfSweave
-* Check for correct version of pgf.
+* Add option to copy Sweave.sty to the local directory, circumventing path issues on windows
+* Add options to access the noae and nogin options in Sweave.sty.  The logical thing for pgfSweave is to set nogin by default i.e. \usepackage[nogin]{Sweave}.
 
 BUGS:
 * If java does not exist the compilation is reported as successful though the pgf file did not properly get created. 
@@ -23,7 +24,11 @@ ISSUES (not serious bugs but things to note):
 
 POSSIBLE NEW FEATURES:
 * pgf graphics device.
-* chunk dependency checking like weaver
+* chunk dependency checking like weaver using codetools. 
+* Scrap Sweave.sty completely (since it is so short) just copy the few lines of LaTeX defining the Sweave environments into the tex file. 
+* Nicer LaTeX number formatting.
+* Follow \input and \include statements. 
+* Check for correct version of pgf.
 * Automatically add the \pgfrealjobname command if it is not already in the file like the Sweave style file is added when stylepath=TRUE.
 * When a pgf/TikZ graphic is included manually (not in a code chunk) add the commands to externalize into the graphics into the shell script that is created. This may need to be a separate function that gives the tex file a once over and checks if the pdf file exists corresponding to the name in \beginpgfgraphicnamed{name} or the corresponding TikZ externalization command. There are already scripts available on example to do stuff like this so maybe integration of one of those may be possible. 
 * Add support for TikZ externalization.  TikZ externalization library is more elegant and could provide more advanced options. Though this is not really necessary currently.
