@@ -10,3 +10,4 @@ Imports: digest, cacheSweave, tools
 Description: The package cacheSweave provides a convenient way for speeding up compilation of Sweave documents which include computationally intensive code chunks.  pgfSweave provides new features beyond cacheSweave:  (1) better recognition of code chunk changes (2) the 'caching' of code chunks which generate graphics and (3) the generation of graphics in which the font matches that of the main document. This functionality is achieved using the eps2pgf utility and the external graphics feature in the TeX package pgf.
 License: GPL
 LazyLoad: yes
+URL: https://r-forge.r-project.org/projects/pgfsweave/, http://www.rforge.net/pgfSweave/

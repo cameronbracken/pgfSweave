@@ -6,7 +6,7 @@
 \title{Minimal pgfSweave Example}
 \author{Cameron Bracken}    
 
-\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\usepackage{Sweave}
 \begin{document}
 \maketitle
 This example is identical to that in the Sweave manual and is intended to 
