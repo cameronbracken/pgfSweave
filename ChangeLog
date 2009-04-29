@@ -1,3 +1,22 @@
+2009-04-19 01:54  cameronbracken
+
+	* ChangeLog, DESCRIPTION, inst/doc/figs/fig-normalSweave.pdf,
+	  inst/doc/figs/fig-pgfSweave-hist.pdf,
+	  inst/doc/figs/fig-third.pdf, inst/doc/pgfSweave-example-tex.in,
+	  inst/doc/pgfSweave-example.pdf, inst/doc/pgfSweave.pdf,
+	  inst/example/pgfSweave-example.tex, inst/misc/svn2cl-0.11,
+	  inst/misc/svn2cl-0.11/ChangeLog, inst/misc/svn2cl-0.11/NEWS,
+	  inst/misc/svn2cl-0.11/README, inst/misc/svn2cl-0.11/TODO,
+	  inst/misc/svn2cl-0.11/authors.xml,
+	  inst/misc/svn2cl-0.11/svn2cl.1, inst/misc/svn2cl-0.11/svn2cl.sh,
+	  inst/misc/svn2cl-0.11/svn2cl.xsl,
+	  inst/misc/svn2cl-0.11/svn2html.css,
+	  inst/misc/svn2cl-0.11/svn2html.xsl,
+	  inst/misc/vignette-src/Makefile: - Added a GNU ChangeLog
+	  genterated with the svn2cl utility
+	  - The ChangeLog is generated when make is ran in the
+	  inst/misc/vignette-src directory
+
 2009-04-13 23:44  cameronbracken
 
 	* DESCRIPTION, NEWS, README, man/pgfSweave.Rd: - webpage update

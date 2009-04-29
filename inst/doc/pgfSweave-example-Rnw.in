@@ -7,6 +7,8 @@
 \author{Cameron Bracken}    
 
 \begin{document}
+
+
 <<setup,echo=F>>= 
 setCacheDir("cache") 
 @ 
@@ -27,14 +29,17 @@ which shows that the location parameter of the Ozone distribution varies
 significantly from month to month. Finally we include a boxplot of the data:
 
 
+\setkeys{Gin}{width=4in} 
 \begin{figure}[!ht]
 \centering
 <<boxplot,echo=F,fig=T,pgf=T,external=T,width=4,height=4>>=
 	boxplot(Ozone ~ Month, data = airquality,main='Ozone distribution',
 		xlab='Month',ylab='Concentration')
+		
 @
 \caption{This is from pgfSweave. Label sizes are independent of figure scaling.}
 \end{figure}
 
 
 \end{document}
+

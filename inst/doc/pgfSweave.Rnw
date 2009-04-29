@@ -68,7 +68,7 @@ The \pkg{pgfSweave} package can work on windows with some special care.  First o
 \item Install Java. 
 \item Install MiK\TeX{}. 
 \item Upgrade to or install PGF 2.0 if not already done. 
-\item Install Rtools \footnote{\texttt{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
+\item Install Rtools\footnote{\texttt{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
 \end{enumerate}
 If everything is set up correctly, the commands \code{java} and \code{pdflatex} or \code{latex} should be available at the command prompt.    
 
@@ -160,6 +160,13 @@ And we get:
 \end{figure}
 
 \clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sweave graphic width defaults}
+
+The default in \code{Sweave.sty} is to fix the width of every image to 80\% of the text width by using \verb"\setkeys{Gin}{width=.8\textwidth}".  Say you have a 7 in text width and code chunk where you set \code{width=4}.  The original 4 inch wide graphic will have text size matching your document but when it is included in your document it will be scaled up to 7 inched wide and the text will get bigger!  This default is quite contrary to the philosophy of \pkg{pgfSweave}.  There are two ways around this before each code chunk you can set \verb"\setkeys{Gin}{width=<graphic width>}". Alternatively (and the recommended way) you can turn off this feature globally by using \verb"\usepackage[nogin]{Sweave}".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Consistency in style between graphics and text}
@@ -216,6 +223,7 @@ The example below illustrates some of the power of \pkg{pgfSweave}.  \LaTeX{} co
 \end{figure}
 
 Every other part of \pkg{Sweave} and \pkg{cacheSweave} work the same.
+
 
 \clearpage
 
