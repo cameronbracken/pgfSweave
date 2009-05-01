@@ -1,7 +1,7 @@
 $Id$ 
 
 ABOUT:
-The pgfSweave package provides capabilities for “caching” graphics generated with Sweave. This document highlights the features and usage of pgfSweave. pgfSweave provides a new driver for Sweave, pgfSweaveDriver and new chunk options pgf and external on top of the cache option provided by cacheSweave. This package is built directly upon cacheSweave and therefore also Sweave.
+The pgfSweave package provides capabilities for “caching” graphics generated with Sweave.  Using pgfSweave, figure labels are converted to LaTeX strings so not only do they match the style of the document but math can be put in labels. pgfSweave provides a new driver for Sweave (pgfSweaveDriver) and new chunk options pgf and external on top of the cache option provided by cacheSweave. This package is built upon cacheSweave and therefore also Sweave.
 
 
 TODO:

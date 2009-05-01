@@ -1,3 +1,24 @@
+2009-04-30 07:06  cameronbracken
+
+	* exec/pgfsweave, exec/pgfsweave-script.R: - New R version of shell
+	  script
+
+2009-04-30 06:50  cameronbracken
+
+	* exec/pgfSweave: - renaming shell script
+
+2009-04-29 02:25  cameronbracken
+
+	* ChangeLog, exec/pgfSweave, inst/doc/figs/fig-normalSweave.pdf,
+	  inst/doc/figs/fig-pgfSweave-hist.pdf,
+	  inst/doc/figs/fig-third.pdf, inst/doc/pgfSweave-example-Rnw.in,
+	  inst/doc/pgfSweave-example-tex.in,
+	  inst/doc/pgfSweave-example.pdf, inst/doc/pgfSweave.Rnw,
+	  inst/doc/pgfSweave.pdf, inst/example/pgfSweave-example.Rnw,
+	  inst/example/pgfSweave-example.tex,
+	  inst/misc/vignette-src/pgfSweave-vignette-source.Rnw: - Added
+	  shell script option --graphics-only
+
 2009-04-19 01:54  cameronbracken
 
 	* ChangeLog, DESCRIPTION, inst/doc/figs/fig-normalSweave.pdf,

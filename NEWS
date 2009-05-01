@@ -2,6 +2,11 @@ $Id$
 
 Please see the README directory for development info
 
+2009-04-30
+
+* A new R script is available in the exec directory for compileing from the command line.  Type 'pgfsweave-script.R --help' for more details.
+* R version 2.9.0 intruduces a useKerning option to the postscript device.  This caused long strings to get broken up in the conversion to pgf.  pgfSweave now turns off kerning by default. 
+
 2009-02-19 Cameron Bracken <cameron.bracken@gmail.com>
 
 * Vignette is somewhat complete
