@@ -11,7 +11,7 @@
 \usepackage{pgf}
 \usepackage[parfill]{parskip}
 \usepackage{fancyvrb}
-\usepackage[margin=1.2in]{geometry}
+\usepackage[margin=1.1in]{geometry}
 \newcommand{\lang}{\textsf}
 \newcommand{\code}{\texttt}
 \newcommand{\pkg}{\textbf}
@@ -33,11 +33,52 @@ setCacheDir("cache")
 %% to get normal Sweave behavior set pgf=FALSE and external=FALSE 
 \SweaveOpts{prefix.string=figs/fig,fig=T,cache=T,pgf=T,external=T}
 
+\begin{center}
+{\Large The \pkg{pgfSweave} Package}\\
+{\large Cameron Bracken and Charlie Sharpsteen \\ \today}\vspace{1cm}
+\end{center}
 
-\maketitle
 
-The \pkg{pgfSweave} package provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver} and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built directly upon \pkg{cacheSweave} and therefore also \pkg{Sweave}.  This document assumes familiarity with \pkg{Sweave}.  
+The \pkg{pgfSweave} package provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  Using \pkg{pgfSweave}, figure labels are converted to \LaTeX{} strings so not only do they match the style of the document but \LaTeX{} math symbols/equations can be put in labels.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave} (\code{pgfSweaveDriver}) and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built upon \pkg{cacheSweave} and therefore also \pkg{Sweave}.  This document assumes familiarity with \pkg{Sweave}.  
 
+We'll start first with an example to entice you.  The following code chunk used with \pkg{pgfSweave} will produce the graphic below.
+\begin{Verbatim}[frame=single]
+ <<fancy,echo=F,fig=T,pgf=T,width=4,height=4>>=
+ syms <-c('alpha','theta','tau','beta','vartheta','pi','upsilon',
+		  'gamma','gamma','varpi','phi','delta','kappa','rho','varphi',
+		  'epsilon','lambda','varrho','chi','varepsilon','mu','sigma',
+		  'psi','zeta','nu','varsigma','omega','eta','xi','Gamma',
+		  'Lambda','Sigma','Psi','Delta','Xi','Upsilon','Omega',
+		  'Theta','Pi','Phi')
+ colors <- rep(c('red','blue','green'),length(syms))
+ plot(0,type='n',xlim=c(-2*pi,2*pi),ylim=c(-1,1),axes=F,
+ 	    xlab='',ylab='',main='Feel the wave!')
+ x <- seq(-2*pi,2*pi,length.out=length(syms))
+ y <- sin(x)
+ text(x,y,paste('\\color{',colors,'}$\\',syms,'$',sep=''))
+ @  
+\end{Verbatim}
+
+\begin{figure}[!ht] 
+\centering
+<<fancy,echo=F,fig=T,pgf=T,width=6,height=3>>=
+ syms <-c('alpha','theta','tau','beta','vartheta','pi','upsilon',
+		  'gamma','gamma','varpi','phi','delta','kappa','rho','varphi',
+		  'epsilon','lambda','varrho','chi','varepsilon','mu','sigma',
+		  'psi','zeta','nu','varsigma','omega','eta','xi','Gamma',
+		  'Lambda','Sigma','Psi','Delta','Xi','Upsilon','Omega',
+		  'Theta','Pi','Phi')	  
+ colors <- rep(c('red','blue','green'),length(syms))
+ plot(0,type='n',xlim=c(-2*pi,2*pi),ylim=c(-1,1),axes=F,
+ 	    xlab='',ylab='',main='Feel the wave!')
+ box()
+ x <- seq(-2*pi,2*pi,length.out=length(syms))
+ y <- sin(x)
+ text(x,y,paste('\\color{',colors,'}$\\',syms,'$',sep=''))
+@ 
+\end{figure}
+
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motivation and Background} 

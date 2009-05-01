@@ -45,7 +45,7 @@ all: ../../doc/pgfSweave.pdf ../../../ChangeLog
 
 pgfSweave-vignette-source.pdf:
 	echo `pwd`
-	../../../exec/pgfSweave --pdf pgfSweave-vignette-source.Rnw
+	../../../exec/pgfsweave-script.R pgfSweave-vignette-source.Rnw
 
 ../../example/pgfSweave-example.tex:
 	(cd ../../example/ ; make)
