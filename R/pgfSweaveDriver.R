@@ -1,5 +1,6 @@
 ######################################################################
 ## Copyright (C) 2008, Cameron Bracken <cameron.bracken@gmail.com>
+##                     Charlie Sharpsteen <source@shaprpsteen.net>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -71,7 +72,8 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
 
                 ## Create database name from chunk label and MD5
                 ## digest
-                dbName <- makeChunkDatabaseName(cachedir, options, chunkDigest)
+                dbName <- makeChunkDatabaseName(cachedir, options,
+                                                        chunkDigest)
                 exprDigest <- mangleDigest(digest(expr))
 
                 ## Create 'stashR' database
@@ -117,9 +119,9 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
 ## Add the 'pgf' and 'external' and 'pdflatex' option to the list
 pgfSweaveSetup <- function(file, syntax,
                              output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
-                             eval=TRUE, split=FALSE, stylepath=TRUE, pdf=FALSE,
-                             eps=FALSE, cache=FALSE, pgf=TRUE, external=FALSE,
-                             tex.driver="pdflatex") {
+                             eval=TRUE, split=FALSE, stylepath=TRUE, 
+                             pdf=FALSE, eps=FALSE, cache=FALSE, pgf=TRUE, 
+                             external=FALSE, tex.driver="pdflatex") {
 
         out <- utils::RweaveLatexSetup(file, syntax, output=NULL, quiet=FALSE,
                                        debug=FALSE, echo=TRUE, eval=TRUE,
@@ -142,7 +144,8 @@ pgfSweaveSetup <- function(file, syntax,
         file.create(out[["mapFile"]])  ## Overwrite an existing file
         ## End additions [RDP]
         
-        ## create a shell script with a command for each modeified graphic [CWB] 
+        ## [CWB]  create a shell script with a command for each modified
+        ##        graphic 
         out[["shellFile"]] <- makeExternalShellScriptName(file)
         out[["srcfileName"]] <- sub("\\.Rnw$", "\\.tex", file)
         file.create(out[["shellFile"]])  ## Overwrite an existing file
@@ -200,7 +203,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 ## [x][[1]] avoids partial matching of x
                 chunkout <- object$chunkout[chunkprefix][[1]]
                 if(is.null(chunkout)){
-                        chunkout <- file(paste(chunkprefix, "tex", sep="."), "w")
+                        chunkout <- file(paste(chunkprefix, "tex", sep="."), 
+                                                                        "w")
                         if(!is.null(options$label))
                                 object$chunkout[[chunkprefix]] <- chunkout
                 }
@@ -223,7 +227,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         ## plotting commands and others which do not create objects in the 
         ## global environment when they are evaluated but at least the figures 
         ## will get regenerated.
-        chunkTextEvalString <- paste("chunkText <- '",digest(paste(chunk,collapse='')),"'",sep='')
+        chunkTextEvalString <- paste("chunkText <- '", 
+                                        digest(paste(chunk,collapse='')), 
+                                        "'", sep='')
         #print(chunkTextEvalString)
         if(substr(chunk[1],1,9)!='chunkText')
                 chunk <- c(chunkTextEvalString, chunk)
@@ -252,7 +258,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         thisline <- 0
         for(nce in 1:length(chunkexps)){
                 ce <- chunkexps[[nce]]
-                if (nce <= length(srcrefs) && !is.null(srcref <- srcrefs[[nce]])) {
+                if (nce <= length(srcrefs) && 
+                    !is.null(srcref <- srcrefs[[nce]])) {
                         if (options$expand) {
                                 srcfile <- attr(srcref, "srcfile")
                                 showfrom <- srcref[1]
@@ -266,12 +273,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         leading <- showfrom-lastshown
                         lastshown <- showto
                         srcline <- srclines[srcref[3]]
-                        while (length(dce) && length(grep("^[ \\t]*$", dce[1]))) {
+                        while (length(dce) 
+                                && length(grep("^[ \\t]*$", dce[1]))) {
                                 dce <- dce[-1]
                                 leading <- leading - 1
                         }
                 } else {
-                        dce <- deparse(ce, width.cutoff=0.75*getOption("width"))
+                        dce <- deparse(ce, 
+                                    width.cutoff = 0.75*getOption("width"))
                         leading <- 1
                 }
                 if(object$debug)
@@ -289,17 +298,21 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                                     file=chunkout, append=TRUE)
                                 openSinput <- TRUE
                         }
-                        cat("\n", paste(getOption("prompt"), dce[1:leading], sep="", collapse="\n"),
+                        cat("\n", paste(getOption("prompt"), dce[1:leading], 
+                                        sep="", collapse="\n"),
                             file=chunkout, append=TRUE, sep="")
                         if (length(dce) > leading)
-                                cat("\n", paste(getOption("continue"), dce[-(1:leading)], sep="", collapse="\n"),
+                                cat("\n", paste(getOption("continue"), 
+                                                dce[-(1:leading)], sep="",
+                                                collapse="\n"),
                                     file=chunkout, append=TRUE, sep="")
                         linesout[thisline + 1:length(dce)] <- srcline
                         thisline <- thisline + length(dce)
                 }
 
                 ## tmpcon <- textConnection("output", "w")
-                ## avoid the limitations (and overhead) of output text connections
+                ## avoid the limitations (and overhead) of output text
+                ## connections
                 tmpcon <- file()
                 sink(file=tmpcon)
                 err <- NULL
@@ -308,8 +321,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 if(options$eval) err <- pgfSweaveEvalWithOpt(ce, options)
                 ## [CWB] added another output specifying if the code chunk
                 ##       was changed or not. This was an ititial attempt to 
-                ##       improve cacheSweave''s  recognition of chages in a code chunk
-                ##       though it is defunt now.
+                ##       improve cacheSweave''s  recognition of chages in a
+                ##       code chunk though it is defunct now.
                 chunkChanged <- err$chunkChanged
                 err <- err$err
                 ## [CWB] end
@@ -330,7 +343,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 if(length(output)>0 & (options$results != "hide")){
 
                         if(openSinput){
-                                cat("\n\\end{Sinput}\n", file=chunkout, append=TRUE)
+                                cat("\n\\end{Sinput}\n", file=chunkout,
+                                                            append=TRUE)
                                 linesout[thisline + 1:2] <- srcline
                                 thisline <- thisline + 2
                                 openSinput <- FALSE
@@ -354,7 +368,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                                 output <- sub("^[[:space:]]*\n", "", output)
                                 output <- sub("\n[[:space:]]*$", "", output)
                                 if(options$strip.white=="all")
-                                        output <- sub("\n[[:space:]]*\n", "\n", output)
+                                        output <- sub("\n[[:space:]]*\n", 
+                                                            "\n", output)
                         }
                         cat(output, file=chunkout, append=TRUE)
                         count <- sum(strsplit(output, NULL)[[1]] == "\n")
@@ -366,7 +381,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         remove(output)
 
                         if(options$results=="verbatim"){
-                                cat("\n\\end{Soutput}\n", file=chunkout, append=TRUE)
+                                cat("\n\\end{Soutput}\n", file=chunkout, 
+                                                            append=TRUE)
                                 linesout[thisline + 1:2] <- srcline
                                 thisline <- thisline + 2
                         }
@@ -401,9 +417,30 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 epsExists <- file.exists(paste(chunkprefix, "eps", sep="."))
                 if(options$eps & !options$pgf ){
                     if(!options$external | (chunkChanged | !epsExists) ){
-                        grDevices::postscript(file=paste(chunkprefix, "eps", sep="."),
-                                              width=options$width, height=options$height,
-                                              paper="special", horizontal=FALSE)
+                        
+                            # [CWB] the useKerning option was added in R 2.9.0
+                            # so check for the R version and set the 
+                            # useKerning option to false if 2.8.x or less is 
+                            # used. Check will break for R version 1.9, but I
+                            # suppose someone using that version will have
+                            # bigger problems.
+                        if(R.Version()$major <= 2 && R.Version()$minor <= 9.0)
+                            grDevices::postscript(file = paste(chunkprefix, 
+                                                                "eps", 
+                                                                sep="."),
+                                                  width=options$width, 
+                                                  height=options$height,
+                                                  paper="special",  
+                                                  horizontal=FALSE)
+                        else 
+                            grDevices::postscript(file = paste(chunkprefix, 
+                                                                "eps", 
+                                                                sep="."),
+                                                  width=options$width, 
+                                                  height=options$height,
+                                                  paper="special",  
+                                                  horizontal=FALSE,
+                                                  useKerning=FALSE)
 
                         err <- try({SweaveHooks(options, run=TRUE)
                                     eval(chunkexps, envir=.GlobalEnv)})
@@ -413,8 +450,10 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 }
                 if(options$pdf & !options$pgf){
                     if(!options$external | (chunkChanged | !pdfExists) ){
-                        grDevices::pdf(file=paste(chunkprefix, "pdf", sep="."),
-                                       width=options$width, height=options$height,
+                        grDevices::pdf(file=paste(chunkprefix, 
+                                                    "pdf", sep="."),
+                                       width=options$width,
+                                       height=options$height,
                                        version=options$pdf.version,
                                        encoding=options$pdf.encoding)
 
@@ -428,17 +467,40 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 #############################################
                 ## [CWB] Here are the new options related to graphics output 
                 ## pgf: uses eps2pgf with the `-m directcopy` option to create 
-                ##   a pgf file in which the text is interperted as a tex string 
+                ##      a pgf file in which the text is interperted as a tex 
+                ##      string 
                 ## 
                 ## external: uses the external feature in 
-                ##   the TeX package pgf to include the compiled pdf file if available
+                ##   the TeX package pgf to include the compiled pdf file if
+                ##   available
                 ##
 
                 if(options$pgf){
                     if(chunkChanged | !pdfExists){
-                        grDevices::postscript(file=paste(chunkprefix, "eps", sep="."),
-                                              width=options$width, height=options$height,
-                                              paper="special", horizontal=FALSE)
+                        
+                            # [CWB] the useKerning option was added in R 2.9.0
+                            # so check for the R version and set the 
+                            # useKerning option to false if 2.8.x or less is 
+                            # used. Check will break for R version 1.9, but I
+                            # suppose someone using that version will have
+                            # bigger problems. 
+                        if(R.Version()$major <= 2 && R.Version()$minor < 9.0)
+                            grDevices::postscript(file = paste(chunkprefix, 
+                                                                "eps", 
+                                                                sep="."),
+                                                  width=options$width, 
+                                                  height=options$height,
+                                                  paper="special",  
+                                                  horizontal=FALSE)
+                        else 
+                            grDevices::postscript(file = paste(chunkprefix, 
+                                                                "eps", 
+                                                                sep="."),
+                                                  width=options$width, 
+                                                  height=options$height,
+                                                  paper="special",  
+                                                  horizontal=FALSE,
+                                                  useKerning=FALSE)
 
                         err <- try({SweaveHooks(options, run=TRUE)
                                     eval(chunkexps, envir=.GlobalEnv)})
@@ -446,23 +508,28 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         if(inherits(err, "try-error")) stop(err)
 
                         eps2pgf <- system.file(package='pgfSweave')
-                        eps2pgf <- paste('java -jar ',eps2pgf,'/java/eps2pgf/eps2pgf.jar -m directcopy',sep='')
+                        eps2pgf <- paste('java -jar ',eps2pgf,
+                            '/java/eps2pgf/eps2pgf.jar -m directcopy',sep='')
                                                 
-                        cat('Generating pgf file from:',paste(chunkprefix, "eps",sep="."),'\n')
-                        err <- try(system(paste(eps2pgf,paste(chunkprefix, "eps",sep="."))))
+                        cat('Generating pgf file from:',paste(chunkprefix,  
+                                                        "eps",sep="."),'\n')
+                        err <- try(system(paste(eps2pgf,paste(chunkprefix, 
+                                                            "eps",sep="."))))
                                                 
                         if(inherits(err, "try-error")) stop(err)
                     }
                 }
                 
                 if(options$external){
-                        if( chunkChanged | !pdfExists && (!options$pdf && !options$eps)){
+                        if( chunkChanged | !pdfExists && 
+                                (!options$pdf && !options$eps)){
 
                                 shellFile <- object[["shellFile"]]
                                 tex.driver <- object[["tex.driver"]]
                                 
-                                cat(tex.driver,' --jobname=',chunkprefix,' ',object[["srcfileName"]],
-                                    '\n',sep='',file=shellFile,append=TRUE)
+                                cat(tex.driver, ' --jobname=', chunkprefix,
+                                    ' ',object[["srcfileName"]], '\n', sep='',  
+                                    file=shellFile, append=TRUE)
                         }
                 }
                 if(options$include && options$external) {
@@ -478,8 +545,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         thisline <- thisline + 1
                 }
                 if(options$include && options$pgf) {
-                        cat("\\input{", paste(chunkprefix,'pgf',sep='.')
-                                                , "}\n", sep="",file=object$output, append=TRUE)
+                        cat("\\input{", paste(chunkprefix,'pgf',sep='.'),
+                            "}\n", sep="", file=object$output, append=TRUE)
                         linesout[thisline + 1] <- srcline
                         thisline <- thisline + 1
                 }
@@ -495,12 +562,3 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         object$linesout <- c(object$linesout, linesout)
         return(object)
 }
-
-
-
-
-
-
-
-
-
