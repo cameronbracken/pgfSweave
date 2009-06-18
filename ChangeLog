@@ -1,3 +1,26 @@
+2009-05-01 16:08  cameronbracken
+
+	* DESCRIPTION, NEWS, inst/doc/figs/fig-fancy.pdf,
+	  inst/doc/figs/fig-normalSweave.pdf,
+	  inst/doc/figs/fig-pgfSweave-hist.pdf,
+	  inst/doc/figs/fig-third.pdf, inst/doc/pgfSweave-example.pdf,
+	  inst/doc/pgfSweave.Rnw, inst/doc/pgfSweave.pdf,
+	  inst/misc/vignette-src/Makefile,
+	  inst/misc/vignette-src/pgfSweave-vignette-source.Rnw: - Encoding
+	  issue wit DESCRITION file
+	  - New example in vignette
+
+2009-05-01 06:00  cameronbracken
+
+	* ChangeLog, DESCRIPTION, NEWS, README: - Updated packages
+	  description files
+
+2009-05-01 05:40  cameronbracken
+
+	* R/pgfSweaveDriver.R, inst/example/Makefile: - pgfSweave now turns
+	  off kerning if R.Version >= 2.9.0 because strange line breakes
+	  occur in conversion to pgf and then to pdf.
+
 2009-04-30 07:06  cameronbracken
 
 	* exec/pgfsweave, exec/pgfsweave-script.R: - New R version of shell

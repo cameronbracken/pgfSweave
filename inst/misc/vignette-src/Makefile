@@ -25,6 +25,8 @@ all: ../../doc/pgfSweave.pdf ../../../ChangeLog
 	cp Sweave.sty ../../doc/
 	# Copy all the figures
 	cp figs/*.pdf ../../doc/figs/
+	# Copy the R code files
+	cp *.R ../../doc/
 	# Copy all the example file to include but dont use .Rnw so they are not 
 	# recognised as another vignette 
 	cp -f ../../example/pgfSweave-example.Rnw \

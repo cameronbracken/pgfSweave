@@ -8,21 +8,68 @@
 % \VignetteDepends{pgfSweave}
 
 \usepackage[nogin,noae]{Sweave}
+\usepackage[x11names]{xcolor}
 \usepackage{pgf}
 \usepackage[parfill]{parskip}
 \usepackage{fancyvrb}
 \usepackage[margin=1.1in]{geometry}
+\usepackage[colorlinks]{hyperref}
 \newcommand{\lang}{\textsf}
 \newcommand{\code}{\texttt}
 \newcommand{\pkg}{\textbf}
 \newcommand{\ques}[1]{\vspace{.5cm}\noindent{\bf\large#1}\vspace{.2cm}}
+%%highlight styles
+\newcommand{\hlnumber}[1]{\textcolor[rgb]{0.0823529411764706,0.0784313725490196,0.709803921568627}{#1}}%
+\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{1,0,0}{#1}}%
+\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
+\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlargument}[1]{\textcolor[rgb]{0.694117647058824,0.247058823529412,0.0196078431372549}{#1}}%
+\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.8,0.8,0.8}{#1}}%
+\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0,0.592156862745098,1}{#1}}%
+\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.0705882352941176,0.713725490196078,0.0705882352941176}{#1}}%
+\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.0705882352941176,0.713725490196078,0.0705882352941176}{#1}}%
+\newcommand{\hlassignement}[1]{\textcolor[rgb]{0.215686274509804,0.215686274509804,0.384313725490196}{\textbf{#1}}}%
+\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.713725490196078,0.145098039215686}{#1}}%
+\newcommand{\hlslot}[1]{\textit{#1}}%
+\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlprompt}[1]{\textcolor[rgb]{0,0,0}{#1}}%\usepackage{color}%
+\newsavebox{\hlboxclosebrace}%
+\newsavebox{\hlboxopenbrace}%
+\newsavebox{\hlboxbackslash}%
+\newsavebox{\hlboxlessthan}%
+\newsavebox{\hlboxgreaterthan}%
+\newsavebox{\hlboxdollar}%
+\newsavebox{\hlboxunderscore}%
+\newsavebox{\hlboxand}%
+\newsavebox{\hlboxhash}%
+\newsavebox{\hlboxat}%
+\newsavebox{\hlboxpercent}% 
+\newsavebox{\hlboxhat}%
+\newsavebox{\hlboxsinglequote}%
+\newsavebox{\hlboxbacktick}%
 
+\setbox\hlboxopenbrace=\hbox{\verb.{.}%
+\setbox\hlboxclosebrace=\hbox{\verb.}.}%
+\setbox\hlboxlessthan=\hbox{\verb.<.}%
+\setbox\hlboxdollar=\hbox{\verb.$.}%
+\setbox\hlboxunderscore=\hbox{\verb._.}%
+\setbox\hlboxand=\hbox{\verb.&.}%
+\setbox\hlboxhash=\hbox{\verb.#.}%
+\setbox\hlboxat=\hbox{\verb.@.}%
+\setbox\hlboxbackslash=\hbox{\verb.\.}%
+\setbox\hlboxgreaterthan=\hbox{\verb.>.}%
+\setbox\hlboxpercent=\hbox{\verb.%.}%
+\setbox\hlboxhat=\hbox{\verb.^.}%
+\setbox\hlboxsinglequote=\hbox{\verb.'.}%
+\setbox\hlboxbacktick=\hbox{\verb.`.}%
+\setbox\hlboxhat=\hbox{\verb.^.}%
+\def\urltilda{\kern -.15em\lower .7ex\hbox{\~{}}\kern .04em}
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0,0,0}{#1}}
 \title{The \pkg{pgfSweave} Package}
 \author{Cameron Bracken and Charlie Sharpsteen}
 
 
 \begin{document}
-
 
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=TRUE.
@@ -38,36 +85,40 @@
 The \pkg{pgfSweave} package provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  Using \pkg{pgfSweave}, figure labels are converted to \LaTeX{} strings so not only do they match the style of the document but \LaTeX{} math symbols/equations can be put in labels.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave} (\code{pgfSweaveDriver}) and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built upon \pkg{cacheSweave} and therefore also \pkg{Sweave}.  This document assumes familiarity with \pkg{Sweave}.  
 
 We'll start first with an example to entice you.  The following code chunk used with \pkg{pgfSweave} will produce the graphic below.
-\begin{Verbatim}[frame=single]
- <<fancy,echo=F,fig=T,pgf=T,width=4,height=4>>=
- syms <-c('alpha','theta','tau','beta','vartheta','pi','upsilon',
-		  'gamma','gamma','varpi','phi','delta','kappa','rho','varphi',
-		  'epsilon','lambda','varrho','chi','varepsilon','mu','sigma',
-		  'psi','zeta','nu','varsigma','omega','eta','xi','Gamma',
-		  'Lambda','Sigma','Psi','Delta','Xi','Upsilon','Omega',
-		  'Theta','Pi','Phi')
- colors <- rep(c('red','blue','green'),length(syms))
- plot(0,type='n',xlim=c(-2*pi,2*pi),ylim=c(-1,1),axes=F,
- 	    xlab='',ylab='',main='Feel the wave!')
- x <- seq(-2*pi,2*pi,length.out=length(syms))
- y <- sin(x)
- text(x,y,paste('\\color{',colors,'}$\\',syms,'$',sep=''))
- @  
-\end{Verbatim}
 
-\begin{figure}[!ht] 
-\centering
+%% The following requires the highlight package
+%% install.packages("highlight", repos="http://R-Forge.R-project.org")
+\fbox{\parbox{\textwidth}{\small
+\noindent
+\ttfamily
+\hlstd{}\hlsymbol{syms}{\ }\hlassignement{\usebox{\hlboxlessthan}-}\hlfunctioncall{c}\hlkeyword{(}\hlstring{\usebox{\hlboxsinglequote}alpha\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}theta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}tau\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}beta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}vartheta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}pi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}upsilon\usebox{\hlboxsinglequote}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlstring{\usebox{\hlboxsinglequote}gamma\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}gamma\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}varpi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}phi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}delta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}kappa\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}rho\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}varphi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlstring{\usebox{\hlboxsinglequote}epsilon\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}lambda\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}varrho\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}chi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}varepsilon\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}mu\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}sigma\usebox{\hlboxsinglequote}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlstring{\usebox{\hlboxsinglequote}psi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}zeta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}nu\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}varsigma\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}omega\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}eta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}xi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Gamma\usebox{\hlboxsinglequote}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlstring{\usebox{\hlboxsinglequote}Lambda\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Sigma\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Psi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Delta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Xi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Upsilon\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Omega\usebox{\hlboxsinglequote}}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlstring{\usebox{\hlboxsinglequote}Theta\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Pi\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}Phi\usebox{\hlboxsinglequote}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{r}{\ }\hlassignement{\usebox{\hlboxlessthan}-}{\ }\hlfunctioncall{runif}\hlkeyword{(}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{syms}\hlkeyword{)}\hlkeyword{)}\hlkeyword{;}{\ }\hlsymbol{g}{\ }\hlassignement{\usebox{\hlboxlessthan}-}{\ }\hlfunctioncall{runif}\hlkeyword{(}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{syms}\hlkeyword{)}\hlkeyword{)}\hlkeyword{;}{\ }\hlsymbol{b}{\ }\hlassignement{\usebox{\hlboxlessthan}-}{\ }\hlfunctioncall{runif}\hlkeyword{(}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{syms}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{t}{\ }\hlassignement{\usebox{\hlboxlessthan}-}{\ }\hlfunctioncall{seq}\hlkeyword{(}\hlkeyword{-}\hlnumber{2}\hlkeyword{*}\hlsymbol{pi}\hlkeyword{,}\hlnumber{2}\hlkeyword{*}\hlsymbol{pi}\hlkeyword{,}\hlargument{length.out}\hlargument{=}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{syms}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{R}{\ }\hlassignement{\usebox{\hlboxlessthan}-}{\ }\hlfunctioncall{exp}\hlkeyword{(}\hlnumber{.1}\hlkeyword{*}\hlsymbol{t}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlboxlessthan}-}{\ }\hlsymbol{R}\hlkeyword{*}\hlfunctioncall{sin}\hlkeyword{(}\hlsymbol{t}\hlkeyword{)}\hlkeyword{;}{\ }\hlsymbol{y}{\ }\hlassignement{\usebox{\hlboxlessthan}-}{\ }\hlsymbol{R}\hlkeyword{*}\hlfunctioncall{cos}\hlkeyword{(}\hlsymbol{t}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{plot}\hlkeyword{(}\hlnumber{0}\hlkeyword{,}\hlargument{type}\hlargument{=}\hlstring{\usebox{\hlboxsinglequote}n\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlargument{xlim}\hlargument{=}\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{min}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{,}\hlfunctioncall{max}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{)}\hlkeyword{,}\hlargument{ylim}\hlargument{=}\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{min}\hlkeyword{(}\hlsymbol{y}\hlkeyword{)}\hlkeyword{,}\hlfunctioncall{max}\hlkeyword{(}\hlsymbol{y}\hlkeyword{)}\hlkeyword{)}\hlkeyword{,}\hlargument{axes}\hlargument{=}\hlsymbol{F}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{xlab}\hlargument{=}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlargument{ylab}\hlargument{=}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxsinglequote}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{box}\hlkeyword{(}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{text}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}\hlsymbol{y}\hlkeyword{,}\hlfunctioncall{paste}\hlkeyword{(}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}color[rgb]\usebox{\hlboxopenbrace}\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlsymbol{r}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote},\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlsymbol{g}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote},\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlsymbol{b}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxclosebrace}\usebox{\hlboxopenbrace}\usebox{\hlboxdollar}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlsymbol{syms}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxdollar}\usebox{\hlboxclosebrace}\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlargument{sep}\hlargument{=}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxsinglequote}}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont}}
+
+\begin{center}
 \beginpgfgraphicnamed{figs/fig-fancy}
 \input{figs/fig-fancy.pgf}
 \endpgfgraphicnamed
-\end{figure}
+\end{center}
 
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motivation and Background} 
 
-\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of preforming lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave}\footnote{\texttt{http://cran.r-project.org/package=cacheSweave}} and the \pkg{weaver}\footnote{\texttt{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}.  Specifically these packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\texttt{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provides significant speedup of most computations, namely only those which create objects in the global environment.
+\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of preforming lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave}\footnote{\url{http://cran.r-project.org/package=cacheSweave}} and the \pkg{weaver}\footnote{\url{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}.  Specifically these packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\url{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provides significant speedup of most computations, namely only those which create objects in the global environment.
 
 Additional drawbacks of the existing methods are:
 \begin{enumerate} 
@@ -75,7 +126,7 @@ Additional drawbacks of the existing methods are:
 \item Consistency in style (font, point size) in automatically generated graphics is difficult to achieve.  The default font and point size in \lang{R} does not match \LaTeX{} very well and getting this to match precisely is tricky business. 
 \end{enumerate}
 
-So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{PGF}\footnote{\texttt{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\texttt{http://sourceforge.net/projects/eps2pgf/}}.  When we refer to the ``caching'' of an graphic we mean that if the code chunk which generated the graphic is unchanged, an image included from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf}\footnote{Latest CVS available at \texttt{http://sourceforge.net/cvs/?group\_id=142562}} provides the ability to ``externalize graphics.''  The externalization chapter in the \pkg{PGF/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   
+So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{PGF}\footnote{\url{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\url{http://sourceforge.net/projects/eps2pgf/}}.  When we refer to the ``caching'' of an graphic we mean that if the code chunk which generated the graphic is unchanged, an image included from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf}\footnote{Latest CVS available at \url{http://sourceforge.net/cvs/?group\_id=142562}} provides the ability to ``externalize graphics.''  The externalization chapter in the \pkg{PGF/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -97,7 +148,7 @@ The \pkg{pgfSweave} package can work on windows with some special care.  First o
 \item Install Java. 
 \item Install MiK\TeX{}. 
 \item Upgrade to or install PGF 2.0 if not already done. 
-\item Install Rtools\footnote{\texttt{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
+\item Install Rtools\footnote{\url{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
 \end{enumerate}
 If everything is set up correctly, the commands \code{java} and \code{pdflatex} or \code{latex} should be available at the command prompt.    
 
@@ -107,7 +158,7 @@ If everything is set up correctly, the commands \code{java} and \code{pdflatex} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Usage}
 
-We assume a familiarity with the usage of \pkg{Sweave}, for more information see the \pkg{Sweave} manual\footnote{\texttt{http://www.stat.uni-muenchen.de/$\sim$leisch/Sweave/Sweave-manual.pdf}}.  This section will explain the usage of the \code{pgf} and \code{external} options and then provide a complete example.
+We assume a familiarity with the usage of \pkg{Sweave}, for more information see the \pkg{Sweave} manual\footnote{\url{http://www.stat.uni-muenchen.de/$\sim$leisch/Sweave/Sweave-manual.pdf}}.  This section will explain the usage of the \code{pgf} and \code{external} options and then provide a complete example.
 
 \subsection{The \code{pgf} option}
 The first new code chunk option \code{pgf}, acts the same as the \code{pdf} or \code{eps} options but instead of resulting in an \code{$\backslash$includegraphics\{\}} statement the result is an \code{$\backslash$input\{\}} statement.  For example the text and Consider the following code:
@@ -233,18 +284,20 @@ The default in \code{Sweave.sty} is to fix the width of every image to 80\% of t
 \clearpage
 The example below illustrates some of the power of \pkg{pgfSweave}.  \LaTeX{} code can be directly input into captions.  This sort of thing is already available in \lang{R} but again consistency in font and text size is difficult to achieve.  
 
+\fbox{\parbox{\textwidth}{\small
+\noindent
+\ttfamily
+\hlstd{}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{a}\hlkeyword{,}\hlsymbol{b}\hlkeyword{,}\hlargument{xlab}\hlargument{=}\hlstring{""}\hlkeyword{,}\hlargument{ylab}\hlargument{=}\hlstring{""}\hlkeyword{,}\hlargument{type}\hlargument{=}\hlstring{\usebox{\hlboxsinglequote}n\usebox{\hlboxsinglequote}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{text}\hlkeyword{(}\hlsymbol{a}\hlkeyword{,}\hlsymbol{b}\hlkeyword{,}\hlfunctioncall{paste}\hlkeyword{(}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxdollar}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlfunctioncall{sample}\hlkeyword{(}\hlsymbol{syms}\hlkeyword{,}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{a}\hlkeyword{)}\hlkeyword{,}\hlargument{replace}\hlargument{=}\hlsymbol{T}\hlkeyword{)}\hlkeyword{,}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxdollar}\usebox{\hlboxsinglequote}}\hlkeyword{,}\hlargument{sep}\hlargument{=}\hlstring{\usebox{\hlboxsinglequote}\usebox{\hlboxsinglequote}}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{title}\hlkeyword{(}\hlargument{xlab}\hlargument{=}\hlstring{"\usebox{\hlboxdollar}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}alpha\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}beta\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}gamma\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}delta\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}epsilon\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}Re{\ }\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}longrightarrow\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}ell\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}hbar\usebox{\hlboxdollar}"}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{title}\hlkeyword{(}\hlargument{ylab}\hlargument{=}\hlstring{"\usebox{\hlboxopenbrace}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}color\usebox{\hlboxopenbrace}green!40!blue\usebox{\hlboxclosebrace}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}scshape{\ }\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}Large{\ }Teal{\ }Label{\ }in{\ }Small{\ }Caps\usebox{\hlboxclosebrace}"}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{title}\hlkeyword{(}\hlargument{main}\hlargument{=}\hlstring{"\usebox{\hlboxopenbrace}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}large{\ }This{\ }is{\ }a{\ }plot{\ }of{\ }\usebox{\hlboxdollar}\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}displaystyle\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}int\usebox{\hlboxunderscore}a\usebox{\hlboxhat}b{\ }\usebox{\hlboxbackslash}\usebox{\hlboxbackslash}frac\usebox{\hlboxopenbrace}x\usebox{\hlboxclosebrace}\usebox{\hlboxopenbrace}y\usebox{\hlboxclosebrace}dx\usebox{\hlboxdollar}\usebox{\hlboxclosebrace}"}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{abline}\hlkeyword{(}\hlsymbol{fit}\hlkeyword{)}\mbox{}
+\normalfont}}
+
 %% only compiled once
 \begin{figure}[ht] 
 \centering
-\begin{Schunk}
-\begin{Sinput}
-> plot(a, b, xlab = "", ylab = "")
-> title(xlab = "$\\alpha\\beta\\gamma\\delta\\epsilon\\Re \\longrightarrow\\ell\\hbar$")
-> title(ylab = "{\\color{green!40!blue}\\scshape \\Large Teal Label in Small Caps}")
-> title(main = "{\\large This is a plot of $\\displaystyle\\int_a^b \\frac{x}{y}dx$}")
-> abline(fit)
-\end{Sinput}
-\end{Schunk}
 \beginpgfgraphicnamed{figs/fig-third}
 \input{figs/fig-third.pgf}
 \endpgfgraphicnamed

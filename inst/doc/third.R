@@ -1,0 +1,6 @@
+plot(a,b,xlab="",ylab="",type='n')
+text(a,b,paste('$\\',sample(syms,length(a),replace=T),'$',sep=''))
+title(xlab="$\\alpha\\beta\\gamma\\delta\\epsilon\\Re \\longrightarrow\\ell\\hbar$")
+title(ylab="{\\color{green!40!blue}\\scshape \\Large Teal Label in Small Caps}")
+title(main="{\\large This is a plot of $\\displaystyle\\int_a^b \\frac{x}{y}dx$}")
+abline(fit)

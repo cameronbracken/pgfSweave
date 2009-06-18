@@ -3,19 +3,30 @@
 %% R> library(pgfSweave)
 %% R> pgfSweave("pgfSweave-vignette-source.Rnw",pdf=T)
 
+<<setup,echo=F>>=
+setCacheDir("cache")
+library(highlight)
+@
 
 % \VignetteIndexEntry{The pgfSweave Package}
 % \VignetteDepends{pgfSweave}
 
 \usepackage[nogin,noae]{Sweave}
+\usepackage[x11names]{xcolor}
 \usepackage{pgf}
 \usepackage[parfill]{parskip}
 \usepackage{fancyvrb}
 \usepackage[margin=1.1in]{geometry}
+\usepackage[colorlinks]{hyperref}
 \newcommand{\lang}{\textsf}
 \newcommand{\code}{\texttt}
 \newcommand{\pkg}{\textbf}
 \newcommand{\ques}[1]{\vspace{.5cm}\noindent{\bf\large#1}\vspace{.2cm}}
+%%highlight styles
+<<hi,echo=F,results=tex>>=
+cat(styler('default', 'sty', styler_assistant_latex),sep='\n')
+cat(boxes_latex(),sep='\n')
+@
 
 \title{The \pkg{pgfSweave} Package}
 \author{Cameron Bracken and Charlie Sharpsteen}
@@ -23,10 +34,6 @@
 \pgfrealjobname{pgfSweave-vignette-source}
 
 \begin{document}
-
-<<setup,echo=F>>=
-setCacheDir("cache")
-@ 
 
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=TRUE.
@@ -42,48 +49,27 @@ setCacheDir("cache")
 The \pkg{pgfSweave} package provides capabilities for ``caching'' graphics generated with \pkg{Sweave}.  This document highlights the features and usage of \pkg{pgfSweave}.  Using \pkg{pgfSweave}, figure labels are converted to \LaTeX{} strings so not only do they match the style of the document but \LaTeX{} math symbols/equations can be put in labels.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave} (\code{pgfSweaveDriver}) and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package is built upon \pkg{cacheSweave} and therefore also \pkg{Sweave}.  This document assumes familiarity with \pkg{Sweave}.  
 
 We'll start first with an example to entice you.  The following code chunk used with \pkg{pgfSweave} will produce the graphic below.
-\begin{Verbatim}[frame=single]
- <<fancy,echo=F,fig=T,pgf=T,width=4,height=4>>=
- syms <-c('alpha','theta','tau','beta','vartheta','pi','upsilon',
-		  'gamma','gamma','varpi','phi','delta','kappa','rho','varphi',
-		  'epsilon','lambda','varrho','chi','varepsilon','mu','sigma',
-		  'psi','zeta','nu','varsigma','omega','eta','xi','Gamma',
-		  'Lambda','Sigma','Psi','Delta','Xi','Upsilon','Omega',
-		  'Theta','Pi','Phi')
- colors <- rep(c('red','blue','green'),length(syms))
- plot(0,type='n',xlim=c(-2*pi,2*pi),ylim=c(-1,1),axes=F,
- 	    xlab='',ylab='',main='Feel the wave!')
- x <- seq(-2*pi,2*pi,length.out=length(syms))
- y <- sin(x)
- text(x,y,paste('\\color{',colors,'}$\\',syms,'$',sep=''))
- @  
-\end{Verbatim}
 
-\begin{figure}[!ht] 
-\centering
-<<fancy,echo=F,fig=T,pgf=T,width=6,height=3>>=
- syms <-c('alpha','theta','tau','beta','vartheta','pi','upsilon',
-		  'gamma','gamma','varpi','phi','delta','kappa','rho','varphi',
-		  'epsilon','lambda','varrho','chi','varepsilon','mu','sigma',
-		  'psi','zeta','nu','varsigma','omega','eta','xi','Gamma',
-		  'Lambda','Sigma','Psi','Delta','Xi','Upsilon','Omega',
-		  'Theta','Pi','Phi')	  
- colors <- rep(c('red','blue','green'),length(syms))
- plot(0,type='n',xlim=c(-2*pi,2*pi),ylim=c(-1,1),axes=F,
- 	    xlab='',ylab='',main='Feel the wave!')
- box()
- x <- seq(-2*pi,2*pi,length.out=length(syms))
- y <- sin(x)
- text(x,y,paste('\\color{',colors,'}$\\',syms,'$',sep=''))
+%% The following requires the highlight package
+%% install.packages("highlight", repos="http://R-Forge.R-project.org")
+\fbox{\parbox{\textwidth}{\small
+<<wave,echo=F,fig=F,pgf=F,external=F,results=tex,cache=F>>=
+highlight('wave.R',renderer=renderer_latex(document=F))
+@
+}}
+
+\begin{center}
+<<fancy,echo=F,fig=T,pgf=T,width=4,height=4>>=
+source('wave.R')
 @ 
-\end{figure}
+\end{center}
 
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motivation and Background} 
 
-\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of preforming lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave}\footnote{\texttt{http://cran.r-project.org/package=cacheSweave}} and the \pkg{weaver}\footnote{\texttt{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}.  Specifically these packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\texttt{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provides significant speedup of most computations, namely only those which create objects in the global environment.
+\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of preforming lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave}\footnote{\url{http://cran.r-project.org/package=cacheSweave}} and the \pkg{weaver}\footnote{\url{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}.  Specifically these packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\url{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provides significant speedup of most computations, namely only those which create objects in the global environment.
 
 Additional drawbacks of the existing methods are:
 \begin{enumerate} 
@@ -91,7 +77,7 @@ Additional drawbacks of the existing methods are:
 \item Consistency in style (font, point size) in automatically generated graphics is difficult to achieve.  The default font and point size in \lang{R} does not match \LaTeX{} very well and getting this to match precisely is tricky business. 
 \end{enumerate}
 
-So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{PGF}\footnote{\texttt{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\texttt{http://sourceforge.net/projects/eps2pgf/}}.  When we refer to the ``caching'' of an graphic we mean that if the code chunk which generated the graphic is unchanged, an image included from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf}\footnote{Latest CVS available at \texttt{http://sourceforge.net/cvs/?group\_id=142562}} provides the ability to ``externalize graphics.''  The externalization chapter in the \pkg{PGF/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   
+So called ``caching'' of plots is achieved with the help of two tools: the \TeX{} package \pkg{PGF}\footnote{\url{http://sourceforge.net/projects/pgf/}}  and the command line utility \pkg{eps2pgf}\footnote{\url{http://sourceforge.net/projects/eps2pgf/}}.  When we refer to the ``caching'' of an graphic we mean that if the code chunk which generated the graphic is unchanged, an image included from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf}\footnote{Latest CVS available at \url{http://sourceforge.net/cvs/?group\_id=142562}} provides the ability to ``externalize graphics.''  The externalization chapter in the \pkg{PGF/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,7 +99,7 @@ The \pkg{pgfSweave} package can work on windows with some special care.  First o
 \item Install Java. 
 \item Install MiK\TeX{}. 
 \item Upgrade to or install PGF 2.0 if not already done. 
-\item Install Rtools\footnote{\texttt{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
+\item Install Rtools\footnote{\url{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
 \end{enumerate}
 If everything is set up correctly, the commands \code{java} and \code{pdflatex} or \code{latex} should be available at the command prompt.    
 
@@ -123,7 +109,7 @@ If everything is set up correctly, the commands \code{java} and \code{pdflatex} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Usage}
 
-We assume a familiarity with the usage of \pkg{Sweave}, for more information see the \pkg{Sweave} manual\footnote{\texttt{http://www.stat.uni-muenchen.de/$\sim$leisch/Sweave/Sweave-manual.pdf}}.  This section will explain the usage of the \code{pgf} and \code{external} options and then provide a complete example.
+We assume a familiarity with the usage of \pkg{Sweave}, for more information see the \pkg{Sweave} manual\footnote{\url{http://www.stat.uni-muenchen.de/$\sim$leisch/Sweave/Sweave-manual.pdf}}.  This section will explain the usage of the \code{pgf} and \code{external} options and then provide a complete example.
 
 \subsection{The \code{pgf} option}
 The first new code chunk option \code{pgf}, acts the same as the \code{pdf} or \code{eps} options but instead of resulting in an \code{$\backslash$includegraphics\{\}} statement the result is an \code{$\backslash$input\{\}} statement.  For example the text and Consider the following code:
@@ -246,15 +232,17 @@ hist(a)
 \clearpage
 The example below illustrates some of the power of \pkg{pgfSweave}.  \LaTeX{} code can be directly input into captions.  This sort of thing is already available in \lang{R} but again consistency in font and text size is difficult to achieve.  
 
+\fbox{\parbox{\textwidth}{\small
+<<thirdh,echo=F,fig=F,pgf=F,external=F,results=tex,cache=F>>=
+highlight('third.R',renderer=renderer_latex(document=F))
+@
+}}
+
 %% only compiled once
 \begin{figure}[ht] 
 \centering
-<<third,results=hide,fig=T,width=5,height=5>>=
-plot(a,b,xlab="",ylab="")
-title(xlab="$\\alpha\\beta\\gamma\\delta\\epsilon\\Re \\longrightarrow\\ell\\hbar$")
-title(ylab="{\\color{green!40!blue}\\scshape \\Large Teal Label in Small Caps}")
-title(main="{\\large This is a plot of $\\displaystyle\\int_a^b \\frac{x}{y}dx$}")
-abline(fit)
+<<third,echo=F,results=hide,fig=T,width=5,height=5>>=
+source('third.R')
 @
 \caption{Large size plot but still consistant. Also \LaTeX{} can be put directly into the titles of the plot which matches the style of your paper.  All $\backslash$'s must be escaped using this method.}
 \end{figure}
