@@ -10,10 +10,12 @@ library(highlight)
 
 % \VignetteIndexEntry{The pgfSweave Package}
 % \VignetteDepends{pgfSweave}
+% \VignetteDepends{highlight}
+% \VignetteDepends{tikzDevice}
 
 \usepackage[nogin,noae]{Sweave}
 \usepackage[x11names]{xcolor}
-\usepackage{pgf}
+\usepackage{tikz}
 \usepackage[parfill]{parskip}
 \usepackage{fancyvrb}
 \usepackage[margin=1.1in]{geometry}
@@ -38,7 +40,7 @@ cat(boxes_latex(),sep='\n')
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=TRUE.
 %% to get normal Sweave behavior set pgf=FALSE and external=FALSE 
-\SweaveOpts{prefix.string=figs/fig,fig=T,cache=T,pgf=T,external=T}
+\SweaveOpts{prefix.string=figs/fig,fig=T,cache=T,tikz=T,external=T}
 
 \begin{center}
 {\Large The \pkg{pgfSweave} Package}\\
@@ -53,13 +55,13 @@ We'll start first with an example to entice you.  The following code chunk used 
 %% The following requires the highlight package
 %% install.packages("highlight", repos="http://R-Forge.R-project.org")
 \fbox{\parbox{\textwidth}{\small
-<<wave,echo=F,fig=F,pgf=F,external=F,results=tex,cache=F>>=
+<<wave,echo=F,fig=F,tikz=F,external=F,results=tex,cache=F>>=
 highlight('wave.R',renderer=renderer_latex(document=F))
 @
 }}
 
 \begin{center}
-<<fancy,echo=F,fig=T,pgf=T,width=4,height=4>>=
+<<fancy,echo=F,width=4,height=4>>=
 source('wave.R')
 @ 
 \end{center}
@@ -213,7 +215,7 @@ fit <- lm(b ~ a)
 \begin{figure}[!ht]
 \begin{minipage}{.45\linewidth}
 \centering
-<<normalSweave,echo=T,pdf=T,pgf=F,external=F,width=3,height=3>>=
+<<normalSweave,echo=T,pdf=T,tikz=F,external=F,width=3,height=3>>=
 hist(a)
 @
 \caption{This is normal \pkg{Sweave}.}\label{normalSweave}
@@ -222,7 +224,7 @@ hist(a)
 %% pgf file will get regenerated every time slowing down the whole compilation.
 %% even though cache=TRUE. 
 \centering
-<<pgfSweave-hist,external=T,width=3,height=3>>=
+<<pgfSweave-hist,width=3,height=3>>=
 hist(a)
 @
 \caption{This is from \pkg{pgfSweave}.}\label{pgfSweave-hist}
@@ -241,7 +243,7 @@ highlight('third.R',renderer=renderer_latex(document=F))
 %% only compiled once
 \begin{figure}[ht] 
 \centering
-<<third,echo=F,results=hide,fig=T,width=5,height=5>>=
+<<third,echo=F,results=hide,width=5,height=5>>=
 source('third.R')
 @
 \caption{Large size plot but still consistant. Also \LaTeX{} can be put directly into the titles of the plot which matches the style of your paper.  All $\backslash$'s must be escaped using this method.}

@@ -33,7 +33,8 @@ CHANGELOG=$(CHANGELOG_PATH)/ChangeLog
 EXAMPLE_TEX=$(EXAMPLE_PATH)/pgfSweave-example.tex
 EXAMPLE_PDF=$(EXAMPLE_PATH)/pgfSweave-example.pdf
 
-all: $(VIGNETTE_DUMMY_PDF) $(CHANGELOG)
+all: $(VIGNETTE_DUMMY_PDF) 
+	#$(CHANGELOG)
 
 $(VIGNETTE_DUMMY_PDF): $(VIGNETTE_DUMMY_RNW)
 	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave.Rnw; pdflatex pgfSweave.tex)
@@ -65,7 +66,6 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 
 $(VIGNETTE_SOURCE_PDF):
 	echo `pwd`
-	mkdir figs
 	$(EXEC_PATH)/pgfsweave-script.R pgfSweave-vignette-source.Rnw
 
 $(EXAMPLE_PDF):

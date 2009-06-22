@@ -6,10 +6,12 @@
 
 % \VignetteIndexEntry{The pgfSweave Package}
 % \VignetteDepends{pgfSweave}
+% \VignetteDepends{highlight}
+% \VignetteDepends{tikzDevice}
 
 \usepackage[nogin,noae]{Sweave}
 \usepackage[x11names]{xcolor}
-\usepackage{pgf}
+\usepackage{tikz}
 \usepackage[parfill]{parskip}
 \usepackage{fancyvrb}
 \usepackage[margin=1.1in]{geometry}
@@ -109,7 +111,7 @@ We'll start first with an example to entice you.  The following code chunk used 
 
 \begin{center}
 \beginpgfgraphicnamed{figs/fig-fancy}
-\input{figs/fig-fancy.pgf}
+\input{figs/fig-fancy.tikz}
 \endpgfgraphicnamed
 \end{center}
 
@@ -275,7 +277,7 @@ The default in \code{Sweave.sty} is to fix the width of every image to 80\% of t
 \end{Sinput}
 \end{Schunk}
 \beginpgfgraphicnamed{figs/fig-pgfSweave-hist}
-\input{figs/fig-pgfSweave-hist.pgf}
+\input{figs/fig-pgfSweave-hist.tikz}
 \endpgfgraphicnamed
 \caption{This is from \pkg{pgfSweave}.}\label{pgfSweave-hist}
 \end{minipage}
@@ -299,7 +301,7 @@ The example below illustrates some of the power of \pkg{pgfSweave}.  \LaTeX{} co
 \begin{figure}[ht] 
 \centering
 \beginpgfgraphicnamed{figs/fig-third}
-\input{figs/fig-third.pgf}
+\input{figs/fig-third.tikz}
 \endpgfgraphicnamed
 \caption{Large size plot but still consistant. Also \LaTeX{} can be put directly into the titles of the plot which matches the style of your paper.  All $\backslash$'s must be escaped using this method.}
 \end{figure}

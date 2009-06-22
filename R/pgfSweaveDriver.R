@@ -118,10 +118,11 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
 
 ## Add the 'pgf' and 'external' and 'pdflatex' option to the list
 pgfSweaveSetup <- function(file, syntax,
-                             output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
-                             eval=TRUE, split=FALSE, stylepath=TRUE, 
-                             pdf=FALSE, eps=FALSE, cache=FALSE, pgf=TRUE, 
-                             external=FALSE, tex.driver="pdflatex") {
+                            output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
+                            eval=TRUE, split=FALSE, stylepath=TRUE, 
+                            pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE, 
+                            tikz=TRUE, external=FALSE, tex.driver="pdflatex")
+{
 
         out <- utils::RweaveLatexSetup(file, syntax, output=NULL, quiet=FALSE,
                                        debug=FALSE, echo=TRUE, eval=TRUE,
@@ -135,6 +136,7 @@ pgfSweaveSetup <- function(file, syntax,
 
         ## The pgfSweave options [CWB]
         out$options[["pgf"]] <- pgf
+        out$options[["tikz"]] <- tikz
         out$options[["external"]] <- external
         out[["tex.driver"]] <- tex.driver
         ## end [CWB]
@@ -188,7 +190,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         if(options$fig){
                                 if(options$eps) cat(" eps")
                                 if(options$pdf) cat(" pdf")
-                                if(options$pgf | options$external) cat(" pgf")
+                                if(options$pgf) cat(" pgf")
+                                if(options$tikz | options$external) cat(" tikz")
                                 if(options$external) cat(" external")
                         }
                 }
@@ -415,7 +418,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 ## [CWB] adding checking for external options
                 pdfExists <- file.exists(paste(chunkprefix, "pdf", sep="."))
                 epsExists <- file.exists(paste(chunkprefix, "eps", sep="."))
-                if(options$eps & !options$pgf ){
+                if(options$eps & !options$pgf & !options$tikz){
                     if(!options$external | (chunkChanged | !epsExists) ){
                         
                             # [CWB] the useKerning option was added in R 2.9.0
@@ -448,7 +451,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         if(inherits(err, "try-error")) stop(err)
                     }
                 }
-                if(options$pdf & !options$pgf){
+                if(options$pdf & !options$pgf & !options$tikz){
                     if(!options$external | (chunkChanged | !pdfExists) ){
                         grDevices::pdf(file=paste(chunkprefix, 
                                                     "pdf", sep="."),
@@ -519,6 +522,18 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         if(inherits(err, "try-error")) stop(err)
                     }
                 }
+                if(options$tikz){
+                    if(chunkChanged | !pdfExists){
+                        tikzDevice::tikz(file=paste(chunkprefix, "tikz", sep="."),
+                                         width=options$width,
+                                         height=options$height)
+
+                        err <- try({SweaveHooks(options, run=TRUE)
+                                      eval(chunkexps, envir=.GlobalEnv)})
+                        grDevices::dev.off()
+                        if(inherits(err, "try-error")) stop(err)
+                    }
+                }
                 
                 if(options$external){
                         if( chunkChanged | !pdfExists && 
@@ -538,14 +553,17 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                         linesout[thisline + 1] <- srcline
                         thisline <- thisline + 1
                 } 
-                if(options$include && !options$pgf && !options$external) {
+                if(options$include && !options$pgf && !options$tikz && !options$external) {
                         cat("\\includegraphics{", chunkprefix, "}\n", sep="",
                             file=object$output, append=TRUE)
                         linesout[thisline + 1] <- srcline
                         thisline <- thisline + 1
                 }
-                if(options$include && options$pgf) {
-                        cat("\\input{", paste(chunkprefix,'pgf',sep='.'),
+                if(options$include && (options$pgf || options$tikz)) {
+                        #if tikz is TRUE or both tikz and pgf are true, 
+                        # use tikz, otherwise use pgf
+                        suffix <- ifelse(options$tikz,'tikz','pgf')
+                        cat("\\input{", paste(chunkprefix,suffix,sep='.'),
                             "}\n", sep="", file=object$output, append=TRUE)
                         linesout[thisline + 1] <- srcline
                         thisline <- thisline + 1
