@@ -11,30 +11,48 @@
 	#Requires a little finagling to change the path to the example files and 
 	#get rid of the \pgfrealjobname line
 
-rmpath={*,../../doc/*}
-rmsuffix={sh,map,aux,tex,log,pdf,dvi,in,fdb_latexmk}
-buildrmsuffix={log,aux,dvi,sh,map,fdb_latexmk}
+# Internal values
 
-all: ../../doc/pgfSweave.pdf ../../../ChangeLog
+DOC_PATH=../../doc/
+EXAMPLE_PATH=../../example/
+EXEC_PATH=../../../exec/
+CHANGELOG_PATH=../../../
 
-../../doc/pgfSweave.pdf: ../../doc/pgfSweave.Rnw
-	(cd ../../doc/ ; R CMD Sweave pgfSweave.Rnw; pdflatex pgfSweave.tex)
+RM_PATH={*,$(DOC_PATH)/*}
+RM_SUFFIX={sh,map,aux,tex,log,pdf,dvi,in,fdb_latexmk}
+BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk}
 
-../../doc/pgfSweave.Rnw: ../../example/pgfSweave-example.tex pgfSweave-vignette-source.pdf
+#
+VIGNETTE_SOURCE_PDF=pgfSweave-vignette-source.pdf
+
+VIGNETTE_DUMMY_PDF=$(DOC_PATH)/pgfSweave.pdf
+VIGNETTE_DUMMY_RNW=$(DOC_PATH)/pgfSweave.Rnw
+
+CHANGELOG=$(CHANGELOG_PATH)/ChangeLog
+
+EXAMPLE_TEX=$(EXAMPLE_PATH)/pgfSweave-example.tex
+EXAMPLE_PDF=$(EXAMPLE_PATH)/pgfSweave-example.pdf
+
+all: $(VIGNETTE_DUMMY_PDF) $(CHANGELOG)
+
+$(VIGNETTE_DUMMY_PDF): $(VIGNETTE_DUMMY_RNW)
+	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave.Rnw; pdflatex pgfSweave.tex)
+
+$(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	# Copy Sweave.sty
-	cp Sweave.sty ../../doc/
+	cp Sweave.sty $(DOC_PATH)/
 	# Copy all the figures
-	cp figs/*.pdf ../../doc/figs/
+	cp figs/*.pdf $(DOC_PATH)/figs/
 	# Copy the R code files
-	cp *.R ../../doc/
+	cp *.R $(DOC_PATH)/
 	# Copy all the example file to include but dont use .Rnw so they are not 
 	# recognised as another vignette 
-	cp -f ../../example/pgfSweave-example.Rnw \
-		  ../../doc/pgfSweave-example-Rnw.in
-	cp -f ../../example/pgfSweave-example.tex \
-		  ../../doc/pgfSweave-example-tex.in
-	cp -f ../../example/pgfSweave-example.pdf \
-		  ../../doc/pgfSweave-example.pdf
+	cp -f $(EXAMPLE_PATH)/pgfSweave-example.Rnw \
+		  $(DOC_PATH)/pgfSweave-example-Rnw.in
+	cp -f $(EXAMPLE_PATH)/pgfSweave-example.tex \
+		  $(DOC_PATH)/pgfSweave-example-tex.in
+	cp -f $(EXAMPLE_PATH)/pgfSweave-example.pdf \
+		  $(DOC_PATH)/pgfSweave-example.pdf
 	# Remove the pgfrealjobname command and the path to the example files since
 	# the new file will be in the same directory 
 	cat pgfSweave-vignette-source.tex \
@@ -45,24 +63,25 @@ all: ../../doc/pgfSweave.pdf ../../../ChangeLog
 			| sed 's/pgfSweave-example\.tex/pgfSweave-example-tex\.in/g' \
 			> ../../doc/pgfSweave.Rnw
 
-pgfSweave-vignette-source.pdf:
+$(VIGNETTE_SOURCE_PDF):
 	echo `pwd`
-	../../../exec/pgfsweave-script.R pgfSweave-vignette-source.Rnw
+	mkdir figs
+	$(EXEC_PATH)/pgfsweave-script.R pgfSweave-vignette-source.Rnw
 
-../../example/pgfSweave-example.tex:
-	(cd ../../example/ ; make)
+$(EXAMPLE_PDF):
+	(cd $(EXAMPLE_PATH)/ ; make)
 
 #Create the GNU ChangeLog from the svn log 
-../../../ChangeLog: 
-	(cd ../../../; inst/misc/svn2cl-0.11/svn2cl.sh)
+$(CHANGELOG): 
+	(cd $(CHANGELOG_PATH); inst/misc/svn2cl-0.11/svn2cl.sh)
 
 clean:
-	rm -rf cache figs/* Rplots.* $(rmpath).$(rmsuffix) \
-		../../doc/Sweave.sty ../../doc/*.Rnw ../../doc/figs/* tmp \
-		../../../ChangeLog
-	(cd ../../example/ ; make clean)
+	rm -rf cache figs/* Rplots.* $(RM_PATH).$(RM_SUFFIX) \
+		$(DOC_PATH)/Sweave.sty $(DOC_PATH)/*.Rnw $(DOC_PATH)/figs/* tmp \
+		$(CHANGELOG)
+	(cd $(EXAMPLE_PATH) ; make clean)
 
 cleanforbuild:
-	rm -rf cache figs/* Rplots.* $(rmpath).$(buildrmsuffix) \
-		./pgfSweave-vignette-source.tex ../../doc/pgfSweave-vignette.tex tmp
-	(cd ../../example/ ; make cleanforbuild)
+	rm -rf cache figs/* Rplots.* $(RM_PATH).$(BUILD_RM_SUFFIX) \
+		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave-vignette.tex tmp
+	(cd $(EXAMPLE_PATH) ; make cleanforbuild)
