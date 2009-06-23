@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 
-version <- '$Id$\n'
-usage <- "Usage: pgfsweave-script.R [options] file
+usage <- "Usage: R CMD pgfsweave [options] file
 
 A simple front-end for pgfSweave()
 
@@ -20,8 +19,12 @@ http://www.rforge.net/pgfSweave/ (for scm)
 http://r-forge.r-project.org/projects/pgfsweave/ (for precompiled packages)
 "
 
+x <- installed.packages()
+row <- which(row.names(x) == 'pgfSweave')
+col <- which(names(x[row,]) == 'Version')
+version <- paste('pgfSweave version: ',x[row,col],'\n')
+
 library(getopt)
-library(pgfSweave)
 
 #Column 3: Argument mask of the flag. An integer. Possible values: 
 # 0=no argument, 1=required argument, 2=optional argument. 
@@ -47,6 +50,13 @@ opt[['graphics-only']] <- ifelse(
 args <- commandArgs(TRUE)
 file <- args[length(args)]
 
+if(length(file) == 0) { 
+    cat('No input file.\n')
+    cat(usage) 
+    q(status=1) 
+}
+
+library(pgfSweave)
 cat('pgfsweave-script.R: using options:\n')
 print(opt)
 

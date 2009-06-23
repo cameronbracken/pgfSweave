@@ -1,0 +1,18 @@
+.PHONY : all
+
+all : cmdScript  $(SHLIB)
+
+cmdScript :
+	@echo "*******************************************"
+	@echo "Installing custom script in:"
+	@echo
+	@echo "$(R_HOME)/bin/"
+	@echo
+	@echo "For usage instructions:"
+	@echo 
+	@echo "R CMD pgfsweave --help"
+	@echo "*******************************************"
+	@echo
+	@chmod 755 ../exec/pgfsweave-script.R
+	@touch $(R_HOME)/bin/pgfsweave; rm $(R_HOME)/bin/pgfsweave
+	@ln -s $(R_PACKAGE_DIR)/exec/pgfsweave-script.R $(R_HOME)/bin/pgfsweave
