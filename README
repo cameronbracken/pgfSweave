@@ -1,60 +1,121 @@
 $Id$ 
 
 ABOUT:
-The pgfSweave package provides capabilities for “caching” graphics generated with Sweave.  Using pgfSweave, figure labels are converted to LaTeX strings so not only do they match the style of the document but math can be put in labels. pgfSweave provides a new driver for Sweave (pgfSweaveDriver) and new chunk options pgf and external on top of the cache option provided by cacheSweave. This package is built upon cacheSweave and therefore also Sweave.
+    The pgfSweave package provides capabilities for “caching” graphics 
+    generated with Sweave.  Using pgfSweave, figure labels are converted to 
+    LaTeX strings so not only do they match the style of the document but math 
+    can be put in labels. pgfSweave provides a new driver for Sweave 
+    (pgfSweaveDriver) and new chunk options pgf and external on top of the 
+    cache option provided by cacheSweave. This package is built upon 
+    cacheSweave and therefore also Sweave.
 
 
 TODO:
-* Add more examples to the vignette
-* More extensive testing with plain latex and with windows.
-* Figure out how to fill the environment variable $R_HOME in exec/pgfSweave
-* Figure out how to call the script exec/pgfSweave when using R CMD pgfSweave
-* Add option to copy Sweave.sty to the local directory, circumventing path issues on windows
-* Add options to access the noae and nogin options in Sweave.sty.  The logical thing for pgfSweave is to set nogin by default i.e. \usepackage[nogin]{Sweave}.
+    * Add more examples to the vignette
+    
+    * More extensive testing with plain latex and with windows.
+    
+    * Figure out how to fill the environment variable $R_HOME in 
+      exec/pgfSweave
+      
+    * Figure out how to call the script exec/pgfSweave when using R CMD 
+      pgfSweave
+      
+    * Add option to copy Sweave.sty to the local directory, circumventing path 
+      issues on windows
+      
+    * Add options to access the noae and nogin options in Sweave.sty.  The 
+      logical thing for pgfSweave is to set nogin by default i.e. 
+      \usepackage[nogin]{Sweave}.
 
 BUGS:
-* If java does not exist the compilation is reported as successful though the pgf file did not properly get created. 
-* Adding white space at the end of a code chunk causes all of the following code chunks to be registered as changed
-* A stray Rplots.pdf gets generated using caching. Not sure if this a cacheSweave or Sweave or a pgfSweave problem.  When using a gui interface a plotting window opens up.
+    * If java does not exist the compilation is reported as successful though 
+      the pgf file did not properly get created. 
+      
+    * Adding white space at the end of a code chunk causes all of the 
+      following code chunks to be registered as changed
+      
+    * A stray Rplots.pdf gets generated using caching. Not sure if this a 
+      cacheSweave or Sweave or a pgfSweave problem.  When using a gui 
+      interface a plotting window opens up.
 
-ISSUES (not serious bugs but things to note):
-* external=T only works if a single plot is generated with a single code chunk.  This is an issue with Sweave as well. The offered fix in Sweave is to cat() your own includegraphics commands.
-* Not all latex commands work in labels for example \scshape works but \textsc{} does not
-* Changing the width and height of a figure ONLY but not the code chunk does not register as a change and thus the code chunk will not recompile.
+ISSUES:
+    * external=T only works if a single plot is generated with a single code 
+      chunk.  This is an issue with Sweave as well. The offered fix in Sweave 
+      is to cat() your own includegraphics commands.
+      
+    * Not all latex commands work in labels for example \scshape works but 
+      \textsc{} does not
+      
+    * Changing the width and height of a figure ONLY but not the code chunk 
+      does not register as a change and thus the code chunk will not 
+      recompile.
 
 POSSIBLE NEW FEATURES:
-* pgf graphics device.
-* chunk dependency checking like weaver using codetools. 
-* Scrap Sweave.sty completely (since it is so short) just copy the few lines of LaTeX defining the Sweave environments into the tex file. 
-* Nicer LaTeX number formatting.
-* Follow \input and \include statements. 
-* Check for correct version of pgf.
-* Automatically add the \pgfrealjobname command if it is not already in the file like the Sweave style file is added when stylepath=TRUE.
-* When a pgf/TikZ graphic is included manually (not in a code chunk) add the commands to externalize into the graphics into the shell script that is created. This may need to be a separate function that gives the tex file a once over and checks if the pdf file exists corresponding to the name in \beginpgfgraphicnamed{name} or the corresponding TikZ externalization command. There are already scripts available on example to do stuff like this so maybe integration of one of those may be possible. 
-* Add support for TikZ externalization.  TikZ externalization library is more elegant and could provide more advanced options. Though this is not really necessary currently.
+    * pgf graphics device.
+    
+    * chunk dependency checking like weaver using codetools. 
+    
+    * Scrap Sweave.sty completely (since it is so short) just copy the few  
+      lines of LaTeX defining the Sweave environments into the tex file. 
+      
+    * Nicer LaTeX number formatting.
+    
+    * Follow \input and \include statements. 
+    
+    * Check for correct version of pgf.
+    
+    * Automatically add the \pgfrealjobname command if it is not already in 
+      the file like the Sweave style file is added when stylepath=TRUE.
+      
+    * When a pgf/TikZ graphic is included manually (not in a code chunk) add 
+      the commands to externalize into the graphics into the shell script that 
+      is created. This may need to be a separate function that gives the tex 
+      file a once over and checks if the pdf file exists corresponding to the 
+      name in \beginpgfgraphicnamed{name} or the corresponding TikZ 
+      externalization command. There are already scripts available on example 
+      to do stuff like this so maybe integration of one of those may be 
+      possible. 
+      
+    * Add support for TikZ externalization.  TikZ externalization library is    
+      more elegant and could provide more advanced options. Though this is not 
+      really necessary currently.
 
 RESOLVED (resolution in brackets):
-* [put path to latex distro in .Rprofile (see vignette faq)] latex/pdflatex is not found when using R.app (Mac OS X) unless path to pdflatex is hardcoded (but pgfSweave <file> works)
-* [This actually does work on windows if Rtools and MiKTeX are installed] Package currently generates a bash shell script to compile external graphics, which will obviously not work in windows.
-* [If pgf is TRUE it supercedes everything else] Using the 'pdf' option and 'external' option will conflict suggest using one or the other or possibly have a default when this is the case
-* [Use \usepackage[nogin]{Sweave}] output pdf size when included in document is refined by textwidth by default, need a feature to add the 'width' and 'height' and possibly and other option 'scale' the \includegraphics[width=,height=,scale=]{file}
-* [Elaborate make file created in inst/misc/vignette-source, run make then make cleanforbuild before uploading] Vignette does not compile with R CMD {check,build,install} because file is not normal Sweave (Solution for the final document may just be to save images separately and create a standard Sweave file). For now vignette moved to inst/doc/src.
+    * latex/pdflatex is not found when using R.app (Mac OS X) unless path to 
+      pdflatex is hardcoded (but pgfSweave <file> works)
+      [put path to latex distro in .Rprofile (see vignette faq)]
+      
+    * Package currently generates a bash shell script to compile external 
+      graphics, which will not work in windows.
+      [This actually does work on windows if Rtools and MiKTeX are installed]
+      
+    * Using the 'pdf' option and 'external' option will conflict suggest using 
+      one or the other or possibly have a default when this is the case
+      [If pgf is TRUE it supercedes everything else]
+      
+    * output pdf size when included in document is refined by textwidth by 
+      default, need a feature to add the 'width' and 'height' and possibly and 
+      other option 'scale' the \includegraphics[width=,height=,scale=]{file}
+      [Use \usepackage[nogin]{Sweave}]
+      
+    * Vignette does not compile with R CMD {check,build,install} because file 
+      is not normal Sweave (Solution for the final document may just be to 
+      save images separately and create a standard Sweave file). For now 
+      vignette moved to inst/doc/src.
+      [Elaborate make file created in inst/misc/vignette-source, run make then 
+      make cleanforbuild before uploading]
 
 DONE (old TODO items):
-* Documentation has a boatload of warnings under R CMD check.
-* [scrapped for now, write a pgf graphics device!] Figure out how to call eps2pgf.jar with the rJava package 
-* [shell script pgfSweave in exec/ will do the same but using R CMD is not possible withoud a rewrite of the Rcmd script] Determine the limitations R CMD pgfSweave.
-* [must use at least pgf 2.00] Determine if pgf 2.00 contains the external capabilities so that can be stated in the vignette and the documentation.
-
-POSSIBLE POST TO R-devel:
-I am writing a package that includes a shell script in the exec/ directory say "ABC".  This script is a wrapper to an R function "abc" which takes a file as an input.  I want to be able to use R CMD ABC <file> similar to Sweave.  It it possible to have R CMD search for a script that is not in R_HOME/bin?  
-
-From the other angle would it be possible to have a package install a script in R_HOME/bin? 
-
-I realize this would just be a convenience but
-
-echo "system('<file>')" | R --vanilla --slave
-or
-`R HOME`/library/mypackage/exec/ABC <file>
-
-are less desirable.  
+    * Documentation has a boatload of warnings under R CMD check.
+    
+    * Figure out how to call eps2pgf.jar with the rJava package 
+      [scrapped for now, write a pgf graphics device!]
+      
+    * Determine the limitations R CMD pgfSweave.
+      [shell script pgfSweave in exec/ will do the same but using R CMD is not 
+      possible withoud a rewrite of the Rcmd script]
+      
+    * Determine if pgf 2.00 contains the external capabilities so that can be 
+      stated in the vignette and the documentation.
+      [must use at least pgf 2.00]
