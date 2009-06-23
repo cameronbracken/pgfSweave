@@ -1,7 +1,6 @@
 \documentclass{article}
 
-%% R> library(pgfSweave)
-%% R> pgfSweave("pgfSweave-vignette-source.Rnw",pdf=T)
+%% $ R CMD pgfsweave pgfSweave-vignette-source.Rnw
 
 <<setup,echo=F>>=
 setCacheDir("cache")
@@ -10,6 +9,7 @@ library(highlight)
 
 % \VignetteIndexEntry{The pgfSweave Package}
 % \VignetteDepends{pgfSweave}
+% \VignetteDepends{highlight}
 
 \usepackage[nogin,noae]{Sweave}
 \usepackage[x11names]{xcolor}

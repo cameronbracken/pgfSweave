@@ -1,7 +1,0 @@
-.PHONY : all
-
-all : cmdScript  $(SHLIB)
-
-cmdScript :
-	chmod 755 ../exec/pgfsweave-script.R
-	ln -s $(R_PACKAGE_DIR)/exec/pgfsweave-script.R $(R_HOME)/bin/pgfsweave
