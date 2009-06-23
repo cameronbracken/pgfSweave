@@ -28,6 +28,7 @@ TODO:
       logical thing for pgfSweave is to set nogin by default i.e. 
       \usepackage[nogin]{Sweave}.
 
+
 BUGS:
     * If java does not exist the compilation is reported as successful though 
       the pgf file did not properly get created. 
@@ -38,6 +39,7 @@ BUGS:
     * A stray Rplots.pdf gets generated using caching. Not sure if this a 
       cacheSweave or Sweave or a pgfSweave problem.  When using a gui 
       interface a plotting window opens up.
+
 
 ISSUES:
     * external=T only works if a single plot is generated with a single code 
@@ -50,6 +52,7 @@ ISSUES:
     * Changing the width and height of a figure ONLY but not the code chunk 
       does not register as a change and thus the code chunk will not 
       recompile.
+
 
 POSSIBLE NEW FEATURES:
     * pgf graphics device.
@@ -81,6 +84,7 @@ POSSIBLE NEW FEATURES:
       more elegant and could provide more advanced options. Though this is not 
       really necessary currently.
 
+
 RESOLVED (resolution in brackets):
     * latex/pdflatex is not found when using R.app (Mac OS X) unless path to 
       pdflatex is hardcoded (but pgfSweave <file> works)
@@ -105,6 +109,7 @@ RESOLVED (resolution in brackets):
       vignette moved to inst/doc/src.
       [Elaborate make file created in inst/misc/vignette-source, run make then 
       make cleanforbuild before uploading]
+
 
 DONE (old TODO items):
     * Documentation has a boatload of warnings under R CMD check.
