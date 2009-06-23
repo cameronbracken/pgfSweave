@@ -14,12 +14,6 @@ TODO:
     * Add more examples to the vignette
     
     * More extensive testing with plain latex and with windows.
-    
-    * Figure out how to fill the environment variable $R_HOME in 
-      exec/pgfSweave
-      
-    * Figure out how to call the script exec/pgfSweave when using R CMD 
-      pgfSweave
       
     * Add option to copy Sweave.sty to the local directory, circumventing path 
       issues on windows
@@ -52,8 +46,6 @@ ISSUES:
       recompile.
 
 POSSIBLE NEW FEATURES:
-    * pgf graphics device.
-    
     * chunk dependency checking like weaver using codetools. 
     
     * Scrap Sweave.sty completely (since it is so short) just copy the few  
@@ -107,6 +99,19 @@ RESOLVED (resolution in brackets):
       make cleanforbuild before uploading]
 
 DONE (old TODO items):
+
+    * pgf graphics device.
+      [Started tikzDevice on r-forge]
+
+    * Figure out how to fill the environment variable $R_HOME in 
+      exec/pgfSweave
+      [Irrelevant now, see next item]
+
+    * Figure out how to call the script exec/pgfSweave when using R CMD 
+      pgfSweave
+      [Used a Makevars file to create symlink in $RHOME/bin, basically 
+      a much simplified version of Charlie's method]
+      
     * Documentation has a boatload of warnings under R CMD check.
     
     * Figure out how to call eps2pgf.jar with the rJava package 
