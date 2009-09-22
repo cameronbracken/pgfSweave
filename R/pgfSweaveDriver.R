@@ -427,7 +427,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                             # used. Check will break for R version 1.9, but I
                             # suppose someone using that version will have
                             # bigger problems.
-                        if(R.Version()$major <= 2 && R.Version()$minor <= 9.0)
+                        if(getRversion() < "2.9.0")
                             grDevices::postscript(file = paste(chunkprefix, 
                                                                 "eps", 
                                                                 sep="."),
@@ -487,7 +487,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                             # used. Check will break for R version 1.9, but I
                             # suppose someone using that version will have
                             # bigger problems. 
-                        if(R.Version()$major <= 2 && R.Version()$minor < 9.0)
+                        if(getRversion() < "2.9.0")
                             grDevices::postscript(file = paste(chunkprefix, 
                                                                 "eps", 
                                                                 sep="."),

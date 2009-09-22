@@ -22,7 +22,7 @@ http://r-forge.r-project.org/projects/pgfsweave/ (for precompiled packages)
 x <- installed.packages()
 row <- which(row.names(x) == 'pgfSweave')
 col <- which(names(x[row,]) == 'Version')
-version <- paste('pgfSweave version: ',x[row,col],'\n')
+ver <- paste('pgfSweave version: ',x[row,col],'\n')
 
 library(getopt)
 
@@ -40,7 +40,7 @@ opt <- try(getopt(optspec),silent=TRUE)
 if(class(opt) == 'try-error') opt <- list()
 
 if( !is.null(opt$help    )) { cat(usage); q(status=1) }
-if( !is.null(opt$version )) { cat(version); q(status=1) }
+if( !is.null(opt$version )) { cat(ver); q(status=1) }
 opt$dvi <- ifelse(is.null(opt$dvi), FALSE, TRUE )
 opt[['pgfsweave-only']] <- ifelse(
                             is.null(opt[['pgfsweave-only']]), FALSE, TRUE )
