@@ -5,7 +5,10 @@ Please see the README directory for development info
 --------------------------
 Version 1.0 - 2009-09-21
 --------------------------
-* 
+* The new package tikzDevice is now used by default instead of eps2pgf.  The 
+  pgf option is still available but the use of tikzDevice is reccommended.
+* Updates to the vignette
+* Scrapped ChangeLog
 
 --------------------------
 Version 0.7.1 - 2009-04-30
