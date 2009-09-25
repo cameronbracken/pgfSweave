@@ -196,7 +196,7 @@ The option \code{tex.driver} not very well publicized, but it controls which eng
 \subsubsection{Compilation Time}
 The conjunction of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 
 
-\subsection{A complete example}
+\subsection{A Complete Example}
 At this point we will provide a complete example.  The example from the \pkg{Sweave} manual is used to highlight the differences. The two frame below show the input Sweave file \texttt{pgfSweave-example.Rnw} and the resulting tex file \texttt{pgfSweave-example.tex}.
 
 \VerbatimInput[frame=single,label={pgfSweave-example.Rnw},labelposition=all]{../../example/pgfSweave-example.Rnw}
@@ -299,7 +299,7 @@ b <- a * .4 * rnorm(100, sd = 0.8)
 fit <- lm(b ~ a)
 @
 
- In Figure \ref{normalSweave}, notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In figure \ref{pgfSweave-hist} the text is consistent with the rest of the document.
+ In Figure \ref{normalSweave}, notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In Figure \ref{pgfSweave-hist} and \ref{pgfSweave-tikz-hist}the text is consistent with the rest of the document.
 
 \begin{figure}[!ht]
 \begin{minipage}{.45\linewidth}
@@ -328,7 +328,7 @@ hist(rnorm(10000))
 <<pgfSweave-tikz-hist,echo=F,width=3,height=3>>=
 hist(rnorm(10000))
 @
-\caption{This is from \pkg{pgfSweave} with the \code{tikz} option.}\label{pgfSweave-hist}
+\caption{This is from \pkg{pgfSweave} with the \code{tikz} option.}\label{pgfSweave-tikz-hist}
 \end{figure}
 
 

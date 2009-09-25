@@ -37,7 +37,8 @@ significantly from month to month. Finally we include a boxplot of the data:
 		xlab='Month',ylab='Concentration')
 		
 @
-\caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the font of the document.}
+\caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the
+ font of the document.}
 \end{figure}
 
 

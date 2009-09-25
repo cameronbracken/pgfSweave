@@ -28,13 +28,10 @@ VIGNETTE_SOURCE_PDF=pgfSweave-vignette-source.pdf
 VIGNETTE_DUMMY_PDF=$(DOC_PATH)/pgfSweave.pdf
 VIGNETTE_DUMMY_RNW=$(DOC_PATH)/pgfSweave.Rnw
 
-CHANGELOG=$(CHANGELOG_PATH)/ChangeLog
-
 EXAMPLE_TEX=$(EXAMPLE_PATH)/pgfSweave-example.tex
 EXAMPLE_PDF=$(EXAMPLE_PATH)/pgfSweave-example.pdf
 
 all: $(VIGNETTE_DUMMY_PDF) 
-	#$(CHANGELOG)
 
 $(VIGNETTE_DUMMY_PDF): $(VIGNETTE_DUMMY_RNW)
 	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave.Rnw; pdflatex pgfSweave.tex)
@@ -44,8 +41,6 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	cp Sweave.sty $(DOC_PATH)/
 	# Copy all the figures
 	cp figs/*.pdf $(DOC_PATH)/figs/
-	# Copy the R code files
-	cp *.R $(DOC_PATH)/
 	# Copy all the example file to include but dont use .Rnw so they are not 
 	# recognised as another vignette 
 	cp -f $(EXAMPLE_PATH)/pgfSweave-example.Rnw \
@@ -70,10 +65,6 @@ $(VIGNETTE_SOURCE_PDF):
 
 $(EXAMPLE_PDF):
 	(cd $(EXAMPLE_PATH)/ ; make)
-
-#Create the GNU ChangeLog from the svn log 
-$(CHANGELOG): 
-	(cd $(CHANGELOG_PATH); inst/misc/svn2cl-0.11/svn2cl.sh)
 
 clean:
 	rm -rf cache figs/* Rplots.* $(RM_PATH).$(RM_SUFFIX) \
