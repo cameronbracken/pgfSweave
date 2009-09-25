@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage{pgf}
+\usepackage{tikz}
 \usepackage[margin=1in]{geometry}
 \pgfrealjobname{pgfSweave-example}
 \title{Minimal pgfSweave Example}
@@ -18,7 +18,6 @@ the pgfSweave vignette for more usage instructions.
 We embed parts of the examples from the \texttt{kruskal.test} help page 
 into a \LaTeX{} document:
 
-%notice the new options
 \begin{Schunk}
 \begin{Sinput}
 > data(airquality)
@@ -32,10 +31,11 @@ significantly from month to month. Finally we include a boxplot of the data:
 \setkeys{Gin}{width=4in} 
 \begin{figure}[!ht]
 \centering
+%notice the new options
 \beginpgfgraphicnamed{pgfSweave-example-boxplot}
-\input{pgfSweave-example-boxplot.pgf}
+\input{pgfSweave-example-boxplot.tikz}
 \endpgfgraphicnamed
-\caption{This is from pgfSweave. Label sizes are independent of figure scaling.}
+\caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the font of the document.}
 \end{figure}
 
 

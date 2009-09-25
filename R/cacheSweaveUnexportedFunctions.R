@@ -1,8 +1,8 @@
 ######################################################################
 ## These functions are directly copied from the cacheSweave package.
 ## The reason they are copied here is because they are internal functions
-## and hence are not exported into the global environment. The original 
-## comments and header are preserved.
+## and hence are not exported into the global environment.  Some functions ## are also hacked a little, which is the reason the ::: operator is not 
+## used. The  original comments and header are preserved.
 
 
 
@@ -165,15 +165,17 @@ writeChunkMetadata <- function(object, chunk, options) {
         ## Capture figure filenames; default to PDF, otherwise use EPS.
         ## Filenames are <chunkprefix>.<extenstion>, which could change in
         ## the future depending on Sweave implementation details
-        ## [CWB] added pgf extension.
+        ## [CWB] added pgf and tikz extension.
         figname <- ""
         if(options$fig && options$eval) {
                 figname <- if(options$pdf)
                         paste(chunkprefix, "pdf", sep = ".")
                 else if(options$eps)
                         paste(chunkprefix, "eps", sep = ".")
-                else if(options$pgf | options$external)
+                else if(options$pgf)
                         paste(chunkprefix, "pgf", sep = ".")
+                else if(options$tikz)
+                        paste(chunkprefix, "tikz", sep = ".")
                 else
                         ""
         }

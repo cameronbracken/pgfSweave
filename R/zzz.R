@@ -1,5 +1,5 @@
 .onLoad <- function(lib, pkg) {
-        pkgList <- c("filehash", "stashR")
+        pkgList <- c("filehash", "stashR", "cacheSweave", "tikzDevice")
         
         for(pkg in pkgList) {
                 status <- suppressMessages({
