@@ -2,10 +2,10 @@
 \alias{pgfSweave}
 \alias{pgfSweave-package}
 
-\title{Extending the functionality of cacheSweave to include quality speedy graphics compilation}
+\title{Quality graphics and speedy compilation for Sweave}
 
 \description{
-The package \pkg{cacheSweave} provides a convenient way for speeding up compilation of \code{Sweave} documents which include computationally intensive code chunks.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver()} and new chunk options \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  The \code{pgfSweave()} function is provided to simplify the extra compliation steps needed in the \pkg{pgfSweave} process.
+The package \pkg{cacheSweave} provides a convenient way for speeding up compilation of \code{Sweave} documents which include computationally intensive code chunks.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver()} and new chunk options \code{tikz}, \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  The \code{pgfSweave()} function is provided to simplify the extra compliation steps needed in the \pkg{pgfSweave} process.
 }
 
 \usage{
@@ -24,15 +24,15 @@ This package provides new features beyond \code{\link[cacheSweave]{cacheSweave}}
 	\enumerate{
 		\item better recognition of code chunk changes 
 		\item the 'caching' of code chunks which generate graphics and 
-		\item the generation of graphics in which the font matches that of the main document. This functionality is achieved using the eps2pgf utility and the external graphics feature in the TeX package pgf.
+		\item an interface to the tikzDevice package and the eps2pgf utility for the generation of graphics in which the font matches that of the main document.
 }
 
 The process carried out by \code{pgfSweave} involves:
 \itemize{
 	\item Running \code{Sweave} on the .Rnw file using \code{pgfSweaveDriver} function.
-	\item Generating a pgf file from each newly created or changed graphic using the eps2pgf utility.  
+	\item Generating a graphics file from each newly created or changed graphic.  
 	\item Running the pgf externalization commands for each newly generated graphic.
-	\item Finally running \code{LaTeX} with on the .tex file with using the real job name.
+	\item Finally running \code{LaTeX} with on the .tex file using the real job name.
 }
 
 For more details see the \pkg{pgfSweave} package vignette.
@@ -70,6 +70,7 @@ pgf manual externalization section: \url{http://sourceforge.net/projects/pgf/}
 \seealso{
 \code{\link{pgfSweaveDriver}}, 
 \code{\link{Sweave}}, 
+\code{\link[tikzDevice]{tikzDevice}}
 \code{\link[cacheSweave]{cacheSweave}}
 }
 
@@ -88,6 +89,8 @@ setwd(oldcwd)
 \dontrun{
 ## Normally to compile to PDF by  
 #    pgfSweave("pgfSweave-example.Rnw",pdf=T) 
+# or
+# R CMD pgfsweave pgfSweave-example.Rnw
 ## which calls texi2dvi 
 #ifdef unix
 ## NOTE: LaTeX may not be included in your path by default when using the R GUI, please see the FAQ in the pgfSweave manual if your latex or pdflatex are not found.
