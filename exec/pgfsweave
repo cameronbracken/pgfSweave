@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script is depreciated in favor of pgfsweave-script.R which is easier to maintain
+
 revision='$Id$'
 version="pgfSweave package ${revision}"
 
