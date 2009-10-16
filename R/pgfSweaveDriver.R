@@ -326,7 +326,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
                 ##       was changed or not. This was an ititial attempt to 
                 ##       improve cacheSweave''s  recognition of chages in a
                 ##       code chunk though it is defunct now.
-                chunkChanged <- err$chunkChanged
+                chunkChanged <- FALSE#err$chunkChanged
                 err <- err$err
                 ## [CWB] end
                 ## [RDP] end change
