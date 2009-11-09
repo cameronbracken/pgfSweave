@@ -54,7 +54,7 @@ pgf manual externalization section: \url{http://sourceforge.net/projects/pgf/}
 \note{ 
 	\itemize{
 		\item Assuming \code{compile.tex=TRUE} the function will issue any system commands needed to ``externalize'' the pgf graphics.  To take advantage of the speedup, set \code{external=TRUE} on every code chunk that creates a plot.  
-		\item the command \code{\pgfrealjobname{myfile}} MUST in the header of your \code{LaTeX} file for the external graphics capablities.
+		\item the command \\\code{pgfrealjobname{myfile}} MUST in the header of your \code{LaTeX} file for the external graphics capablities.
 }
 }
 
@@ -68,7 +68,7 @@ pgf manual externalization section: \url{http://sourceforge.net/projects/pgf/}
 \author{Cameron Bracken \email{cameron.bracken@gmail.com} and Charlie Sharpsteen }
 
 \seealso{
-\code{\link{pgfSweaveDriver}}, 
+\code{\link[pgfSweave]{pgfSweaveDriver}}, 
 \code{\link{Sweave}}, 
 \code{\link[tikzDevice]{tikzDevice}}
 \code{\link[cacheSweave]{cacheSweave}}

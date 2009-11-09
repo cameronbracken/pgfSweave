@@ -27,7 +27,7 @@ pgfSweaveSetup(file, syntax,
     \item{stylepath}{See \code{\link{RweaveLatex}}}
     \item{pdf}{See \code{\link{RweaveLatex}}. Note the default is changed to \code{FALSE}}
     \item{eps}{See \code{\link{RweaveLatex}}. Note the default is changed to \code{FALSE}}
-    \item{cache}{See \code{\link[cacheSweaveDriver]{cacheSweaveDriver}}}
+    \item{cache}{See \code{\link[cacheSweave]{cacheSweaveDriver}}}
     \item{tikz}{Set default for option \code{tikz}, see details below.}
     \item{pgf}{Set default for option \code{pgf}, see details below.}
     \item{external}{Set default for option \code{external}, see details below.}
@@ -42,9 +42,9 @@ To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as t
 	
 	\item{external}{ Use the graphics externalization feature of the TeX package pgf.  Once a graphic is created, a code chunk is not evaluated again until changes are made.  Essentially the graphic is ``cached'' (defaults to \code{FALSE}).}
 
-	\item{\code{tikz}}{ Generate a TikZ commands in a \code{.tikz} file with the \pkg{tikzDevice} package for inclusion with \code{\input{graphic.tikz}} this takes the place of an \code{\includegraphics} statement. This will cause the font in the graphic to match that of the main document. (defaults to \code{TRUE}). We recommend using this option over the \code{pgf} option for both speed and text consistancy (the \code{pgf}) option will strip text formatting such as boldface.}
+	\item{\code{tikz}}{ Generate a TikZ commands in a \code{.tikz} file with the \pkg{tikzDevice} package for inclusion with \\\code{input\{graphic.tikz\}} this takes the place of an \\\code{includegraphics} statement. This will cause the font in the graphic to match that of the main document. (defaults to \code{TRUE}). We recommend using this option over the \code{pgf} option for both speed and text consistancy (the \code{pgf}) option will strip text formatting such as boldface.}
 	
-	\item{\code{pgf}}{ Generate an eps file and use the eps2pgf utility to generate a pgf graphic for inclusion with \code{\input{graphic.pgf}} thi takes the place of an \code{\includegraphics} statement. The \code{-m directcopy} option is used so that LaTeX code can be directly used in titles (see the eps2pgf manual, \url{http://sourceforge.net/projects/eps2pgf/}).  This also causes the font in the graphic to match that of the main document. (defaults to \code{FALSE})}
+	\item{\code{pgf}}{ Generate an eps file and use the eps2pgf utility to generate a pgf graphic for inclusion with \\\code{input{graphic.pgf}} thi takes the place of an \\\code{includegraphics} statement. The \code{-m directcopy} option is used so that LaTeX code can be directly used in titles (see the eps2pgf manual, \url{http://sourceforge.net/projects/eps2pgf/}).  This also causes the font in the graphic to match that of the main document. (defaults to \code{FALSE})}
 	
 	\item{\code{tex.driver}}{ A character string giving the LaTeX driver to use for compiling external graphics (defaults to ``pdflatex'') }
 	
@@ -67,7 +67,7 @@ cacheSweave vignette: \url{http://cran.r-project.org/web/packages/cacheSweave/vi
 
 \note{ 
     \itemize{
-    	\item For myfile.Rnw, Make sure to call the command \code{\pgfrealjobname{myfile}} in the \LaTeX{} header.
+    	\item For myfile.Rnw, Make sure to call the command \\\code{pgfrealjobname\{myfile\}} in the LaTeX header.
     	\item Calling \code{\link[pgfSweave]{pgfSweave}} with \code{compile.tex=FALSE} is equivalent to directly calling Sweave.  
     	\item To obtain the speedup from using pgf external graphics be sure to set \code{external=TRUE} on all code chunks which generate a plot. The default code options for the driver are \code{pdf=FALSE}, \code{eps=FALSE}, \code{tikz=TRUE}, \code{pgf=FALSE}, \code{external=FALSE}.
     }
@@ -76,7 +76,7 @@ cacheSweave vignette: \url{http://cran.r-project.org/web/packages/cacheSweave/vi
 
 \seealso{
 \code{\link[pgfSweave]{pgfSweave}},  
-\code{\link[pgfSweaveDriver]{pgfSweaveDriver}}, 
+\code{\link{pgfSweaveDriver}}, 
 \code{\link[cacheSweave]{cacheSweave}}, 
 \code{\link{Sweave}}, 
 \code{\link[tikzDevice]{tikzDevice}}
