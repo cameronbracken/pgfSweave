@@ -44,25 +44,34 @@ if(!file.exists('figs')) dir.create('figs')
 \end{center}
 
 
-The \pkg{pgfSweave} is about {\color{SteelBlue1}speed} and {\color{Sienna1}style}.  For {\color{SteelBlue1}speed}, the package provides capabilities for ``caching'' graphics generated with \pkg{Sweave} on top of the caching funcitonality of \pkg{cacheSweave}\footnote{\url{http://cran.r-project.org/web/packages/cacheSweave/index.html}}.  For {\color{Sienna1}style} The \pkg{pgfSweave} package also facilitates the use of the \pkg{tikzDevice}\footnote{\url{http://cran.r-project.org/web/packages/tikzDevice/index.html}} package and \pkg{eps2pgf}\footnote{\url{http://sourceforge.net/projects/eps2pgf/}} utility.  Using these tools figure labels are converted to \LaTeX{} strings so not only do they match the style of the document but \LaTeX{} math symbols/equations can be put in labels.  
+The \pkg{pgfSweave} package is about {\color{SteelBlue1}speed} and {\color{Sienna1}style}.  For {\color{SteelBlue1}speed}, the package provides capabilities for ``caching'' graphics generated with \pkg{Sweave} on top of the caching funcitonality of \pkg{cacheSweave}\footnote{\url{http://cran.r-project.org/web/packages/cacheSweave/index.html}}.  For {\color{Sienna1}style} the \pkg{pgfSweave} package facilitates the integration of \lang{R} graphics with \LaTeX\ reports through the \pkg{tikzDevice}\footnote{\url{http://cran.r-project.org/web/packages/tikzDevice/index.html}} package and \pkg{eps2pgf}\footnote{\url{http://sourceforge.net/projects/eps2pgf/}} utility.  With these tools, figure labels are converted to \LaTeX{} strings so they match the style of the document and the full range of \LaTeX{} math symbols/equations are available.  
 
-The backbone of \pkg{pgfSweave} is a a new driver for \pkg{Sweave} (\code{pgfSweaveDriver}). The driver provides new chunk options \code{tikz}, \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package started as a fork of \pkg{cacheSweave}. This document highlights the features and usage of \pkg{pgfSweave}.  This document assumes familiarity with \pkg{Sweave}.  
+The backbone of \pkg{pgfSweave} is a a new driver for \pkg{Sweave} (\code
+{pgfSweaveDriver}). The driver provides new chunk options \code{tikz}, \code{pgf} and \code
+{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package 
+started as a fork of \pkg{cacheSweave}. This document highlights the features and usage of 
+\pkg{pgfSweave}.  This document assumes familiarity with \pkg{Sweave}.  
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{Motivation and Background} 
 
-\pkg{Sweave} is a tool for generating ``reproducible'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  The problem of performing lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include \pkg{cacheSweave} and the \pkg{weaver}\footnote{\url{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}}.  Specifically these packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\url{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provides significant speedup of most computations, namely those which create objects in the global environment.
+\pkg{Sweave} is a tool for generating ``reproducible research'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  For small projects, this approach works well.  For large papers or projects, heavy data analysis or computation can cause document compilation times that are unacceptable.  The problem of performing lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include the \pkg{cacheSweave} and \pkg{weaver}\footnote{\url{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}} packages.  These packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\url{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provide significant speedup for most \pkg{Sweave} documents, namely those which create objects in the global environment.
 
 The existing methods have some drawbacks:
+
 \begin{enumerate} 
-\item Plots are not cached (since plots does not create objects in the global environment). If a plot takes a long time to generate, the same problem exists as when lengthy computations are present.  Idealy we would like to reuse a plot if the code that generated it has not changed. 
+\item Plots are not cached (since plots do not generally create objects in the global environment). If a plot takes a long time to generate, the same problem exists as when lengthy computations are present.  Ideally we would like to reuse a plot if the code that generated it has not changed. 
 \item Consistency in style (font, point size) in automatically generated graphics is difficult to achieve.  The default font and point size in \lang{R} does not match \LaTeX{} very well and getting this to match precisely is tricky business.  The previously mentioned tools, \pkg{tikzDevice} and \pkg{eps2pgf}, counter this but using them with \pkg{Sweave} manually can be cumbersome.
 \end{enumerate}
 
-The \pkg{pgfSweave} package addresses these drawbacks.  The so called ``caching'' of plots is achieved with the help of three tools: the \TeX{} package \pkg{PGF}\footnote{\url{http://sourceforge.net/projects/pgf/}}  and either the command line utility \pkg{eps2pgf} or the \lang{R} package \pkg{tikzDevice}.  When we refer to the ``caching'' of a graphic we mean that if the code chunk which generated the graphic is unchanged, an image included from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf} provides the ability to ``externalize graphics.''  The effect of externalization is that graphics get extracted and compiled separately, saving the time of compilation.  The externalization chapter in the \pkg{PGF/Ti\textit{k}Z} manual is extremely well written, so please look there for more information.   Exteralization plus some clever checking on the part of \pkg{pgfSweave} makes up the chaching mechanism.  
+The \pkg{pgfSweave} package addresses these drawbacks.  The so called ``caching'' of plots is achieved with the help of three tools: the \TeX{} package \pkg{PGF}\footnote{\url{http://sourceforge.net/projects/pgf/}}  and either the command line utility \pkg{eps2pgf} or the \lang{R} package \pkg{tikzDevice}.  When we refer to the ``caching'' of a graphic we mean that if the code chunk which generated the graphic is unchanged, an image included from a file rather than regenerated from the code.  The \TeX{} package \pkg{pgf} provides the ability to ``externalize graphics.''  The effect of externalization is that graphics get extracted and compiled separately, saving time on subsequent compilations.  The externalization chapter in the \pkg {PGF/Ti\textit{k}Z} manual is extremely well written, and we refer the interested user there for more information.  Externalization plus some clever checking on the part of \pkg{pgfSweave} makes up the caching mechanism.  
 
-The plot style consistancy drawback is adressed by the handy options \code{tikz} and \code{pgf} which allow for graphics to be output in these formats. Again, it is possible to do this manualy but the chunk options make things easier. 
+The plot style consistency drawback is addressed by the handy options \code{tikz} and \code
+{pgf} which allow for graphics to be output in these formats. Again, it is possible to do this 
+manually but the chunk options make things easier. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,13 +88,15 @@ That should be it for any *nix or Mac OS X system.
 
 \subsection{Windows specific requirements}
 
-The \pkg{pgfSweave} package can work on windows with some special care.  First of all it is strongly recommendeed that you install R in in a location that does not have spaces in its path name such as \texttt{C:$\backslash$R}.  This will save you much grief when using \pkg{Sweave}. Other wise do the following in the order listed. 
+The \pkg{pgfSweave} package can work on Windows with some special care.  First of all it is strongly recommended that R be installed in a location that does not have spaces in its path name such as \texttt{C:$\backslash$R}.  This will save much grief when using \pkg{Sweave}. In addition, do the following in the order listed. 
+
 \begin{enumerate}
 \item Install Java. 
 \item Install MiK\TeX{}. 
 \item Upgrade to or install PGF 2.0 if not already done. 
 \item Install Rtools\footnote{\url{http://www.murdoch-sutherland.com/Rtools/}}. Make sure to allow the Rtools installer to modify your PATH.  
 \end{enumerate}
+
 If everything is set up correctly, the commands \code{java} and \code{pdflatex} or \code{latex} should be available at the command prompt.    
 
 
@@ -97,7 +108,8 @@ If everything is set up correctly, the commands \code{java} and \code{pdflatex} 
 We assume a familiarity with the usage of \pkg{Sweave}, for more information see the \pkg{Sweave} manual.\footnote{\url{http://www.stat.uni-muenchen.de/~leisch/Sweave/Sweave-manual.pdf}}  This section will explain the usage of the \code{tikz}, \code{pgf} and \code{external} options and then provide a complete example.
 
 \subsection{The \code{tikz} option}
-The first new code chunk option, \code{tikz}, acts the same as the \code{pdf} or \code{eps} options but instead of resulting in an \code{$\backslash$includegraphics\{\}} statement the result is an \code{$\backslash$input\{\}} statement. Consider the following code:
+The first new code chunk option, \code{tikz}, acts the same as the \code{pdf} or \code{eps} options but instead of resulting in an \code{$\backslash$includegraphics\{\}} statement the 
+esult is an \code{$\backslash$input\{\}} statement. Consider the following code:
 
 \begin{minipage}[!ht]{.5\linewidth}
 Input:
@@ -154,13 +166,12 @@ Output:
 \end{minipage}
 
 \vspace{.5cm}
-The \code{.pgf} file is generated with the \pkg{eps2pgf} utility. The \code{postscript} graphics device is used first to generate a \code{.eps} file.  Then the command
-\begin{verbatim}$ java -jar /path/to/eps2pgf.jar -m directcopy graphic.eps\end{verbatim}
-is run on every code chunk that has \code{fig=TRUE} and \code{pgf=TRUE}.  We do not reccommend using this option in favor of the \code{tikz} option.  Using the \code{pgf} option involves two creation steps instead of one and it strips the \lang{R} text styles (such as boldface).
+
+The \code{.pgf} file is generated with the \pkg{eps2pgf} utility. The \code{postscript} graphics device is used first to generate a \code{.eps} file.  Then the command \begin{verbatim}$ java -jar /path/to/eps2pgf.jar -m directcopy graphic.eps\end{verbatim} is run on every code chunk that has \code{fig=TRUE} and \code{pgf=TRUE}.  We do not  recommend using this option in favor of the \code{tikz} option.  Using the \code{pgf} option  involves two creation steps instead of one and it strips the \lang{R} text styles (such as boldface).
 
 \subsection{The \code{external} option}
 
-The external option is the interface to the graphics caching machanism in \pkg{pgfSweave}. This option wil wrap your graphics output in \code{$\backslash$beginpgfgraphicnamed} and \code{$\backslash$endpgfgraphicnamed}.
+The external option is the interface to the graphics caching mechanism in \pkg{pgfSweave}. This option will wrap your graphics output in \code{$\backslash$beginpgfgraphicnamed} and \code{$\backslash$endpgfgraphicnamed}.
 
 \begin{minipage}[!ht]{.55\linewidth}
 Input:
@@ -191,15 +202,15 @@ Output:
  When a graphic is newly created or when it has changed, \pkg{pgfSweave} will generate a command for externalizing that graphic in the shell script \code{$<$filename$>$.sh}.  This follows the process outlined in the externalization section of the pgf manual.  After the \pkg{Sweave} process is done the externalization commands are run.  This will create separate image files for each graphic. On later compilations this image file will simply be included instead of being regenerated.   {\color{red}NOTE:} \code{$\backslash$pgfrealjobname\{$<$basefilename$>$\}} in the header of your document otherwise externalization will not work!  For example if you document is \code{main.Rnw} then your header should contain the line \code{$\backslash$pgfrealjobname\{main\}}. Did we mention you should read the pgf manual? 
  
 \subsubsection{The Externalization Driver}
-The option \code{tex.driver} not very well publicized, but it controls which engine (\LaTeX{},PDF\LaTeX{}, Xe\LaTeX{}) is used.  This way, the externalization feature can be used to genrate eps and pdf external files. 
+The option \code{tex.driver} not very well publicized, but it controls which engine (\LaTeX{},PDF\LaTeX{}, Xe\LaTeX{}) is used.  This way, the externalization feature can be used to generate eps and pdf external files. 
 
 \subsubsection{Compilation Time}
-The conjunction of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 
+The combination of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 
 
 \subsection{A Complete Example}
-At this point we will provide a complete example.  The example from the \pkg{Sweave} manual is used to highlight the differences. The two frame below show the input Sweave file \texttt{pgfSweave-example.Rnw} and the resulting tex file \texttt{pgfSweave-example.tex}.
+At this point we will provide a complete example.  The example from the \pkg{Sweave} manual is used to highlight the differences. The two frame below show the input Sweave file \texttt{pgfSweave-example-Rnw.in} and the resulting tex file \texttt{pgfSweave-example-tex.in}.
 
-\VerbatimInput[frame=single,label={pgfSweave-example.Rnw},labelposition=all]{../../example/pgfSweave-example.Rnw}
+\VerbatimInput[frame=single,label={pgfSweave-example-Rnw.in},labelposition=all]{pgfSweave-example-Rnw.in}
 
 On the input file run:
 \begin{Verbatim}
@@ -215,10 +226,10 @@ $ R CMD pgfsweave example.Rnw
 
 And we get:
 
-\VerbatimInput[frame=single,label={pgfSweave-example.tex},labelposition=all]{../../example/pgfSweave-example.tex}
+\VerbatimInput[frame=single,label={pgfSweave-example-tex.in},labelposition=all]{pgfSweave-example-tex.in}
 
 \begin{figure}[!hp]
-\framebox{\includegraphics[width=\textwidth]{../../example/pgfSweave-example.pdf}}
+\framebox{\includegraphics[width=\textwidth]{pgfSweave-example.pdf}}
 \end{figure}
 
 \clearpage
@@ -382,7 +393,7 @@ $ R CMD pgfsweave <yourfile>.Rnw
 %--------------------------------------
 \ques{How do I set subdirectories for figures and caches?}
 
-This is strait out of the \pkg{Sweave} and \pkg{cacheSweave} manuals (nothing new here).  For a figures subdirectory \footnote{make sure to create the directory first!} use the \code{prefix.string} option:
+This is straight out of the \pkg{Sweave} and \pkg{cacheSweave} manuals (nothing new here).  For a figures subdirectory \footnote{make sure to create the directory first!} use the \code{prefix.string} option:
 
 \begin{verbatim}\SweaveOpts{prefix.string=figs/fig}\end{verbatim}
 
