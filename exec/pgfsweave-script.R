@@ -24,7 +24,7 @@ row <- which(row.names(x) == 'pgfSweave')
 col <- which(names(x[row,]) == 'Version')
 ver <- paste('pgfSweave version: ',x[row,col],'\n')
 
-library(getopt)
+suppressPackageStartupMessages(library(getopt))
 
 #Column 3: Argument mask of the flag. An integer. Possible values: 
 # 0=no argument, 1=required argument, 2=optional argument. 
@@ -56,7 +56,12 @@ if(length(file) == 0) {
     q(status=1) 
 }
 
-library(pgfSweave)
+suppressPackageStartupMessages(library(filehash))
+suppressPackageStartupMessages(library(stashR))
+suppressPackageStartupMessages(library(cacheSweave))
+suppressPackageStartupMessages(library(tikzDevice))
+suppressPackageStartupMessages(library(pgfSweave))
+
 cat('pgfsweave-script.R: using options:\n')
 print(opt)
 

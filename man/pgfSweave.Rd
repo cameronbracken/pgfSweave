@@ -2,10 +2,10 @@
 \alias{pgfSweave}
 \alias{pgfSweave-package}
 
-\title{Quality graphics and speedy compilation for Sweave}
+\title{Quality speedy graphics compilation with Sweave}
 
 \description{
-The package \pkg{cacheSweave} provides a convenient way for speeding up compilation of \code{Sweave} documents which include computationally intensive code chunks.  \pkg{pgfSweave} provides a new driver for \pkg{Sweave}, \code{pgfSweaveDriver()} and new chunk options \code{tikz}, \code{pgf} and \code{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  The \code{pgfSweave()} function is provided to simplify the extra compliation steps needed in the \pkg{pgfSweave} process.
+The pgfSweave package provides capabilities for 'caching' graphics generated with Sweave.  Using pgfSweave, figure labels are converted to LaTeX strings so not only do they match the style of the document but math can be put in labels. pgfSweave provides a new driver for Sweave (pgfSweaveDriver) and new chunk options tikz, pgf and external on top of the cache option provided by cacheSweave. This package is built upon cacheSweave and therefore also Sweave.
 }
 
 \usage{
@@ -60,7 +60,7 @@ pgf manual externalization section: \url{http://sourceforge.net/projects/pgf/}
 
 \section{Known issues}{
 	\enumerate{
-		\item Adding white space at the end of a code chunk causes all of the following code chunks to be registered as changed
+		\item Sometimes caching is overzealous and caches and figures need to be manually removed.  
 		\item changing the width and height of a figure only does not register as a change
 		\item A stray Rplots.pdf gets generated when using caching.
 	}

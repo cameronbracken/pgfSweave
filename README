@@ -1,7 +1,7 @@
 $Id$ 
 
 ABOUT:
-    The pgfSweave package provides capabilities for “caching” graphics 
+    The pgfSweave package provides capabilities for "caching" graphics 
     generated with Sweave.  Using pgfSweave, figure labels are converted to 
     LaTeX strings so not only do they match the style of the document but math 
     can be put in labels. pgfSweave provides a new driver for Sweave 

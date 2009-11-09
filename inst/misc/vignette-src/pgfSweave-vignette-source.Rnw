@@ -210,7 +210,7 @@ The combination of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure cac
 \subsection{A Complete Example}
 At this point we will provide a complete example.  The example from the \pkg{Sweave} manual is used to highlight the differences. The two frame below show the input Sweave file \texttt{pgfSweave-example-Rnw.in} and the resulting tex file \texttt{pgfSweave-example-tex.in}.
 
-\VerbatimInput[frame=single,label={pgfSweave-example-Rnw.in},labelposition=all]{pgfSweave-example-Rnw.in}
+\VerbatimInput[frame=single,label={pgfSweave-example-Rnw.in},labelposition=all]{../../example/pgfSweave-example.Rnw}
 
 On the input file run:
 \begin{Verbatim}
@@ -226,10 +226,10 @@ $ R CMD pgfsweave example.Rnw
 
 And we get:
 
-\VerbatimInput[frame=single,label={pgfSweave-example-tex.in},labelposition=all]{pgfSweave-example-tex.in}
+\VerbatimInput[frame=single,label={pgfSweave-example-tex.in},labelposition=all]{../../example/pgfSweave-example.tex}
 
 \begin{figure}[!hp]
-\framebox{\includegraphics[width=\textwidth]{pgfSweave-example.pdf}}
+\framebox{\includegraphics[width=\textwidth]{../../example/pgfSweave-example.pdf}}
 \end{figure}
 
 \clearpage
@@ -388,6 +388,11 @@ Sure! See section \ref{commandline}.
 $ R CMD pgfsweave <yourfile>.Rnw
 \end{Verbatim}
 
+%--------------------------------------
+%--------------------------------------
+\ques{The changes to my code chunk are not being recognized.}
+
+Occasionally \pkg{pgfSweave} suffers from overzealous caching.  In these cases it may be necessary to manually delete the cache or the figure files. This is something we need to improve. 
 
 %--------------------------------------
 %--------------------------------------
