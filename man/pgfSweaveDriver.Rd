@@ -76,7 +76,7 @@ cacheSweave vignette: \url{http://cran.r-project.org/web/packages/cacheSweave/vi
 
 \seealso{
 \code{\link[pgfSweave]{pgfSweave}},  
-\code{\link{pgfSweaveDriver}}, 
+\code{\link[pgfSweave]{pgfSweaveDriver}}, 
 \code{\link[cacheSweave]{cacheSweave}}, 
 \code{\link{Sweave}}, 
 \code{\link[tikzDevice]{tikzDevice}}
