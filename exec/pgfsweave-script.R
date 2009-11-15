@@ -15,7 +15,7 @@ Options:
                             used
 
 Package repositories: 
-http://www.rforge.net/pgfSweave/ (for scm)
+http://github.com/cameronbracken/pgfSweave (scm)
 http://r-forge.r-project.org/projects/pgfsweave/ (for precompiled packages)
 "
 

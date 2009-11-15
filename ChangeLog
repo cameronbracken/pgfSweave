@@ -1,3 +1,22 @@
+commit b70267dfc9ff3baf9d2cb25e5af60b479eea63a9
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Nov 14 19:36:50 2009 -0700
+
+    Better support for R CMD pgfSweave on windows
+    
+    New git ChangeLog generated when compiling vignette
+
+ ChangeLog                                 | 1080 +++++++++++++++++++++++++++++
+ inst/doc/figs/fig-normalSweave.pdf        |   97 ++--
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17340 -> 17297 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28617 -> 28732 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 88199 -> 86788 bytes
+ inst/doc/pgfSweave.pdf                    |  Bin 277175 -> 281600 bytes
+ inst/misc/vignette-src/Makefile           |    5 +-
+ src/Makevars                              |    2 +-
+ src/Makevars.win                          |    9 +-
+ 9 files changed, 1139 insertions(+), 54 deletions(-)
+
 commit 5f7c27c851daad6be9095ec1ace99c4323f79fdf
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Nov 10 00:23:58 2009 -0700
