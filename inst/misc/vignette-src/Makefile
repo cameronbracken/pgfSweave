@@ -31,7 +31,7 @@ VIGNETTE_DUMMY_RNW=$(DOC_PATH)/pgfSweave.Rnw
 EXAMPLE_TEX=$(EXAMPLE_PATH)/pgfSweave-example.tex
 EXAMPLE_PDF=$(EXAMPLE_PATH)/pgfSweave-example.pdf
 
-all: $(VIGNETTE_DUMMY_PDF) 
+all: $(VIGNETTE_DUMMY_PDF) changelog
 
 $(VIGNETTE_DUMMY_PDF): $(VIGNETTE_DUMMY_RNW)
 	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave.Rnw; pdflatex pgfSweave.tex)
@@ -76,3 +76,6 @@ cleanforbuild:
 	rm -rf cache figs/* Rplots.* $(RM_PATH).$(BUILD_RM_SUFFIX) \
 		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave-vignette.tex tmp
 	(cd $(EXAMPLE_PATH) ; make cleanforbuild)
+
+changelog:
+	git log --stat > ../../../ChangeLog

@@ -6,7 +6,7 @@ cmdScript :
 	@echo "*******************************************"
 	@echo "Installing custom script in:"
 	@echo
-	@echo "$(R_HOME)/bin/"
+	@echo '$(R_HOME)/bin/'
 	@echo
 	@echo "For usage instructions:"
 	@echo 
