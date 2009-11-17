@@ -1,3 +1,36 @@
+commit 5f42a284cef2fed990b9298d66bbe842be4630e8
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Nov 17 00:44:07 2009 -0700
+
+    New install script for pgfsweave-script.R, which takes into account if windows is being used and acts accordingly
+    
+    Added dummy c file to avoid check warning
+
+ exec/install-script.R |   55 +++++++++++++++++++++++++++++++++++++++++++++++++
+ src/Makevars          |   14 +-----------
+ src/Makevars.win      |   22 -------------------
+ src/dummy.c           |    5 ++++
+ 4 files changed, 61 insertions(+), 35 deletions(-)
+
+commit 1fdc9eaff9008e1cf894430621fe47cfea10bd8e
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Nov 14 23:57:56 2009 -0700
+
+    Updates to NEWS and README, version ready for CRAN
+
+ ChangeLog                                 |   19 +++++++
+ DESCRIPTION                               |    2 +-
+ NEWS                                      |   22 ++++----
+ README                                    |    1 -
+ exec/pgfsweave                            |    4 +-
+ exec/pgfsweave-script.R                   |    2 +-
+ inst/doc/figs/fig-normalSweave.pdf        |   84 ++++++++++++++---------------
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17297 -> 17336 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28732 -> 28664 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 86788 -> 86788 bytes
+ inst/doc/pgfSweave.pdf                    |  Bin 281600 -> 277172 bytes
+ 11 files changed, 76 insertions(+), 58 deletions(-)
+
 commit b70267dfc9ff3baf9d2cb25e5af60b479eea63a9
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Sat Nov 14 19:36:50 2009 -0700
