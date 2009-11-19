@@ -3,4 +3,4 @@
 all : cmdScript  $(SHLIB)
 
 cmdScript :
-	Rscript ../exec/install-script.R
+	R_HOME=`R RHOME`; ${R_HOME}/bin/Rscript ../exec/install-script.R
