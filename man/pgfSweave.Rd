@@ -77,6 +77,7 @@ pgf manual externalization section: \url{http://sourceforge.net/projects/pgf/}
 \examples{
 \dontrun{vignette("pgfSweave")}
 
+\dontrun{
 library(pgfSweave)
 oldcwd <- getwd()
 dir <- tempdir()
@@ -85,6 +86,7 @@ file.copy(system.file("example","pgfSweave-example.Rnw", package = "pgfSweave"),
 file <- file.path(dir,"pgfSweave-example.Rnw")
 pgfSweave(file,compile.tex=FALSE)
 setwd(oldcwd)
+}
 
 \dontrun{
 ## Normally to compile to PDF by  
