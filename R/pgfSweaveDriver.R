@@ -124,10 +124,10 @@ pgfSweaveSetup <- function(file, syntax,
                             tikz=TRUE, external=FALSE, tex.driver="pdflatex")
 {
 
-        out <- utils::RweaveLatexSetup(file, syntax, output=NULL, quiet=FALSE,
-                                       debug=FALSE, echo=TRUE, eval=TRUE,
-                                       split=FALSE, stylepath=TRUE, pdf=TRUE,
-                                       eps=TRUE)
+        out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
+                                       debug=debug, echo=echo, eval=eval,
+                                       split=split, stylepath=stylepath, pdf=pdf,
+                                       eps=eps)
 
         ######################################################################
         ## Additions here [RDP]
