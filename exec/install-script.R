@@ -3,7 +3,7 @@
 options(warn=-1)
 R_HOME <- Sys.getenv('R_HOME')
 R_HOME <- ifelse(length(R_HOME) == 0, R.home(), R_HOME)
-bindir <- paste(R.home(),"/bin",sep='')
+bindir <- R.home("bin")
 bin_script <- file.path(bindir,'pgfsweave')
 x <- file.remove(bin_script)
 

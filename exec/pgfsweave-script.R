@@ -4,25 +4,26 @@ usage <- "Usage: R CMD pgfsweave [options] file
 
 A simple front-end for pgfSweave()
 
+The options below reference the following steps 
+  (1) Run Sweave using pgfSweaveDriver
+  (2) Compile the resulting tex file using texi2dvi()
+  (3) Run the pgf externalization commands
+
 Options:
   -h, --help                print short help message and exit
-  -v, --version             print pgfSweave version info and exit
-  -d, --dvi                 dont use texi2dvi option pdf=T i.e. call latex 
-                            (defalt is pdflatex)
-  -s, --pgfsweave-only      dont compile to pdf/dvi, only run Sweave
-  -n, --graphics-only       dont use the texi2dvi() funciton in R, compile 
-                            graphics only ; ignored if --pgfsweave-only is
-                            used
+  -v, --version             print version info and exit
+  -d, --dvi                 dont use texi2dvi() option pdf=T i.e. call plain 
+                            latex (defalt is pdflatex)
+  -n, --graphics-only       dont do (2), do (1) then (3); ignored if 
+                           --pgfsweave-only is used
+  -s, --pgfsweave-only      dont do (2) or (3), only do (1)
 
 Package repositories: 
-http://github.com/cameronbracken/pgfSweave (scm)
+http://github.com/cameronbracken/pgfSweave (cutting edge development)
 http://r-forge.r-project.org/projects/pgfsweave/ (for precompiled packages)
 "
 
-x <- installed.packages()
-row <- which(row.names(x) == 'pgfSweave')
-col <- which(names(x[row,]) == 'Version')
-ver <- paste('pgfSweave version: ',x[row,col],'\n')
+ver <- packageDescription('pgfSweave')[['Version']]
 
 suppressPackageStartupMessages(library(getopt))
 
@@ -80,6 +81,7 @@ if(opt[['graphics-only']]){
     dummy <- lapply(cmds, system)
     
 }else{
+    # May be running with --pgfsweave-only or not.
     # In this case, just make a call to the R function pgfSweave() with the
     # options intact.
     
