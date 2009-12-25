@@ -1,6 +1,15 @@
 Please see the README directory for development info
 
 --------------------------
+Version 1.0.3 - 2009-12-24
+--------------------------
+* Fix bug where externalization did not work if pdf and eps were not
+  explicitly set to FALSE. Thanks to Rasmus Pank for bringing this to my
+  attention.
+* Better help for pgfsweave-script.R
+* Better install script for command line interface
+
+--------------------------
 Version 1.0 - 2009-10-14
 --------------------------
 * The new package tikzDevice is now used by default instead of eps2pgf.  The 

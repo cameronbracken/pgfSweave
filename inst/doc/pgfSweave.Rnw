@@ -340,25 +340,34 @@ The default in \code{Sweave.sty} is to fix the width of every image to 80\% of t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Command line interface}\label{commandline}
 
-In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  This script  requires the \pkg{getopt} package.  Here is a listing from \code{R CMD pgfsweave --help}:
+In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
+
+Here is a listing from \code{R CMD pgfsweave --help}:
 
 \begin{Verbatim}[frame=single]
 Usage: R CMD pgfsweave [options] file
 
 A simple front-end for pgfSweave()
 
+The options below reference the following steps 
+  (1) Run Sweave using pgfSweaveDriver
+  (2) Run the pgf externalization commands
+  (3) Compile the resulting tex file using texi2dvi()
+
+Default behavior (no options) is to do (1), (2) then (3) in that order.
+
 Options:
   -h, --help                print short help message and exit
-  -v, --version             print pgfSweave version info and exit
-  -d, --dvi                 dont use texi2dvi option pdf=T i.e. call latex 
-                            (defalt is pdflatex)
-  -s, --pgfsweave-only      dont compile to pdf/dvi, only run Sweave
-  -n, --graphics-only       dont use the texi2dvi() funciton in R, compile 
-                            graphics only ; ignored if --pgfsweave-only is
-                            used
+  -v, --version             print version info and exit
+  -d, --dvi                 dont use texi2dvi() option pdf=T i.e. call plain 
+                            latex (defalt is pdflatex)
+  -n, --graphics-only       dont do (3), do (1) then (2); ignored if 
+                            --pgfsweave-only is used
+  -s, --pgfsweave-only      dont do (2) or (3), only do (1)
 
 Package repositories: 
-http://r-forge.r-project.org/projects/pgfsweave/
+http://github.com/cameronbracken/pgfSweave (cutting edge development)
+http://r-forge.r-project.org/projects/pgfsweave/ (for precompiled packages)
 \end{Verbatim}
 
 
@@ -370,7 +379,7 @@ http://r-forge.r-project.org/projects/pgfsweave/
 %--------------------------------------
 \ques{Can \pkg{pgfSweave} be run from the command line?}
 
-Sure! See section \ref{commandline}.
+Yes! See section \ref{commandline}.
 \begin{Verbatim}
 $ R CMD pgfsweave <yourfile>.Rnw
 \end{Verbatim}
@@ -379,7 +388,7 @@ $ R CMD pgfsweave <yourfile>.Rnw
 %--------------------------------------
 \ques{The changes to my code chunk are not being recognized.}
 
-Occasionally \pkg{pgfSweave} suffers from overzealous caching.  In these cases it may be necessary to manually delete the cache or the figure files. This is something we need to improve. 
+Occasionally \pkg{pgfSweave} suffers from overzealous caching.  In these cases it may be necessary to manually delete the cache or the figure files. This is something we need to improve but this is better than compiling too often which is what used to happen. 
 
 %--------------------------------------
 %--------------------------------------
@@ -416,7 +425,7 @@ in your \verb".Rprofile" file.
 %--------------------------------------
 \ques{I get a bunch of ``Incompatible list can't be unboxed'' errors when compiling.}
 
-This is a problem with PGF.  The workaround is to load the \pkg{atbegshi} package before PGF or TikZ:
+This is a problem with the CVS version of PGF.  The workaround is to load the \pkg{atbegshi} package before PGF or TikZ:
 
 \begin{verbatim}
 \usepackage{atbegshi}
@@ -439,9 +448,10 @@ That is because the vignette in \texttt{/inst/doc/} is a ``fake'' vignette gener
 To compile the vignette yourself, download the package source, unpack it and then do the following:
 
 \begin{verbatim}
-$ R CMD INSTALL pgfSweave
-$ cd pgfSweave/inst/misc/vignette-src/
-$ make
+git clone git://github.com/cameronbracken/pgfSweave.git
+R CMD INSTALL pgfSweave
+cd pgfSweave/inst/misc/vignette-src/
+make
 \end{verbatim}
 Which will create \code{pgfSweave-vignette-source.pdf}
 

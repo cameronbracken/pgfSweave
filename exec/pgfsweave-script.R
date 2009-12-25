@@ -6,16 +6,18 @@ A simple front-end for pgfSweave()
 
 The options below reference the following steps 
   (1) Run Sweave using pgfSweaveDriver
-  (2) Compile the resulting tex file using texi2dvi()
-  (3) Run the pgf externalization commands
+  (2) Run the pgf externalization commands
+  (3) Compile the resulting tex file using texi2dvi()
+
+Default behavior (no options) is to do (1), (2) then (3) in that order.
 
 Options:
   -h, --help                print short help message and exit
   -v, --version             print version info and exit
   -d, --dvi                 dont use texi2dvi() option pdf=T i.e. call plain 
                             latex (defalt is pdflatex)
-  -n, --graphics-only       dont do (2), do (1) then (3); ignored if 
-                           --pgfsweave-only is used
+  -n, --graphics-only       dont do (3), do (1) then (2); ignored if 
+                            --pgfsweave-only is used
   -s, --pgfsweave-only      dont do (2) or (3), only do (1)
 
 Package repositories: 
