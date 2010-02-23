@@ -1,3 +1,23 @@
+commit d970329d43165aab65424d1a16fda0c1030bd2f5
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 23 01:57:06 2010 -0700
+
+    Check for correct pgf version on startup. Show correct filenames for examples in vignette.
+
+ ChangeLog                                          |   20 ++++++++
+ R/zzz.R                                            |   49 ++++++++++++++++++++
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2929 -> 3140 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 17330 -> 17594 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28698 -> 28974 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 88108 -> 88333 bytes
+ inst/doc/pgfSweave.Rnw                             |    5 +-
+ inst/doc/pgfSweave.pdf                             |  Bin 289735 -> 290255 bytes
+ inst/example/pgfSweave-example.tex                 |   44 ------------------
+ inst/misc/test-for-pgf.tex                         |    6 ++
+ inst/misc/vignette-src/Makefile                    |    4 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    6 ++-
+ 12 files changed, 84 insertions(+), 50 deletions(-)
+
 commit 8b646513162b8486904ddbd916becc9d75602040
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Fri Dec 25 12:32:28 2009 -0800

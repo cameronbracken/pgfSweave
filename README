@@ -52,8 +52,6 @@ POSSIBLE NEW FEATURES:
     
     * Follow \input and \include statements. 
     
-    * Check for correct version of pgf.
-    
     * Automatically add the \pgfrealjobname command if it is not already in 
       the file like the Sweave style file is added when stylepath=TRUE.
       

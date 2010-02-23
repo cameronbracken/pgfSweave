@@ -221,7 +221,7 @@ $ R CMD pgfsweave example.Rnw
 
 And we get:
 
-\VerbatimInput[frame=single,label={pgfSweave-example-tex.in},labelposition=all]{pgfSweave-example-tex.in}
+\VerbatimInput[frame=single,label={pgfSweave-example{}.tex},labelposition=all]{pgfSweave-example-tex.in}
 
 \begin{figure}[!hp]
 \framebox{\includegraphics[width=\textwidth]{pgfSweave-example.pdf}}
@@ -300,7 +300,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \section{Consistency in style between graphics and text}
 %% initial calculations
 
- In Figure \ref{normalSweave}, notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In Figure \ref{pgfSweave-hist} and \ref{pgfSweave-tikz-hist}the text is consistent with the rest of the document.
+ In Figure \ref{normalSweave}, notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In Figure \ref{pgfSweave-hist} and \ref{pgfSweave-tikz-hist} the text is consistent with the rest of the document.
 
 \begin{figure}[!ht]
 \begin{minipage}{.45\linewidth}
@@ -320,7 +320,6 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \end{figure}
 
 \begin{figure}[!ht]
-\centering
 %% pgf file will get regenerated every time slowing down the whole compilation.
 %% even though cache=TRUE. 
 \centering
@@ -339,9 +338,9 @@ The default in \code{Sweave.sty} is to fix the width of every image to 80\% of t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Command line interface}\label{commandline}
+\section{Command line interface\label{commandline}}
 
-In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
+In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  {\color{red} The only way to gain access to this interface is to install \pkg{pgfSweave} from source!}.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
 
 Here is a listing from \code{R CMD pgfsweave --help}:
 

@@ -312,7 +312,7 @@ b <- a * .4 * rnorm(100, sd = 0.8)
 fit <- lm(b ~ a)
 @
 
- In Figure \ref{normalSweave}, notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In Figure \ref{pgfSweave-hist} and \ref{pgfSweave-tikz-hist}the text is consistent with the rest of the document.
+ In Figure \ref{normalSweave}, notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In Figure \ref{pgfSweave-hist} and \ref{pgfSweave-tikz-hist} the text is consistent with the rest of the document.
 
 \begin{figure}[!ht]
 \begin{minipage}{.45\linewidth}
@@ -334,7 +334,6 @@ hist(rnorm(10000))
 \end{figure}
 
 \begin{figure}[!ht]
-\centering
 %% pgf file will get regenerated every time slowing down the whole compilation.
 %% even though cache=TRUE. 
 \centering
@@ -353,7 +352,7 @@ The default in \code{Sweave.sty} is to fix the width of every image to 80\% of t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Command line interface}\label{commandline}
+\section{Command line interface\label{commandline}}
 
 In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
 

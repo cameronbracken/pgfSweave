@@ -19,7 +19,7 @@ EXEC_PATH=../../../exec/
 CHANGELOG_PATH=../../../
 
 RM_PATH={*,$(DOC_PATH)/*}
-RM_SUFFIX={sh,map,aux,tex,log,pdf,dvi,in,fdb_latexmk}
+RM_SUFFIX={sh,map,aux,tex,log,pdf,dvi,in,fdb_latexmk,out}
 BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk}
 
 #
