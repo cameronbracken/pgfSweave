@@ -49,8 +49,8 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 		  $(DOC_PATH)/pgfSweave-example-tex.in
 	cp -f $(EXAMPLE_PATH)/pgfSweave-example.pdf \
 		  $(DOC_PATH)/pgfSweave-example.pdf
-	# Remove the pgfrealjobname command and the path to the example files since
-	# the new file will be in the same directory 
+	# Remove the pgfrealjobname command and the path to the example files 
+	# since the new file will be in the same directory 
 	cat pgfSweave-vignette-source.tex \
 		| grep -v "\\pgfrealjobname{pgfSweave-vignette-source}" \
 		| sed 's/\.\.\/\.\.\/example\///g' > tmp

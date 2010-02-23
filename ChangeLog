@@ -1,3 +1,23 @@
+commit 8b646513162b8486904ddbd916becc9d75602040
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Dec 25 12:32:28 2009 -0800
+
+    New release 1.0.3 for CRAN, see NEWS file
+
+ ChangeLog                                          |  250 +++++++++++++-------
+ DESCRIPTION                                        |    2 +-
+ NEWS                                               |    9 +
+ README                                             |    5 -
+ exec/pgfsweave-script.R                            |   10 +-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3048 -> 2929 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 17299 -> 17330 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28663 -> 28698 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 86755 -> 88108 bytes
+ inst/doc/pgfSweave.Rnw                             |   40 ++--
+ inst/doc/pgfSweave.pdf                             |  Bin 277215 -> 289735 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   42 ++--
+ 12 files changed, 233 insertions(+), 125 deletions(-)
+
 commit 648d3068935afa77325696f95614ddf302903bff
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Sun Dec 6 01:59:47 2009 -0700
