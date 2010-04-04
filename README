@@ -65,8 +65,11 @@ POSSIBLE NEW FEATURES:
       possible. 
       
     * Add support for TikZ externalization.  TikZ externalization library is    
-      more elegant and could provide more advanced options. Though this is not 
-      really necessary currently.
+      more elegant and could provide more advanced options.  For example the 
+      option to create a make file would be really awesome since it would take 
+      care of most of the checking for graphics changes on the part of 	
+      pgfSweave.  This would be a substantial change, requring alot of 
+      rewriting of internal code.  
 
 
 RESOLVED (resolution in brackets):

@@ -43,7 +43,7 @@ opt <- try(getopt(optspec),silent=TRUE)
 if(class(opt) == 'try-error') opt <- list()
 
 if( !is.null(opt$help    )) { cat(usage); q(status=1) }
-if( !is.null(opt$version )) { cat(ver); q(status=1) }
+if( !is.null(opt$version )) { cat(ver,'\n'); q(status=1) }
 opt$dvi <- ifelse(is.null(opt$dvi), FALSE, TRUE )
 opt[['pgfsweave-only']] <- ifelse(
                             is.null(opt[['pgfsweave-only']]), FALSE, TRUE )

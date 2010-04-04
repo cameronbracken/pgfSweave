@@ -53,6 +53,7 @@ pgf manual externalization section: \url{http://sourceforge.net/projects/pgf/}
 
 \note{ 
 	\itemize{
+		\item The pgfSweave package must be installed from source to gain access to the R CMD pgfsweave interface. 
 		\item Assuming \code{compile.tex=TRUE} the function will issue any system commands needed to ``externalize'' the pgf graphics.  To take advantage of the speedup, set \code{external=TRUE} on every code chunk that creates a plot.  
 		\item the command \\\code{pgfrealjobname{myfile}} MUST in the header of your \code{LaTeX} file for the external graphics capablities.
 }
@@ -91,11 +92,16 @@ setwd(oldcwd)
 \dontrun{
 ## Normally to compile to PDF by  
 #    pgfSweave("pgfSweave-example.Rnw",pdf=T) 
-# or
+# Here we need the pdf=T argument because it is passed to texi2dvi
+#
+# or use
+#
 # R CMD pgfsweave pgfSweave-example.Rnw
-## which calls texi2dvi 
+## From the command line which calls texi2dvi (default uses pdflatex)
+#
 #ifdef unix
-## NOTE: LaTeX may not be included in your path by default when using the R GUI, please see the FAQ in the pgfSweave manual if your latex or pdflatex are not found.
+## NOTE: LaTeX may not be included in your path by default when using the R
+## GUI, please see the FAQ in the pgfSweave vignette if your latex or pdflatex ## are not found.
 #endif
 #ifdef windows
 ## WINDOWS USERS: This has only been tested with MiKTeX
