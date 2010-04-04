@@ -1,6 +1,13 @@
 Please see the README directory for development info
 
 --------------------------
+Version 1.0.5 - 2010-04-04
+--------------------------
+* Unlabeled code chunks are now allowed
+* Documentation updates
+* Better install script for command line interface
+
+--------------------------
 Version 1.0.4 - 2009-01-23
 --------------------------
 * Check for PGF > 2.00 on startup or fail to load

@@ -181,12 +181,13 @@ writeChunkMetadata <- function(object, chunk, options) {
         }
         ## Write out map file entry
         mapFile <- object[["mapFile"]]
-        mapEntry <- data.frame(chunk = options$label,
+        mapEntry <- data.frame(chunk = ifelse(is.null(options$label),
+                                           chunkprefix,options$label),
                                chunkprefix = chunkprefix,
                                fig = figname,
                                cacheDB = dbName,
                                time = Sys.time())
         write.dcf(mapEntry, file = mapFile, append = TRUE, width = 2000)
-    cat("\n", file = mapFile, append = TRUE)
+        cat("\n", file = mapFile, append = TRUE)
         options
 }

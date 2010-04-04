@@ -34,7 +34,7 @@ EXAMPLE_PDF=$(EXAMPLE_PATH)/pgfSweave-example.pdf
 all: $(VIGNETTE_DUMMY_PDF) changelog
 
 $(VIGNETTE_DUMMY_PDF): $(VIGNETTE_DUMMY_RNW)
-	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave.Rnw; pdflatex pgfSweave.tex)
+	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave.Rnw; latexmk -pdf pgfSweave.tex)
 
 $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	# Copy Sweave.sty

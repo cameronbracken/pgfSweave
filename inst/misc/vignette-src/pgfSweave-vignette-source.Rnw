@@ -1,3 +1,4 @@
+% !TEX TS-program = pgfSweave
 \RequirePackage{atbegshi}
 \documentclass{article}
 
