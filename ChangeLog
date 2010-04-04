@@ -1,3 +1,125 @@
+commit d970329d43165aab65424d1a16fda0c1030bd2f5
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 23 01:57:06 2010 -0700
+
+    Check for correct pgf version on startup. Show correct filenames for examples in vignette.
+
+ ChangeLog                                          |   20 ++++++++
+ R/zzz.R                                            |   49 ++++++++++++++++++++
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2929 -> 3140 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 17330 -> 17594 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28698 -> 28974 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 88108 -> 88333 bytes
+ inst/doc/pgfSweave.Rnw                             |    5 +-
+ inst/doc/pgfSweave.pdf                             |  Bin 289735 -> 290255 bytes
+ inst/example/pgfSweave-example.tex                 |   44 ------------------
+ inst/misc/test-for-pgf.tex                         |    6 ++
+ inst/misc/vignette-src/Makefile                    |    4 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    6 ++-
+ 12 files changed, 84 insertions(+), 50 deletions(-)
+
+commit 8b646513162b8486904ddbd916becc9d75602040
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Dec 25 12:32:28 2009 -0800
+
+    New release 1.0.3 for CRAN, see NEWS file
+
+ ChangeLog                                          |  250 +++++++++++++-------
+ DESCRIPTION                                        |    2 +-
+ NEWS                                               |    9 +
+ README                                             |    5 -
+ exec/pgfsweave-script.R                            |   10 +-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3048 -> 2929 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 17299 -> 17330 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28663 -> 28698 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 86755 -> 88108 bytes
+ inst/doc/pgfSweave.Rnw                             |   40 ++--
+ inst/doc/pgfSweave.pdf                             |  Bin 277215 -> 289735 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   42 ++--
+ 12 files changed, 233 insertions(+), 125 deletions(-)
+
+commit 648d3068935afa77325696f95614ddf302903bff
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Dec 6 01:59:47 2009 -0700
+
+    Better help for pgfsweave-script.R
+
+ exec/install-script.R   |    2 +-
+ exec/pgfsweave          |    4 +++-
+ exec/pgfsweave-script.R |   26 ++++++++++++++------------
+ 3 files changed, 18 insertions(+), 14 deletions(-)
+
+commit 09fc61a37fe7fa5bc8d0e7dcd2b640fa130385cf
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Dec 5 12:00:55 2009 -0700
+
+    Version number bump
+
+ DESCRIPTION |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 0de2874ec1d0c493f0e8c90d17bc30fd8589ff00
+Merge: 27f6b15 4158cb0
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Dec 5 11:59:08 2009 -0700
+
+    Merge branch 'master' of github.com:cameronbracken/pgfSweave
+
+commit 4158cb0cc3af3215dc65684067430e917bcfdf7c
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Dec 5 11:54:51 2009 -0700
+
+    Fix bug where externalization did not work if pdf and eps were not explicitly set to FALSE. Thanks to Rasmus Pank for bringing this to my attention.
+
+ R/pgfSweaveDriver.R |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 27f6b159e02fdc33bb28cb1a7b56d554613cf9ba
+Merge: 9cf2da9 07e5651
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Nov 28 12:50:09 2009 -0700
+
+    Merge branch 'master' of github.com:cameronbracken/pgfSweave
+    
+    Conflicts:
+    	src/Makevars
+
+commit 07e5651bd266d704c42df33dd08d3fe84e676414
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Nov 28 12:46:09 2009 -0700
+
+    Fixes for R_HOME warning on CRAN
+
+ exec/install-script.R |    4 +++-
+ man/pgfSweave.Rd      |    2 ++
+ src/Makevars          |    6 +++++-
+ src/dummy.c           |    5 ++++-
+ 4 files changed, 14 insertions(+), 3 deletions(-)
+
+commit 9cf2da9a63801704daf5ff05eb17786d8f0eac45
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Nov 19 10:11:40 2009 -0700
+
+    Fix preper use of Rscript in Makevars
+
+ DESCRIPTION  |    2 +-
+ src/Makevars |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 06a5f407416d0cc0b6bf70709529850e77615bf2
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Nov 17 00:57:52 2009 -0700
+
+    Vignette recompile, treat pdf as binary
+
+ ChangeLog                                 |   33 +++++++++++++++++++++++++++++
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 2929 -> 3048 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17336 -> 17299 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28664 -> 28663 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 86788 -> 86755 bytes
+ inst/doc/pgfSweave.pdf                    |  Bin 277172 -> 277215 bytes
+ 6 files changed, 33 insertions(+), 0 deletions(-)
+
 commit 5f42a284cef2fed990b9298d66bbe842be4630e8
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Nov 17 00:44:07 2009 -0700
@@ -18,18 +140,18 @@ Date:   Sat Nov 14 23:57:56 2009 -0700
 
     Updates to NEWS and README, version ready for CRAN
 
- ChangeLog                                 |   19 +++++++
+ ChangeLog                                 |   19 +++++++++++++++++++
  DESCRIPTION                               |    2 +-
- NEWS                                      |   22 ++++----
+ NEWS                                      |   22 ++++++++++++----------
  README                                    |    1 -
- exec/pgfsweave                            |    4 +-
+ exec/pgfsweave                            |    4 ++--
  exec/pgfsweave-script.R                   |    2 +-
- inst/doc/figs/fig-normalSweave.pdf        |   84 ++++++++++++++---------------
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 2984 -> 2929 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17297 -> 17336 bytes
  inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28732 -> 28664 bytes
  inst/doc/pgfSweave-example.pdf            |  Bin 86788 -> 86788 bytes
  inst/doc/pgfSweave.pdf                    |  Bin 281600 -> 277172 bytes
- 11 files changed, 76 insertions(+), 58 deletions(-)
+ 11 files changed, 35 insertions(+), 15 deletions(-)
 
 commit b70267dfc9ff3baf9d2cb25e5af60b479eea63a9
 Author: cameronbracken <cameron.bracken@gmail.com>
@@ -40,7 +162,7 @@ Date:   Sat Nov 14 19:36:50 2009 -0700
     New git ChangeLog generated when compiling vignette
 
  ChangeLog                                 | 1080 +++++++++++++++++++++++++++++
- inst/doc/figs/fig-normalSweave.pdf        |   97 ++--
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 3047 -> 2984 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17340 -> 17297 bytes
  inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28617 -> 28732 bytes
  inst/doc/pgfSweave-example.pdf            |  Bin 88199 -> 86788 bytes
@@ -48,7 +170,7 @@ Date:   Sat Nov 14 19:36:50 2009 -0700
  inst/misc/vignette-src/Makefile           |    5 +-
  src/Makevars                              |    2 +-
  src/Makevars.win                          |    9 +-
- 9 files changed, 1139 insertions(+), 54 deletions(-)
+ 9 files changed, 1092 insertions(+), 4 deletions(-)
 
 commit 5f7c27c851daad6be9095ec1ace99c4323f79fdf
 Author: cameronbracken <cameron.bracken@gmail.com>
@@ -80,19 +202,19 @@ Date:   Mon Nov 9 14:20:10 2009 -0700
     
     Final tweaks for CRAN
 
- DESCRIPTION                                        |    3 +-
+ DESCRIPTION                                        |    3 ++-
  R/pgfSweaveDriver.R                                |    2 +-
  README                                             |    2 +-
- exec/pgfsweave-script.R                            |    9 ++-
- inst/doc/figs/fig-normalSweave.pdf                 |   83 +++++++++++---------
+ exec/pgfsweave-script.R                            |    9 +++++++--
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2830 -> 3047 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 17336 -> 17340 bytes
  inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28731 -> 28617 bytes
  inst/doc/pgfSweave-example.pdf                     |  Bin 88515 -> 88199 bytes
- inst/doc/pgfSweave.Rnw                             |    5 +
+ inst/doc/pgfSweave.Rnw                             |    5 +++++
  inst/doc/pgfSweave.pdf                             |  Bin 292235 -> 292757 bytes
- .../vignette-src/pgfSweave-vignette-source.Rnw     |   11 ++-
- man/pgfSweave.Rd                                   |    6 +-
- 12 files changed, 73 insertions(+), 48 deletions(-)
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   11 ++++++++---
+ man/pgfSweave.Rd                                   |    6 +++---
+ 12 files changed, 27 insertions(+), 11 deletions(-)
 
 commit 7c99b5cd328261cb3e49a1204011c367aa6a7c78
 Merge: 1e58f80 be2fc52
@@ -137,7 +259,7 @@ Date:   Fri Sep 25 12:12:00 2009 -0600
 
     Removing old vignette files, updated Makefile
 
- inst/doc/figs/fig-normalSweave.pdf                 |   89 ++++------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3102 -> 2830 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 17391 -> 17336 bytes
  inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 0 -> 28731 bytes
  inst/doc/pgfSweave-example-Rnw.in                  |    3 +-
@@ -153,7 +275,7 @@ Date:   Fri Sep 25 12:12:00 2009 -0600
  .../vignette-src/pgfSweave-vignette-source.Rnw     |    6 +-
  inst/misc/vignette-src/third.R                     |    6 -
  inst/misc/vignette-src/wave.R                      |   14 --
- 16 files changed, 135 insertions(+), 204 deletions(-)
+ 16 files changed, 96 insertions(+), 154 deletions(-)
 
 commit b473ad1b41ed6360e4c0eca0e3bd048fc58e1b9e
 Merge: fdb4735 7094067
@@ -198,7 +320,7 @@ Date:   Tue Sep 22 00:05:25 2009 -0600
  R/pgfSweaveDriver.R                                |    4 +-
  exec/pgfsweave-script.R                            |    4 +-
  inst/doc/figs/fig-fancy.pdf                        |  Bin 17355 -> 0 bytes
- inst/doc/figs/fig-normalSweave.pdf                 |   93 +++++-----
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2987 -> 3102 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 10710 -> 17391 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 54588 -> 0 bytes
  inst/doc/pgfSweave-example-Rnw.in                  |    2 +-
@@ -209,7 +331,7 @@ Date:   Tue Sep 22 00:05:25 2009 -0600
  inst/example/pgfSweave-example.Rnw                 |    2 +-
  inst/example/pgfSweave-example.tex                 |    2 +-
  .../vignette-src/pgfSweave-vignette-source.Rnw     |  196 ++++++++++++++------
- 18 files changed, 337 insertions(+), 193 deletions(-)
+ 18 files changed, 289 insertions(+), 148 deletions(-)
 
 commit fdb473565ec156923f8b51769f4689c57bf8ca1c
 Merge: b4fe93d ac1eb2f
@@ -307,7 +429,7 @@ Date:   Mon Jun 22 17:25:32 2009 -0600
  R/pgfSweaveDriver.R                                |   38 ++-
  R/zzz.R                                            |    2 +-
  inst/doc/figs/fig-fancy.pdf                        |  Bin 17178 -> 17355 bytes
- inst/doc/figs/fig-normalSweave.pdf                 |   70 ++--
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2752 -> 2987 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9863 -> 10710 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 53699 -> 54588 bytes
  inst/doc/pgfSweave-example-Rnw.in                  |    8 +-
@@ -319,7 +441,7 @@ Date:   Mon Jun 22 17:25:32 2009 -0600
  inst/example/pgfSweave-example.tex                 |    6 +-
  inst/misc/vignette-src/Makefile                    |    4 +-
  .../vignette-src/pgfSweave-vignette-source.Rnw     |   16 +-
- 17 files changed, 100 insertions(+), 465 deletions(-)
+ 17 files changed, 61 insertions(+), 434 deletions(-)
 
 commit e41f9782805e88d3403203f385096f69fe63256c
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -328,13 +450,13 @@ Date:   Mon Jun 22 16:39:56 2009 -0600
     More flexable make file for vignette
 
  inst/doc/figs/fig-fancy.pdf          |  Bin 17174 -> 17178 bytes
- inst/doc/figs/fig-normalSweave.pdf   |   77 +++++++++++++++-------------------
+ inst/doc/figs/fig-normalSweave.pdf   |  Bin 3011 -> 2752 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf |  Bin 10207 -> 9863 bytes
  inst/doc/figs/fig-third.pdf          |  Bin 53550 -> 53699 bytes
  inst/doc/pgfSweave-example.pdf       |  Bin 39924 -> 39616 bytes
  inst/doc/pgfSweave.pdf               |  Bin 215225 -> 211907 bytes
  inst/misc/vignette-src/Makefile      |   77 +++++++++++++++++++++-------------
- 7 files changed, 82 insertions(+), 72 deletions(-)
+ 7 files changed, 48 insertions(+), 29 deletions(-)
 
 commit d56a9cb3507f192cd3b62c32dc35ba45a3a81573
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -344,7 +466,7 @@ Date:   Thu Jun 18 19:58:07 2009 +0000
 
  ChangeLog                                          |   23 ++++
  inst/doc/figs/fig-fancy.pdf                        |  Bin 18374 -> 17174 bytes
- inst/doc/figs/fig-normalSweave.pdf                 |   85 +++++++-------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2881 -> 3011 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9239 -> 10207 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 66848 -> 53550 bytes
  inst/doc/pgfSweave-example.pdf                     |  Bin 39891 -> 39924 bytes
@@ -356,7 +478,7 @@ Date:   Thu Jun 18 19:58:07 2009 +0000
  .../vignette-src/pgfSweave-vignette-source.Rnw     |   82 ++++++--------
  inst/misc/vignette-src/third.R                     |    6 +
  inst/misc/vignette-src/wave.R                      |   14 +++
- 14 files changed, 232 insertions(+), 121 deletions(-)
+ 14 files changed, 187 insertions(+), 81 deletions(-)
 
 commit 4a44e123ee3a713813b727f37e85f21b1bbeb718
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -366,17 +488,17 @@ Date:   Fri May 1 16:08:10 2009 +0000
     - New example in vignette
 
  DESCRIPTION                                        |    2 +-
- NEWS                                               |   35 ++++++---
+ NEWS                                               |   35 ++++++++++-----
  inst/doc/figs/fig-fancy.pdf                        |  Bin 0 -> 18374 bytes
- inst/doc/figs/fig-normalSweave.pdf                 |   85 ++++++++++----------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2955 -> 2881 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9566 -> 9239 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 67130 -> 66848 bytes
  inst/doc/pgfSweave-example.pdf                     |  Bin 40091 -> 39891 bytes
- inst/doc/pgfSweave.Rnw                             |   35 ++++++++-
+ inst/doc/pgfSweave.Rnw                             |   35 +++++++++++++-
  inst/doc/pgfSweave.pdf                             |  Bin 205637 -> 218012 bytes
  inst/misc/vignette-src/Makefile                    |    2 +-
- .../vignette-src/pgfSweave-vignette-source.Rnw     |   47 ++++++++++-
- 11 files changed, 143 insertions(+), 63 deletions(-)
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   47 ++++++++++++++++++-
+ 11 files changed, 102 insertions(+), 19 deletions(-)
 
 commit 02a7a4cf055d0ac8bc56aa7acf6e3f482326c324
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -425,20 +547,20 @@ Date:   Wed Apr 29 02:25:56 2009 +0000
 
     - Added shell script option --graphics-only
 
- ChangeLog                                          |   19 +++++
- exec/pgfSweave                                     |   40 ++++++++--
- inst/doc/figs/fig-normalSweave.pdf                 |   85 ++++++++++----------
+ ChangeLog                                          |   19 +++++++++
+ exec/pgfSweave                                     |   40 ++++++++++++++++----
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3041 -> 2955 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9621 -> 9566 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 67622 -> 67130 bytes
- inst/doc/pgfSweave-example-Rnw.in                  |    5 +
- inst/doc/pgfSweave-example-tex.in                  |    6 +-
+ inst/doc/pgfSweave-example-Rnw.in                  |    5 ++
+ inst/doc/pgfSweave-example-tex.in                  |    6 ++-
  inst/doc/pgfSweave-example.pdf                     |  Bin 40210 -> 40091 bytes
- inst/doc/pgfSweave.Rnw                             |   10 ++-
+ inst/doc/pgfSweave.Rnw                             |   10 ++++-
  inst/doc/pgfSweave.pdf                             |  Bin 204224 -> 205637 bytes
- inst/example/pgfSweave-example.Rnw                 |    5 +
- inst/example/pgfSweave-example.tex                 |    6 +-
- .../vignette-src/pgfSweave-vignette-source.Rnw     |   10 ++-
- 13 files changed, 130 insertions(+), 56 deletions(-)
+ inst/example/pgfSweave-example.Rnw                 |    5 ++
+ inst/example/pgfSweave-example.tex                 |    6 ++-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   10 ++++-
+ 13 files changed, 89 insertions(+), 12 deletions(-)
 
 commit 3aa4983986e87ad8d1b6d521dff144cdc9471dfb
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -449,7 +571,7 @@ Date:   Sun Apr 19 01:54:39 2009 +0000
 
  ChangeLog                            |  332 ++++++++++++++++++++
  DESCRIPTION                          |    1 +
- inst/doc/figs/fig-normalSweave.pdf   |   86 +++---
+ inst/doc/figs/fig-normalSweave.pdf   |  Bin 2987 -> 3041 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf |  Bin 9580 -> 9621 bytes
  inst/doc/figs/fig-third.pdf          |  Bin 68121 -> 67622 bytes
  inst/doc/pgfSweave-example-tex.in    |    2 +-
@@ -467,7 +589,7 @@ Date:   Sun Apr 19 01:54:39 2009 +0000
  inst/misc/svn2cl-0.11/svn2html.css   |   79 +++++
  inst/misc/svn2cl-0.11/svn2html.xsl   |  208 +++++++++++++
  inst/misc/vignette-src/Makefile      |   30 ++-
- 20 files changed, 2519 insertions(+), 57 deletions(-)
+ 20 files changed, 2475 insertions(+), 15 deletions(-)
 
 commit fddc4607974cf01723f2d86beb699a4a154671a1
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -497,18 +619,18 @@ Date:   Tue Mar 24 23:20:39 2009 +0000
     - More windows fixes
     - Improved example
 
- inst/doc/figs/fig-normalSweave.pdf                 |   83 +++++++++----------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3102 -> 2987 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9616 -> 9580 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 67630 -> 68121 bytes
- inst/doc/pgfSweave-example-Rnw.in                  |   22 ++++--
- inst/doc/pgfSweave-example-tex.in                  |   21 ++++--
- inst/doc/pgfSweave.Rnw                             |   10 ++-
+ inst/doc/pgfSweave-example-Rnw.in                  |   22 +++++++++++++------
+ inst/doc/pgfSweave-example-tex.in                  |   21 ++++++++++++------
+ inst/doc/pgfSweave.Rnw                             |   10 ++++++--
  inst/doc/pgfSweave.pdf                             |  Bin 188931 -> 204928 bytes
- inst/example/Makefile                              |    8 +-
- inst/example/pgfSweave-example.Rnw                 |   22 ++++--
- inst/misc/vignette-src/Makefile                    |   19 +++--
- .../vignette-src/pgfSweave-vignette-source.Rnw     |   12 ++-
- 11 files changed, 115 insertions(+), 82 deletions(-)
+ inst/example/Makefile                              |    8 +++---
+ inst/example/pgfSweave-example.Rnw                 |   22 +++++++++++++------
+ inst/misc/vignette-src/Makefile                    |   19 +++++++++++-----
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   12 +++++++---
+ 11 files changed, 76 insertions(+), 38 deletions(-)
 
 commit 08bf8e44da4ac763d1143bf8a1aea214fce5abbc
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -540,7 +662,7 @@ Date:   Sun Mar 22 12:19:00 2009 +0000
  README                                             |   18 ++-
  exec/pgfSweave                                     |    4 +-
  inst/doc/Sweave.sty                                |    6 +
- inst/doc/figs/fig-normalSweave.pdf                 |   93 +++++++------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3042 -> 3102 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9593 -> 9616 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 66458 -> 67630 bytes
  inst/doc/pgfSweave.Rnw                             |  141 +++++++++++++++-----
@@ -548,7 +670,7 @@ Date:   Sun Mar 22 12:19:00 2009 +0000
  inst/misc/vignette-src/Makefile                    |    3 +-
  inst/misc/vignette-src/Sweave.sty                  |    6 +
  .../vignette-src/pgfSweave-vignette-source.Rnw     |  141 +++++++++++++++-----
- 12 files changed, 290 insertions(+), 129 deletions(-)
+ 12 files changed, 242 insertions(+), 84 deletions(-)
 
 commit e0dbf47b6958eca0fd37adc4206186334b97bb3a
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -578,16 +700,16 @@ Date:   Tue Mar 10 06:58:56 2009 +0000
     - small documentation changes
 
  R/pgfSweave.R                        |    9 +++--
- inst/doc/figs/fig-normalSweave.pdf   |   63 +++++++++++++++++----------------
+ inst/doc/figs/fig-normalSweave.pdf   |  Bin 3010 -> 3042 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf |  Bin 9595 -> 9593 bytes
  inst/doc/figs/fig-third.pdf          |  Bin 67658 -> 66458 bytes
  inst/doc/pgfSweave-example-Rnw.in    |   10 +++--
  inst/doc/pgfSweave-example-tex.in    |    8 +++--
  inst/example/pgfSweave-example.Rnw   |   10 +++--
  inst/example/pgfSweave-example.tex   |    8 +++--
- man/pgfSweave.Rd                     |   60 ++++++++++++++++++++------------
- man/pgfSweaveDriver.Rd               |   30 +++++++++++-----
- 10 files changed, 118 insertions(+), 80 deletions(-)
+ man/pgfSweave.Rd                     |   60 +++++++++++++++++++++-------------
+ man/pgfSweaveDriver.Rd               |   30 ++++++++++++-----
+ 10 files changed, 86 insertions(+), 49 deletions(-)
 
 commit f08171f40c0b17c228aa8dc257db4074f8e160cc
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -595,11 +717,11 @@ Date:   Tue Feb 24 07:54:08 2009 +0000
 
     -making sure vignette is up to date
 
- inst/doc/figs/fig-normalSweave.pdf   |   92 +++++++++++++++++-----------------
+ inst/doc/figs/fig-normalSweave.pdf   |  Bin 3011 -> 3010 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf |  Bin 9591 -> 9595 bytes
  inst/doc/figs/fig-third.pdf          |  Bin 67520 -> 67658 bytes
- inst/doc/pgfSweave.Rnw               |    4 +-
- 4 files changed, 48 insertions(+), 48 deletions(-)
+ inst/doc/pgfSweave.Rnw               |    4 ++--
+ 4 files changed, 2 insertions(+), 2 deletions(-)
 
 commit 7866486adc39174b6f6a0b272ffbcd5e44e0ffb0
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -620,15 +742,15 @@ Date:   Fri Feb 20 05:53:59 2009 +0000
     -small update to vignette
     -tagged version 0.6, trunk version is 0.7
 
- DESCRIPTION                                        |    4 +-
- NEWS                                               |   14 +++-
- README                                             |   13 ++--
- inst/doc/figs/fig-normalSweave.pdf                 |   92 ++++++++++----------
+ DESCRIPTION                                        |    4 ++--
+ NEWS                                               |   14 +++++++++++++-
+ README                                             |   13 +++++++------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3014 -> 3011 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9582 -> 9591 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 67445 -> 67520 bytes
- inst/misc/vignette-src/Makefile                    |   10 +-
- .../vignette-src/pgfSweave-vignette-source.Rnw     |   12 ++-
- 8 files changed, 80 insertions(+), 65 deletions(-)
+ inst/misc/vignette-src/Makefile                    |   10 +++++-----
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   12 +++++++-----
+ 8 files changed, 34 insertions(+), 19 deletions(-)
 
 commit 452295c439f75aa1cfc76710975a1f5df2220b00
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -636,11 +758,11 @@ Date:   Sat Feb 7 00:20:22 2009 +0000
 
     no message
 
- inst/doc/figs/fig-normalSweave.pdf   |   66 +++++++++++++++++-----------------
+ inst/doc/figs/fig-normalSweave.pdf   |  Bin 3015 -> 3014 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf |  Bin 9589 -> 9582 bytes
  inst/doc/figs/fig-third.pdf          |  Bin 68110 -> 67445 bytes
  inst/doc/pgfSweave-vignette.pdf      |  Bin 178388 -> 177839 bytes
- 4 files changed, 33 insertions(+), 33 deletions(-)
+ 4 files changed, 0 insertions(+), 0 deletions(-)
 
 commit 2f59860dad2464239a8378a5a187b7bf7740fb82
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -655,7 +777,7 @@ Date:   Fri Feb 6 06:34:59 2009 +0000
  exec/exec/pgfSweave                                |   52 -
  exec/inst/COPYING                                  |   17 -
  exec/inst/doc/Sweave.sty                           |   27 -
- exec/inst/doc/figs/fig-normalSweave.pdf            |  177 --
+ exec/inst/doc/figs/fig-normalSweave.pdf            |  Bin 3015 -> 0 bytes
  exec/inst/doc/figs/fig-pgfSweave-hist.pdf          |  Bin 9589 -> 0 bytes
  exec/inst/doc/figs/fig-third.pdf                   |  Bin 68110 -> 0 bytes
  exec/inst/doc/pgfSweave-example-Rnw.in             |   30 -
@@ -709,7 +831,7 @@ Date:   Fri Feb 6 06:34:59 2009 +0000
  exec/inst/misc/vignette-src/Makefile               |   40 -
  exec/inst/misc/vignette-src/Sweave.sty             |   27 -
  .../vignette-src/pgfSweave-vignette-source.Rnw     |  225 --
- 61 files changed, 0 insertions(+), 26089 deletions(-)
+ 61 files changed, 0 insertions(+), 25912 deletions(-)
 
 commit 43aeb09391bf92189f16464e326a189c1396e100
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -725,7 +847,7 @@ Date:   Fri Feb 6 06:14:22 2009 +0000
  exec/exec/pgfSweave                                |   52 +
  exec/inst/COPYING                                  |   17 +
  exec/inst/doc/Sweave.sty                           |   27 +
- exec/inst/doc/figs/fig-normalSweave.pdf            |  177 ++
+ exec/inst/doc/figs/fig-normalSweave.pdf            |  Bin 0 -> 3015 bytes
  exec/inst/doc/figs/fig-pgfSweave-hist.pdf          |  Bin 0 -> 9589 bytes
  exec/inst/doc/figs/fig-third.pdf                   |  Bin 0 -> 68110 bytes
  exec/inst/doc/pgfSweave-example-Rnw.in             |   30 +
@@ -779,7 +901,7 @@ Date:   Fri Feb 6 06:14:22 2009 +0000
  exec/inst/misc/vignette-src/Makefile               |   40 +
  exec/inst/misc/vignette-src/Sweave.sty             |   27 +
  .../vignette-src/pgfSweave-vignette-source.Rnw     |  225 ++
- 61 files changed, 26089 insertions(+), 0 deletions(-)
+ 61 files changed, 25912 insertions(+), 0 deletions(-)
 
 commit 43a0c83a5c7424a403e4b1624d4007123b5ec159
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -819,7 +941,7 @@ Date:   Mon Jan 26 22:02:26 2009 +0000
  R/pgfSweaveDriver.R                                |    2 +-
  R/zzz.R                                            |    3 +-
  README                                             |    7 +-
- inst/doc/figs/fig-normalSweave.pdf                 |   86 +-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2914 -> 3015 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9201 -> 9589 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 67476 -> 68110 bytes
  inst/doc/pgfSweave-vignette.pdf                    |  Bin 177227 -> 178388 bytes
@@ -905,7 +1027,7 @@ Date:   Mon Jan 26 22:02:26 2009 +0000
  .../resources/fontdescriptions/ZapfDingbats.font   |    9 -
  inst/misc/eps2pgf/resources/texstrings/default.xml |  405 ---
  .../eps2pgf/resources/texstrings/mathematica.xml   |  504 ----
- 89 files changed, 25148 insertions(+), 25142 deletions(-)
+ 89 files changed, 25103 insertions(+), 25101 deletions(-)
 
 commit 01f30006a39af08f2d4f2334532aaa413c81ef97
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -924,13 +1046,13 @@ Date:   Tue Jan 20 08:36:40 2009 +0000
     -added example in external setion of vignette
 
  exec/pgfSweave                                     |   46 +++++---
- inst/doc/figs/fig-normalSweave.pdf                 |   84 +++++++-------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2955 -> 2914 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9571 -> 9201 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 68284 -> 67476 bytes
  inst/doc/pgfSweave-vignette.Rnw                    |  123 ++++++++++++++++----
  inst/doc/pgfSweave-vignette.pdf                    |  Bin 155486 -> 177227 bytes
  .../vignette-src/pgfSweave-vignette-source.Rnw     |   51 +++++++--
- 7 files changed, 209 insertions(+), 95 deletions(-)
+ 7 files changed, 168 insertions(+), 52 deletions(-)
 
 commit a534f4c036f8ee9e3c9905521e42d36225904fb4
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -960,7 +1082,7 @@ Date:   Sun Jan 18 05:10:43 2009 +0000
  NAMESPACE                                          |    1 +
  README                                             |    2 +
  exec/pgfSweave                                     |   43 +++++++++
- inst/doc/figs/fig-normalSweave.pdf                 |   81 ++++++++--------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2981 -> 2955 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 9586 -> 9571 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 67480 -> 68284 bytes
  inst/doc/pgfSweave-vignette.Rnw                    |   24 ++---
@@ -969,7 +1091,7 @@ Date:   Sun Jan 18 05:10:43 2009 +0000
  inst/misc/pgfsweave                                |    6 -
  inst/misc/vignette-src/Makefile                    |    9 +-
  .../vignette-src/pgfSweave-vignette-source.Rnw     |   98 ++++++++++++++------
- 12 files changed, 168 insertions(+), 98 deletions(-)
+ 12 files changed, 128 insertions(+), 57 deletions(-)
 
 commit 1610dab246ad134605c316bbcd249a270da51f45
 Author: Cameron Bracken <cameron.bracken@gmail.com>
@@ -978,21 +1100,21 @@ Date:   Wed Jan 14 05:51:13 2009 +0000
     - Workaround for vignette dependence on pgfSweave already being installed
     - run make and make cleanforbuild in inst/misc/vignette-src/ before submitting
 
- inst/doc/Sweave.sty                                |   27 +++
- inst/doc/figs/fig-normalSweave.pdf                 |  176 ++++++++++++++++++++
+ inst/doc/Sweave.sty                                |   27 ++++
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 0 -> 2981 bytes
  inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 0 -> 9586 bytes
  inst/doc/figs/fig-third.pdf                        |  Bin 0 -> 67480 bytes
  inst/doc/pgfSweave-example-Rnw.in                  |   30 ++++
  inst/doc/pgfSweave-example-tex.in                  |   30 ++++
- inst/doc/pgfSweave-vignette.Rnw                    |  160 ++++++++++++++++++
+ inst/doc/pgfSweave-vignette.Rnw                    |  160 ++++++++++++++++++++
  inst/doc/pgfSweave-vignette.pdf                    |  Bin 152972 -> 154548 bytes
  inst/example/Makefile                              |    6 +-
  inst/misc/pgfsweave                                |    6 +
  inst/misc/pgfsweave.sh                             |    6 -
  inst/misc/vignette-src/Makefile                    |   43 +++++-
- .../vignette-src/pgfSweave-vignette-source.Rnw     |  156 +++++++++++++++++
- inst/misc/vignette-src/pgfSweave-vignette.Rnw      |  157 -----------------
- 14 files changed, 627 insertions(+), 170 deletions(-)
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |  156 +++++++++++++++++++
+ inst/misc/vignette-src/pgfSweave-vignette.Rnw      |  157 -------------------
+ 14 files changed, 451 insertions(+), 170 deletions(-)
 
 commit 394db9a311a99495bc41dbef6e1c5742d79985c2
 Author: Cameron Bracken <cameron.bracken@gmail.com>

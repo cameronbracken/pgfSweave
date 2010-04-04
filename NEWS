@@ -1,8 +1,24 @@
 Please see the README directory for development info
 
 --------------------------
-Version 1.0 - 2009-10-14
+Version 1.0.4 - 2009-01-23
 --------------------------
+* Check for PGF > 2.00 on startup or fail to load
+* Fixes for examples in vignette
+
+--------------------------
+Version 1.0.3 - 2009-12-24
+--------------------------
+* Fix bug where externalization did not work if pdf and eps were not
+  explicitly set to FALSE. Thanks to Rasmus Pank for bringing this to my
+  attention.
+* Better help for pgfsweave-script.R
+* Better install script for command line interface
+
+--------------------------
+Version 1.0.0 - 2009-10-14
+--------------------------
+* First CRAN Release
 * The new package tikzDevice is now used by default instead of eps2pgf.  The 
   pgf option is still available but the use of tikzDevice is reccommended.
 * Updates to the vignette
@@ -17,7 +33,7 @@ Version 1.0 - 2009-10-14
 Version 0.7.2 - 2009-06-22
 --------------------------
 * Thanks to Charlie's ingenuity, pgfSweave now creates a symlink in $RHOME/bin 
-  to pgfsweave-script.R upon installation.  The result is that 
+  to pgfsweave-script.R upon source installation.  The result is that 
   `R CMD pgfsweave` 
   can now be used to compile!
 * New git repo for experimental features:
@@ -37,7 +53,7 @@ Version 0.7.1 - 2009-04-30
 * More work on vignette
 
 --------------------------
-Version 0.7 - 2009-02-19 
+Version 0.7.0 - 2009-02-19 
 --------------------------
 * Vignette is somewhat complete
 * Robust shell script for compiling in exec/ directory

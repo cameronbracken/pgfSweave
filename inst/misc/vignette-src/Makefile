@@ -19,7 +19,7 @@ EXEC_PATH=../../../exec/
 CHANGELOG_PATH=../../../
 
 RM_PATH={*,$(DOC_PATH)/*}
-RM_SUFFIX={sh,map,aux,tex,log,pdf,dvi,in,fdb_latexmk}
+RM_SUFFIX={sh,map,aux,tex,log,pdf,dvi,in,fdb_latexmk,out}
 BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk}
 
 #
@@ -49,8 +49,8 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 		  $(DOC_PATH)/pgfSweave-example-tex.in
 	cp -f $(EXAMPLE_PATH)/pgfSweave-example.pdf \
 		  $(DOC_PATH)/pgfSweave-example.pdf
-	# Remove the pgfrealjobname command and the path to the example files since
-	# the new file will be in the same directory 
+	# Remove the pgfrealjobname command and the path to the example files 
+	# since the new file will be in the same directory 
 	cat pgfSweave-vignette-source.tex \
 		| grep -v "\\pgfrealjobname{pgfSweave-vignette-source}" \
 		| sed 's/\.\.\/\.\.\/example\///g' > tmp
