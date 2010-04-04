@@ -1,3 +1,63 @@
+commit 481238dfd60acd0d34d94e4ab0d982dd28dc67be
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 4 14:19:59 2010 -0600
+
+    Code chunks no longer need to be labeled
+
+ NEWS                                               |    7 +
+ R/cacheSweaveUnexportedFunctions.R                 |    5 +-
+ R/pgfSweaveDriver.R                                |  970 ++++++++++----------
+ inst/misc/vignette-src/Makefile                    |    2 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    1 +
+ 5 files changed, 480 insertions(+), 505 deletions(-)
+
+commit 63435c5aa3ad9f722c3414c7d334d09502d7c530
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 4 12:40:34 2010 -0600
+
+    Minor edits to docs
+
+ README                  |    7 +++++--
+ exec/pgfsweave-script.R |    2 +-
+ man/pgfSweave.Rd        |   12 +++++++++---
+ 3 files changed, 15 insertions(+), 6 deletions(-)
+
+commit 2223ef242be27cec4a250a79948861577ac10f52
+Merge: c3461dd 94c62bf
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 4 12:34:07 2010 -0600
+
+    Merge branch 'master' of github.com:cameronbracken/pgfSweave
+
+commit c3461dd65d21b3ec979c0464a97bbcecb7cc9e7a
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 4 12:32:38 2010 -0600
+
+    Fix Makevars for building on Solaris
+
+ src/Makevars |    4 ----
+ 1 files changed, 0 insertions(+), 4 deletions(-)
+
+commit 94c62bfe979aface376e39fe336fe37599532deb
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 23 11:48:26 2010 -0700
+
+    Minor tweaks to NEWS, DESCRIPTION, README and vignette
+
+ ChangeLog                                          |   20 ++++++++++++++++++++
+ DESCRIPTION                                        |   18 ++++++++++++------
+ NEWS                                               |   13 ++++++++++---
+ README                                             |    2 --
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3140 -> 3071 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 17594 -> 17644 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28974 -> 28919 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 88333 -> 88546 bytes
+ inst/doc/pgfSweave.Rnw                             |    9 ++++-----
+ inst/doc/pgfSweave.pdf                             |  Bin 290255 -> 290456 bytes
+ inst/misc/vignette-src/Makefile                    |    4 ++--
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    5 ++---
+ 12 files changed, 50 insertions(+), 21 deletions(-)
+
 commit d970329d43165aab65424d1a16fda0c1030bd2f5
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Feb 23 01:57:06 2010 -0700

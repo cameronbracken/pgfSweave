@@ -1,3 +1,4 @@
+% !TEX TS-program = pgfSweave
 \RequirePackage{atbegshi}
 \documentclass{article}
 
@@ -340,7 +341,7 @@ The default in \code{Sweave.sty} is to fix the width of every image to 80\% of t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Command line interface\label{commandline}}
 
-In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  {\color{red} The only way to gain access to this interface is to install \pkg{pgfSweave} from source!}.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
+In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
 
 Here is a listing from \code{R CMD pgfsweave --help}:
 
