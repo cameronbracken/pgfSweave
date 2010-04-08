@@ -8,7 +8,7 @@ Maintainer: Cameron Bracken <cameron.bracken@gmail.com>
 Depends: stashR, filehash, tikzDevice, cacheSweave, getopt
 Imports: digest, tools, utils
 SystemRequirement: pgf (>=2.00) (http://sourceforge.net/projects/pgf/) for the 
-      vignette and for externalization. GNU make.
+      vignette and for externalization.
 Description:  The pgfSweave package provides capabilities for 'caching' 
       graphics generated with Sweave.  Using pgfSweave, figure labels are 
       converted to LaTeX strings so not only do they match the style of the 

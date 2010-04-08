@@ -1,3 +1,39 @@
+commit a6c2600e7df9b9137c0ef1c0caf6d002df33e36e
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 6 18:29:32 2010 -0600
+
+    Revert Makevars to use GNU make conditional, list GNU make as SystemRequirement
+
+ DESCRIPTION  |    3 ++-
+ src/Makevars |    4 ++++
+ 2 files changed, 6 insertions(+), 1 deletions(-)
+
+commit 0c7ffb21a7b856e6a484004fb7bb211254a9a830
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 4 14:44:14 2010 -0600
+
+    Add removed example file
+
+ inst/example/pgfSweave-example.tex |   44 ++++++++++++++++++++++++++++++++++++
+ 1 files changed, 44 insertions(+), 0 deletions(-)
+
+commit c2811c2a1cd9af4cad36391c7f1b2913071543d1
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 4 14:42:36 2010 -0600
+
+    Version 1.0.5
+
+ ChangeLog                                 |   60 +++++++++++++++++++++++++++++
+ DESCRIPTION                               |    2 +-
+ NEWS                                      |    3 +-
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 3071 -> 3056 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17644 -> 17639 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28919 -> 28915 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 88546 -> 88353 bytes
+ inst/doc/pgfSweave.Rnw                    |    3 +-
+ inst/doc/pgfSweave.pdf                    |  Bin 290456 -> 293971 bytes
+ 9 files changed, 64 insertions(+), 4 deletions(-)
+
 commit 481238dfd60acd0d34d94e4ab0d982dd28dc67be
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Sun Apr 4 14:19:59 2010 -0600
