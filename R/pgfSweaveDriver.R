@@ -163,6 +163,80 @@ makeExternalShellScriptName <- function(Rnwfile) {
     shellfile
 }
 
+## preserve comments in the R code and at the same time make them 'well-formatted'
+tidy.source = function(source = "clipboard", keep.comment = TRUE,
+    keep.blank.line = TRUE, begin.comment, end.comment, output = TRUE,
+    width.cutoff = 60L, ...) {
+    if (source == "clipboard" && Sys.info()["sysname"] == "Darwin") {
+        source = pipe("pbpaste")
+    }
+    tidy.block = function(block.text) {
+        exprs = base::parse(text = block.text)
+        n = length(exprs)
+        res = character(n)
+        for (i in 1:n) {
+            dep = paste(base::deparse(exprs[i], width.cutoff),
+                collapse = "\n")
+            res[i] = substring(dep, 12, nchar(dep) - 1)
+        }
+        return(res)
+    }
+    text.lines = readLines(source, warn = FALSE)
+    if (keep.comment) {
+        identifier = function() paste(sample(LETTERS), collapse = "")
+        if (missing(begin.comment))
+            begin.comment = identifier()
+        if (missing(end.comment))
+            end.comment = identifier()
+        text.lines = gsub("^[[:space:]]+|[[:space:]]+$", "",
+            text.lines)
+        while (length(grep(sprintf("%s|%s", begin.comment, end.comment),
+            text.lines))) {
+            begin.comment = identifier()
+            end.comment = identifier()
+        }
+        head.comment = substring(text.lines, 1, 1) == "#"
+        if (any(head.comment)) {
+            text.lines[head.comment] = gsub("\"", "'", text.lines[head.comment])
+            text.lines[head.comment] = sprintf("%s=\"%s%s\"",
+                begin.comment, text.lines[head.comment], end.comment)
+        }
+        blank.line = text.lines == ""
+        if (any(blank.line) & keep.blank.line)
+            text.lines[blank.line] = sprintf("%s=\"%s\"", begin.comment,
+                end.comment)
+        text.mask = tidy.block(text.lines)
+        text.tidy = gsub(sprintf("%s = \"|%s\"", begin.comment,
+            end.comment), "", text.mask)
+    }
+    else {
+        text.tidy = text.mask = tidy.block(text.lines)
+        begin.comment = end.comment = ""
+    }
+    if (output)
+        cat(paste(text.tidy, collapse = "\n"), "\n", ...)
+    invisible(list(text.tidy = text.tidy, text.mask = text.mask,
+        begin.comment = begin.comment, end.comment = end.comment))
+}
+
+## to replace the default parse()
+parse2 = function(text, ...) {
+    zz = tempfile()
+    enc = options(encoding = "native.enc")
+    writeLines(text, zz)
+    tidy.res = tidy.source(zz, out = FALSE, keep.blank.line = FALSE)
+    options(enc)
+    unlink(zz)
+    options(begin.comment = tidy.res$begin.comment, end.comment = tidy.res$end.comment)
+    base::parse(text = tidy.res$text.mask)
+}
+
+## to replace the default deparse()
+deparse2 = function(expr, ...) {
+    gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
+        getOption("end.comment")), "", base::deparse(expr, ...))
+}
+
 
 
 ## This function is essentially unchanged from the original Sweave
@@ -217,7 +291,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   SweaveHooks(options, run=TRUE)
 
   ## parse entire chunk block
-  chunkexps <- try(parse(text=chunk), silent=TRUE)
+  chunkexps <- try(parse2(text=chunk), silent=TRUE)
   RweaveTryStop(chunkexps, options)
 
   ## [CWB] Create a DB entry which is simply the digest of the text of 
@@ -278,7 +352,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           leading <- leading - 1
         }
     } else {
-      dce <- deparse(ce, width.cutoff = 0.75*getOption("width"))
+      dce <- deparse2(ce, width.cutoff = 0.75*getOption("width"))
       leading <- 1
     }
     if(object$debug)
