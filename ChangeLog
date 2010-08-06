@@ -1,3 +1,31 @@
+commit 90eca3594203c1f5fefc286040958a8d57441b5f
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Apr 28 17:46:04 2010 -0600
+
+    Incorporating changes from Yihui Xie which preserves comments in echo'd code when keep.source=F
+
+ R/pgfSweaveDriver.R |   78 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 files changed, 76 insertions(+), 2 deletions(-)
+
+commit d8ec8642a7296225877f14a40098fdb43cf92cb8
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Apr 8 13:02:12 2010 -0600
+
+    Try using predefined R_HOME in Makevars and no GNU Make requirement
+    
+    Add binary attribute to pdf files to avoid merging, rebuild vignette to test
+
+ .gitattributes                            |    1 +
+ ChangeLog                                 |   36 +++++++++++++++++++++++++++++
+ DESCRIPTION                               |    2 +-
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 3056 -> 3140 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17639 -> 17643 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28915 -> 28962 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 88353 -> 88361 bytes
+ inst/doc/pgfSweave.pdf                    |  Bin 293971 -> 294117 bytes
+ src/Makevars                              |    4 ---
+ 9 files changed, 38 insertions(+), 5 deletions(-)
+
 commit a6c2600e7df9b9137c0ef1c0caf6d002df33e36e
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Apr 6 18:29:32 2010 -0600

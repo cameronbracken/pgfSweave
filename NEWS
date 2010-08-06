@@ -1,4 +1,10 @@
-Please see the README directory for development info
+Please see the README.md file for development info
+
+--------------------------
+Version 1.0.6 - 2010-08-06
+--------------------------
+* Incorporated changes from Yihui Xie which preserves comments in echo'd code
+  when keep.source=F
 
 --------------------------
 Version 1.0.5 - 2010-04-04
