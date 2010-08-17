@@ -46,6 +46,10 @@ checkPGFVersion2orDie <- function(){
 	# tikzTeXWidth in the logfile.
 	match <- logContents[ grep('PGFVersion=', logContents) ]
 
+	# if pgf is not available, compilation will stop before printing anything 
+	# out and there will be no matches. 
+	if( length(match) == 0 ) stop("PGF >= 2.00 is required to use pgfSweave")
+
 	# Remove all parts of the string besides the
 	# number.
 	version <- gsub('[=A-Za-z-]','',match)
