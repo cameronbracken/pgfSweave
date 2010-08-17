@@ -22,7 +22,7 @@ cacheSweave and therefore also Sweave.
 
 ##BUGS
 * If java does not exist the compilation is reported as successful though 
-  the pgf file did not properly get created. 
+  the pgf file did not properly get created when using eps2pgf. 
  
 * A stray Rplots.pdf gets generated using caching. Not sure if this a 
   cacheSweave or Sweave or a pgfSweave problem.  When using a gui 

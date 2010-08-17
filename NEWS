@@ -1,6 +1,11 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.0.7 - 2010-08-17
+--------------------------
+* Better error messages on load when pgf is not present
+
+--------------------------
 Version 1.0.6 - 2010-08-06
 --------------------------
 * Incorporated changes from Yihui Xie which preserves comments in echo'd code
