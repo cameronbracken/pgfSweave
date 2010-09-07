@@ -1,3 +1,42 @@
+commit 08a37f83b158d592602b2193b42b90ee4bacc447
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Aug 17 11:34:01 2010 -0600
+
+    Updated version and added changes to NEWS
+
+ DESCRIPTION |    4 ++--
+ NEWS        |    5 +++++
+ README.md   |    2 +-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
+
+commit bb145cb30dfb68b304f63910824fab60bdd48010
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Aug 17 11:20:30 2010 -0600
+
+    Better error message when pgf is not present at all
+
+ R/zzz.R |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+commit 7bbab36054009e9b5964497aeb39776c40b1e4d8
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Aug 6 10:38:23 2010 -0600
+
+    Version 1.0.6
+
+ .gitignore                                |    1 +
+ ChangeLog                                 |   28 ++++++
+ DESCRIPTION                               |    4 +-
+ NEWS                                      |    8 ++-
+ README                                    |  126 ----------------------------
+ README.md                                 |  128 +++++++++++++++++++++++++++++
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 3140 -> 3044 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 17643 -> 16199 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28962 -> 26902 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 88361 -> 83289 bytes
+ inst/doc/pgfSweave.pdf                    |  Bin 294117 -> 259847 bytes
+ 11 files changed, 166 insertions(+), 129 deletions(-)
+
 commit 90eca3594203c1f5fefc286040958a8d57441b5f
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Wed Apr 28 17:46:04 2010 -0600

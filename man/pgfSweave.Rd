@@ -5,7 +5,7 @@
 \title{Quality speedy graphics compilation with Sweave}
 
 \description{
-The pgfSweave package provides capabilities for 'caching' graphics generated with Sweave.  Using pgfSweave, figure labels are converted to LaTeX strings so not only do they match the style of the document but math can be put in labels. pgfSweave provides a new driver for Sweave (pgfSweaveDriver) and new chunk options tikz, pgf and external on top of the cache option provided by cacheSweave. This package is built upon cacheSweave and therefore also Sweave.
+The pgfSweave package provides capabilities for 'caching' graphics generated with Sweave.  Using pgfSweave, figure labels are converted to LaTeX strings so not only do they match the style of the document but math can be put in labels. pgfSweave provides a new driver for Sweave (pgfSweaveDriver) and new chunk options tikz, pgf, external and sanitize on top of the cache option provided by cacheSweave. This package is built upon cacheSweave and therefore also Sweave.
 }
 
 \usage{

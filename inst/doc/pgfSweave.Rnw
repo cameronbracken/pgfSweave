@@ -165,6 +165,10 @@ Output:
 
 The \code{.pgf} file is generated with the \pkg{eps2pgf} utility. The \code{postscript} graphics device is used first to generate a \code{.eps} file.  Then the command \begin{verbatim}$ java -jar /path/to/eps2pgf.jar -m directcopy graphic.eps\end{verbatim} is run on every code chunk that has \code{fig=TRUE} and \code{pgf=TRUE}.  We do not  recommend using this option in favor of the \code{tikz} option.  Using the \code{pgf} option  involves two creation steps instead of one and it strips the \lang{R} text styles (such as boldface).
 
+\subsection{The \code{sanatize} option}
+
+This option is a boolean value that accesses the \code{tikz()} option of the same name.  Please see the \code{tikz()} documentation for more details. 
+
 \subsection{The \code{external} option}
 
 The external option is the interface to the graphics caching mechanism in \pkg{pgfSweave}. This option will wrap your graphics output in \code{$\backslash$beginpgfgraphicnamed} and \code{$\backslash$endpgfgraphicnamed}.
