@@ -119,7 +119,8 @@ pgfSweaveSetup <- function(file, syntax,
               output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
               eval=TRUE, split=FALSE, stylepath=TRUE, 
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE, 
-              tikz=TRUE, external=FALSE, tex.driver="pdflatex")
+              tikz=TRUE, external=FALSE, tex.driver="pdflatex", 
+              sanitize = FALSE)
 {
 
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
@@ -137,6 +138,7 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["tikz"]] <- tikz
     out$options[["external"]] <- external
     out[["tex.driver"]] <- tex.driver
+    out$options[["sanitize"]] <- sanitize
     ## end [CWB]
 
     ## We assume that each .Rnw file gets its own map file
@@ -265,6 +267,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if(options$pgf) cat(" pgf")
         if(options$tikz | options$external) cat(" tikz")
         if(options$external) cat(" external")
+        if(options$tikz & options$sanitize) cat(" sanitize")
       }
     }
     if(!is.null(options$label))
@@ -567,7 +570,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     if(options$tikz){
       if(chunkChanged | !pdfExists){
         tikzDevice::tikz(file=paste(chunkprefix, "tikz", sep="."), 
-          width=options$width, height=options$height)
+          width=options$width, height=options$height, 
+          sanitize=options$sanitize)
     
         err <- try({
           SweaveHooks(options, run=TRUE)
