@@ -1,6 +1,12 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.1 - 2010-09-13
+--------------------------
+* New chunk option `highlight' for automatic highlighting of echo'd source 
+  code.  This option is enabled by default when echo=T.
+
+--------------------------
 Version 1.0.8 - 2010-09-06
 --------------------------
 * New code chunk option `sanitize', a boolean value which accesses the tikz() 

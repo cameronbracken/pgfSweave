@@ -26,7 +26,7 @@ pgfSweaveDriver <- function() {
     list(
        setup = pgfSweaveSetup,
        runcode = pgfSweaveRuncode,
-       writedoc = utils::RweaveLatexWritedoc,
+       writedoc = pgfSweaveWritedoc,
        finish = utils::RweaveLatexFinish,
        checkopts = utils::RweaveLatexOptions
        )
@@ -114,13 +114,89 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
   list(err=res,chunkChanged=chunkChanged)
 }
 
-## Add the 'pgf' and 'external' and 'pdflatex' option to the list
+pgfSweaveWritedoc <- function (object, chunk) 
+{
+    linesout <- attr(chunk, "srclines")
+    if (length(grep("\\usepackage[^\\}]*Sweave.*\\}", chunk))) 
+        object$havesty <- TRUE
+    if (!object$havesty) {
+        begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
+        which <- grep(begindoc, chunk)
+        if (length(which)) {
+            chunk[which] <- sub(begindoc, paste("\\\\usepackage{", 
+                object$styfile, "}\n\\\\begin{document}", sep = ""), 
+                chunk[which])
+            linesout <- linesout[c(1L:which, which, seq(from = which + 
+                1L, length.out = length(linesout) - which))]
+            object$havesty <- TRUE
+        }
+    }
+    if(object$options$highlight){
+	    if (!object$haveHighlightSyntaxDef) {
+                # get the latex style definitions from the highlight package
+	        tf <- tempfile()
+	        cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
+	        cat(boxes_latex(),sep='\n',file=tf,append=T)
+	        hstyle <- readLines(tf)
+                # find where to put the style definitions
+		    begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
+            which <- grep(begindoc, chunk)
+            otherwhich <- grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)
+            if(!length(which)) which <- otherwhich
+                # put in the style definitions before the \begin{document}
+		    if(length(which)) {
+                chunk <- c(chunk[1:(which-1)],hstyle,chunk[which:length(chunk)])
+		    	
+                linesout <- linesout[c(1L:which, which, seq(from = which + 
+                    1L, length.out = length(linesout) - which))]
+		    	object$haveHighlightSyntaxDef <- TRUE
+		    }
+        }
+    }
+    while (length(pos <- grep(object$syntax$docexpr, chunk))) {
+        cmdloc <- regexpr(object$syntax$docexpr, chunk[pos[1L]])
+        cmd <- substr(chunk[pos[1L]], cmdloc, cmdloc + attr(cmdloc, 
+            "match.length") - 1L)
+        cmd <- sub(object$syntax$docexpr, "\\1", cmd)
+        if (object$options$eval) {
+            val <- as.character(eval(parse(text = cmd), envir = .GlobalEnv))
+            if (length(val) == 0L) 
+                val <- ""
+        }
+        else val <- paste("\\\\verb{<<", cmd, ">>{", sep = "")
+        chunk[pos[1L]] <- sub(object$syntax$docexpr, val, chunk[pos[1L]])
+    }
+    while (length(pos <- grep(object$syntax$docopt, chunk))) {
+        opts <- sub(paste(".*", object$syntax$docopt, ".*", sep = ""), 
+            "\\1", chunk[pos[1L]])
+        object$options <- utils:::SweaveParseOptions(opts, object$options, 
+            RweaveLatexOptions)
+        if (isTRUE(object$options$concordance) && !object$haveconcordance) {
+            savelabel <- object$options$label
+            object$options$label <- "concordance"
+            prefix <- utils:::RweaveChunkPrefix(object$options)
+            object$options$label <- savelabel
+            object$concordfile <- paste(prefix, "tex", sep = ".")
+            chunk[pos[1L]] <- sub(object$syntax$docopt, paste("\\\\input{", 
+                prefix, "}", sep = ""), chunk[pos[1L]])
+            object$haveconcordance <- TRUE
+        }
+        else chunk[pos[1L]] <- sub(object$syntax$docopt, "", 
+            chunk[pos[1L]])
+    }
+    cat(chunk, sep = "\n", file = object$output, append = TRUE)
+    object$linesout <- c(object$linesout, linesout)
+    return(object)
+}
+
+
+## Add the 'pgf' and 'external', 'pdflatex', 'sanitize' option to the list
 pgfSweaveSetup <- function(file, syntax,
               output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
               eval=TRUE, split=FALSE, stylepath=TRUE, 
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE, 
               tikz=TRUE, external=FALSE, tex.driver="pdflatex", 
-              sanitize = FALSE)
+              sanitize = FALSE, highlight = TRUE)
 {
 
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
@@ -139,6 +215,8 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["external"]] <- external
     out[["tex.driver"]] <- tex.driver
     out$options[["sanitize"]] <- sanitize
+    out$options[["highlight"]] <- ifelse(echo,highlight,FALSE)
+    out[["haveHighlightSyntaxDef"]] <- FALSE
     ## end [CWB]
 
     ## We assume that each .Rnw file gets its own map file
@@ -256,6 +334,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   if(!object$quiet){
     cat(formatC(options$chunknr, width=2), ":")
     if(options$echo) cat(" echo")
+    if(options$highlight) cat(" highlight")
     if(options$keep.source) cat(" keep.source")
     if(options$eval){
       if(options$print) cat(" print")
@@ -306,9 +385,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   ## will get regenerated.
   chunkTextEvalString <- paste("chunkText <- '", 
     digest(paste(chunk,collapse='')), "'", sep='')
-  #print(chunkTextEvalString)
-  if(substr(chunk[1],1,9)!='chunkText')
-    chunk <- c(chunkTextEvalString, chunk)
+  attr(chunk, "digest") <- digest(paste(chunk,collapse=''))
+  #if(substr(chunk[1],1,9)!='chunkText')
+  #  chunk <- c(chunkTextEvalString, chunk)
   ## end [CWB]
 
   ## Adding my own stuff here [RDP]
@@ -334,34 +413,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   thisline <- 0
   for(nce in 1:length(chunkexps)){
     ce <- chunkexps[[nce]]
-    if (nce <= length(srcrefs) && 
-      !is.null(srcref <- srcrefs[[nce]])) {
-        if (options$expand) {
-          srcfile <- attr(srcref, "srcfile")
-          showfrom <- srcref[1]
-          showto <- srcref[3]
-        } else {
-          srcfile <- object$srcfile
-          showfrom <- srclines[srcref[1]]
-          showto <- srclines[srcref[3]]
-        }
-        dce <- getSrcLines(srcfile, lastshown+1, showto)
-        leading <- showfrom-lastshown
-        lastshown <- showto
-        srcline <- srclines[srcref[3]]
-        while (length(dce) 
-          && length(grep("^[ \\t]*$", dce[1]))) {
-          dce <- dce[-1]
-          leading <- leading - 1
-        }
-    } else {
-      dce <- deparse2(ce, width.cutoff = 0.75*getOption("width"))
-      leading <- 1
-    }
+   
+	dce <- deparse2(ce, width.cutoff = 0.75*getOption("width"))
+    leading <- 1
+
     if(object$debug)
       cat("\nRnw> ", paste(dce, collapse="\n+  "),"\n")
     if(options$echo && length(dce)){
-      if(!openSinput){
+      if(!openSinput & !options$highlight){
         if(!openSchunk){
           cat("\\begin{Schunk}\n",file=chunkout, append=TRUE)
             linesout[thisline + 1] <- srcline
@@ -371,11 +430,23 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           cat("\\begin{Sinput}",file=chunkout, append=TRUE)
           openSinput <- TRUE
       }
-      cat("\n",paste(getOption("prompt"), dce[1:leading], sep="", 
-        collapse="\n"), file=chunkout, append=TRUE, sep="")
-      if (length(dce) > leading)
-        cat("\n", paste(getOption("continue"), dce[-(1:leading)], sep="", 
+
+         # Code highlighting stuff
+      if(options$highlight){
+	
+        highlight(parser.output=parser(text=dce),
+          renderer=renderer_latex(document=FALSE), 
+          output = chunkout, showPrompts=TRUE,final.newline = TRUE)
+            # highlight doesnt put in an ending newline for some reason
+        if(length(dce) == 1) cat(newline_latex(),file=chunkout, append=TRUE)
+
+      }else{
+        cat("\n",paste(getOption("prompt"), dce[1:leading], sep="", 
           collapse="\n"), file=chunkout, append=TRUE, sep="")
+        if (length(dce) > leading)
+          cat("\n", paste(getOption("continue"), dce[-(1:leading)], sep="", 
+            collapse="\n"), file=chunkout, append=TRUE, sep="")
+      }
       linesout[thisline + 1:length(dce)] <- srcline
       thisline <- thisline + length(dce)
     }
@@ -457,6 +528,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     }
   }
 
+  if(options$highlight)
+    cat("\n", file=chunkout, append=TRUE)
+
   if(openSinput){
     cat("\n\\end{Sinput}\n", file=chunkout, append=TRUE)
     linesout[thisline + 1:2] <- srcline
@@ -468,6 +542,10 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     linesout[thisline + 1] <- srcline
     thisline <- thisline + 1
   }
+
+	#put in an extra newline before the output for good measure
+  cat("\n", file=chunkout, append=TRUE)
+
 
   if(is.null(options$label) & options$split)
     close(chunkout)
@@ -593,7 +671,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       }
     }
     if(options$include && options$external) {
-      cat("\\beginpgfgraphicnamed{",chunkprefix,"}\n",sep="",
+      cat("\n\\beginpgfgraphicnamed{",chunkprefix,"}\n",sep="",
         file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1

@@ -24,7 +24,7 @@ into a \LaTeX{} document:
 data(airquality)
 kruskal.test(Ozone ~ Month, data = airquality)
 @
-which shows that the location parameter of the Ozone distribution varies 
+\noindent which shows that the location parameter of the Ozone distribution varies 
 significantly from month to month. Finally we include a boxplot of the data:
 
 
@@ -33,8 +33,8 @@ significantly from month to month. Finally we include a boxplot of the data:
 \centering
 %notice the new options
 <<boxplot,echo=F,fig=T,tikz=T,external=T,width=4,height=4>>=
-	boxplot(Ozone ~ Month, data = airquality,main='Ozone distribution',
-		xlab='Month',ylab='Concentration')
+	boxplot(Ozone ~ Month, data = airquality,
+		main='Ozone distribution',xlab='Month',ylab='Concentration')
 		
 @
 \caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the

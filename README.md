@@ -1,23 +1,25 @@
 #pgfSweave README
 ##ABOUT
 
-The pgfSweave package provides capabilities for "caching" graphics 
-generated with Sweave.  Using pgfSweave, figure labels are converted to 
-LaTeX strings so not only do they match the style of the document but math 
-can be put in labels. pgfSweave provides a new driver for Sweave 
-(pgfSweaveDriver) and new chunk options pgf and external on top of the 
-cache option provided by cacheSweave. This package is built upon 
-cacheSweave and therefore also Sweave.
+pgfSweave provides a number of improvements to the improve 
+speed and quality of the Sweave output including: (1) capabilities for 
+'caching' graphics generated with Sweave on top of the caching 
+mechanisms provided by cacheSweave, (2) an interface to the tikzDevice 
+package which provides graphics with consistent font style, sizing 
+and quality as the main document and (3) Automatic highlighting of 
+echo'd source code via the highlight package. pgfSweave provides a new 
+driver for Sweave (pgfSweaveDriver) with new chunk options tikz, pgf, 
+external, sanitize and highlight on top of the cache option provided by 
+cacheSweave.
 
 
 ##TODO
  
-* Add option to copy Sweave.sty to the local directory, circumventing path 
-  issues on windows
- 
 * Add options to access the noae and nogin options in Sweave.sty.  The 
   logical thing for pgfSweave is to set nogin by default i.e. 
   `\usepackage[nogin]{Sweave}`.
+
+* check for `\pgfrealjobname`
 
 
 ##BUGS
