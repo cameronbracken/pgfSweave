@@ -438,7 +438,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           renderer=renderer_latex(document=FALSE), 
           output = chunkout, showPrompts=TRUE,final.newline = TRUE)
             # highlight doesnt put in an ending newline for some reason
-        if(length(dce) == 1) cat(newline_latex(),file=chunkout, append=TRUE)
+		cat(newline_latex(),file=chunkout, append=TRUE)
 
       }else{
         cat("\n",paste(getOption("prompt"), dce[1:leading], sep="", 
