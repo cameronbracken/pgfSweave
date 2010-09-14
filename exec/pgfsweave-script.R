@@ -41,6 +41,7 @@ optspec <- matrix(c(
 
 opt <- try(getopt(optspec),silent=TRUE)
 if(class(opt) == 'try-error') opt <- list()
+opt[names(opt)=="ARGS"] <- NULL
 
 if( !is.null(opt$help    )) { cat(usage); q(status=1) }
 if( !is.null(opt$version )) { cat(ver,'\n'); q(status=1) }
@@ -65,8 +66,11 @@ suppressPackageStartupMessages(library(cacheSweave))
 suppressPackageStartupMessages(library(tikzDevice))
 suppressPackageStartupMessages(library(pgfSweave))
 
-cat('pgfsweave-script.R: using options:\n')
-print(opt)
+cat('pgfsweave-script.R: pgfSweave version',ver,'\n')
+for(i in seq_along(opt))
+	cat(names(opt)[i],':',rep(' ',max(nchar(names(opt))) - nchar(names(opt)[i])),
+		'   ',opt[[i]],'\n',sep='')
+cat('\n')
 
 if(opt[['graphics-only']]){
     # In the first case run through pgfSweave but no not compile document or 
