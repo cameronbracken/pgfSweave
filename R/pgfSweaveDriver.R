@@ -119,8 +119,8 @@ pgfSweaveSetup <- function(file, syntax,
               output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
               eval=TRUE, split=FALSE, stylepath=TRUE, 
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE, 
-              tikz=TRUE, external=FALSE, tex.driver="pdflatex", 
-              sanitize = FALSE)
+              tikz=TRUE, external=FALSE, sanitize = FALSE,
+              tex.driver="pdflatex")
 {
 
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
