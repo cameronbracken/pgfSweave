@@ -13,7 +13,7 @@ pgfSweaveSetup(file, syntax,
                output = NULL, quiet = FALSE, debug = FALSE, echo = TRUE,
                eval = TRUE, split = FALSE, stylepath = TRUE, pdf = FALSE,
                eps = FALSE, cache = FALSE, pgf = FALSE, tikz = TRUE,
-               external=FALSE, tex.driver = "pdflatex")
+               external=FALSE, sanitize = FALSE, tex.driver = "pdflatex")
 }
 \arguments{
     \item{file}{A connection or a character string giving the name of the Sweave file to load.}
@@ -31,6 +31,7 @@ pgfSweaveSetup(file, syntax,
     \item{tikz}{Set default for option \code{tikz}, see details below.}
     \item{pgf}{Set default for option \code{pgf}, see details below.}
     \item{external}{Set default for option \code{external}, see details below.}
+    \item{sanitize}{Set default for option \code{sanitize}, see details below.}
     \item{tex.driver}{Set default for option \code{tex.driver}, see details below.}
 }
 \details{
@@ -40,11 +41,13 @@ To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as t
     This function provides new options for use in code chunks 
 \describe{
 	
-	\item{external}{ Use the graphics externalization feature of the TeX package pgf.  Once a graphic is created, a code chunk is not evaluated again until changes are made.  Essentially the graphic is ``cached'' (defaults to \code{FALSE}).}
+	\item{\code{external}}{ Use the graphics externalization feature of the TeX package pgf.  Once a graphic is created, a code chunk is not evaluated again until changes are made.  Essentially the graphic is ``cached'' (defaults to \code{FALSE}).}
 
 	\item{\code{tikz}}{ Generate a TikZ commands in a \code{.tikz} file with the \pkg{tikzDevice} package for inclusion with \\\code{input\{graphic.tikz\}} this takes the place of an \\\code{includegraphics} statement. This will cause the font in the graphic to match that of the main document. (defaults to \code{TRUE}). We recommend using this option over the \code{pgf} option for both speed and text consistancy (the \code{pgf}) option will strip text formatting such as boldface.}
 	
 	\item{\code{pgf}}{ Generate an eps file and use the eps2pgf utility to generate a pgf graphic for inclusion with \\\code{input{graphic.pgf}} thi takes the place of an \\\code{includegraphics} statement. The \code{-m directcopy} option is used so that LaTeX code can be directly used in titles (see the eps2pgf manual, \url{http://sourceforge.net/projects/eps2pgf/}).  This also causes the font in the graphic to match that of the main document. (defaults to \code{FALSE})}
+	
+	\item{\code{sanitize}}{ Access to the \pkg{tikzDevice} option of the same name, see \code{\link[tikzDevice]{tikzDevice}} for more info.}
 	
 	\item{\code{tex.driver}}{ A character string giving the LaTeX driver to use for compiling external graphics (defaults to ``pdflatex'') }
 	
