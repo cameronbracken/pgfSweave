@@ -197,7 +197,8 @@ tidy.source = function(source = "clipboard", keep.comment = TRUE,
             begin.comment = identifier()
             end.comment = identifier()
         }
-        head.comment = substring(text.lines, 1, 1) == "#"
+        head.comment = (substring(text.lines, 1, 1) == "#") && 
+            (substring(text.lines, 1, 5) != "#line")
         if (any(head.comment)) {
             text.lines[head.comment] = gsub("\"", "'", text.lines[head.comment])
             text.lines[head.comment] = sprintf("%s=\"%s%s\"",
