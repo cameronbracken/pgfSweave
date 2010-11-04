@@ -1,3 +1,111 @@
+commit c022dab0dcadb7b798aa0267897ca985b2f9eadc
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Nov 3 13:22:56 2010 -0600
+
+    Fix for "#line" comments showing up in echo'd code in 2.12.0, fixes issue 1.
+
+ R/pgfSweaveDriver.R                |    3 ++-
+ inst/doc/pgfSweave.pdf             |  Bin 260062 -> 258836 bytes
+ inst/example/pgfSweave-example.tex |    2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 91209db8f9a9d7b696c187b7302c24271cbcb1a7
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Sep 14 00:08:53 2010 -0600
+
+    Version 1.0.9
+
+ DESCRIPTION |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 29e49c637525b9a766218ab46aa13f29ab5c5a45
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Sep 14 00:06:13 2010 -0600
+
+    Version 1.0.9
+
+ NEWS |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+commit 08cd5834218a16fb5e1441ce6a33c8a1fb6c3bf1
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Sep 14 00:04:13 2010 -0600
+
+    Add Rd documentation for sanitize option
+
+ R/pgfSweaveDriver.R    |    4 ++--
+ man/pgfSweaveDriver.Rd |    7 +++++--
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+commit 32fbdf13d899c2dd2ca597f013346a218e492698
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Sep 13 21:20:25 2010 -0600
+
+    Better printing of options with pgfsweave-script.R
+
+ exec/pgfsweave-script.R |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
+
+commit 24d6be79db77ea2b50d222821cf74465233e0186
+Merge: 5c6e4ca 99c533d
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Sep 7 16:55:22 2010 -0600
+
+    Merge branch 'master' of github.com:cameronbracken/pgfSweave
+    
+    Conflicts:
+    	inst/doc/figs/fig-normalSweave.pdf
+    	inst/doc/figs/fig-pgfSweave-hist.pdf
+    	inst/doc/figs/fig-pgfSweave-tikz-hist.pdf
+    	inst/doc/pgfSweave-example.pdf
+    	inst/doc/pgfSweave.Rnw
+    	inst/doc/pgfSweave.pdf
+    	inst/misc/vignette-src/pgfSweave-vignette-source.Rnw
+
+commit 5c6e4cafaac0320d0a43725bc3ea5754031cb013
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Sep 7 16:22:11 2010 -0600
+
+    Version 1.0.8
+    
+    - new option `sanitize' which accesses the tikz() option of the same name
+
+ ChangeLog                                          |   39 ++++++++++++++++++++
+ DESCRIPTION                                        |    4 +-
+ NEWS                                               |    8 ++++-
+ R/pgfSweaveDriver.R                                |    8 +++-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3044 -> 3019 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16199 -> 16294 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26902 -> 26904 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 83289 -> 82965 bytes
+ inst/doc/pgfSweave.Rnw                             |    4 ++
+ inst/doc/pgfSweave.pdf                             |  Bin 259847 -> 260062 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    4 ++
+ man/pgfSweave.Rd                                   |    2 +-
+ 12 files changed, 63 insertions(+), 6 deletions(-)
+
+commit 99c533dc684562e8592adf775a6f75b6d84f33c5
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Sep 6 21:22:12 2010 -0600
+
+    Version 1.0.8
+    
+    - New chunk option which accesses the tikz() option of the same name
+
+ ChangeLog                                          |   39 ++++++++++++++++++++
+ DESCRIPTION                                        |    4 +-
+ NEWS                                               |    8 ++++-
+ R/pgfSweaveDriver.R                                |    8 +++-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3044 -> 3048 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16199 -> 17574 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26902 -> 28941 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 83289 -> 88366 bytes
+ inst/doc/pgfSweave.Rnw                             |    4 ++
+ inst/doc/pgfSweave.pdf                             |  Bin 259847 -> 294549 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    4 ++
+ man/pgfSweave.Rd                                   |    2 +-
+ 12 files changed, 63 insertions(+), 6 deletions(-)
+
 commit 08a37f83b158d592602b2193b42b90ee4bacc447
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Aug 17 11:34:01 2010 -0600

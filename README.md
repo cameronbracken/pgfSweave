@@ -9,6 +9,9 @@ can be put in labels. pgfSweave provides a new driver for Sweave
 cache option provided by cacheSweave. This package is built upon 
 cacheSweave and therefore also Sweave.
 
+Pleas read the package vignette `inst/doc/pgfSweave.pdf` for more information 
+on installation and usage.  
+
 
 ##TODO
  

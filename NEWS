@@ -1,6 +1,11 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.0.10 - 2010-11-03
+--------------------------
+* Fixed issue with echo'd code in R 2.12.0
+
+--------------------------
 Version 1.0.9 - 2010-09-14
 --------------------------
 * Nicer printing of options in pgfsweave-script.R
