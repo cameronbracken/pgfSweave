@@ -30,6 +30,7 @@ checkPGFVersion2orDie <- function(){
 	
 	setwd(texDir)
 	
+	  # requires tikzDevice to be loaded
 	latexCmd <- getOption('tikzLatex')
 
 	# Append the batchmode flag to increase LaTeX 
@@ -62,8 +63,5 @@ checkPGFVersion2orDie <- function(){
 		stop(paste('PGF >= 2.00 is required to use pgfSweave, you are using version',match))
 	else
 		packageStartupMessage(paste('pgfSweave: Using PGF Version',match))
-		
-	
-	
 	
 }
