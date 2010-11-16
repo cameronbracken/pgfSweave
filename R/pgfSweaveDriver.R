@@ -26,9 +26,9 @@ pgfSweaveDriver <- function() {
     list(
        setup = pgfSweaveSetup,
        runcode = pgfSweaveRuncode,
-       writedoc = utils::RweaveLatexWritedoc,
+       writedoc = pgfSweaveWritedoc,
        finish = utils::RweaveLatexFinish,
-       checkopts = utils::RweaveLatexOptions
+       checkopts = pgfSweaveOptions 
        )
 }
 
@@ -122,7 +122,7 @@ pgfSweaveSetup <- function(file, syntax,
               tikz=TRUE, external=FALSE, sanitize = FALSE,
               tex.driver="pdflatex")
 {
-
+browser()
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
                      debug=debug, echo=echo, eval=eval,
                      split=split, stylepath=stylepath, pdf=pdf,
@@ -137,7 +137,7 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["pgf"]] <- pgf
     out$options[["tikz"]] <- tikz
     out$options[["external"]] <- external
-    out[["tex.driver"]] <- tex.driver
+    out$options[["tex.driver"]] <- tex.driver
     out$options[["sanitize"]] <- sanitize
     ## end [CWB]
 
@@ -154,6 +154,51 @@ pgfSweaveSetup <- function(file, syntax,
     ######################################################################
 
     out
+}
+
+    # changes in Sweave in 2.12 make it necessary to copy this function here 
+    # to register the tex.driver option, I wish there was an easier way....
+pgfSweaveOptions <- function(options)
+{
+
+    ## ATTENTION: Changes in this function have to be reflected in the
+    ## defaults in the init function!
+
+    ## convert a character string to logical
+    c2l <- function(x){
+        if(is.null(x)) return(FALSE)
+        else return(as.logical(toupper(as.character(x))))
+    }
+
+    NUMOPTS <- c("width", "height")
+    NOLOGOPTS <- c(NUMOPTS, "results", "prefix.string",
+                   "engine", "label", "strip.white",
+                   "pdf.version", "pdf.encoding", "tex.driver")
+    for(opt in names(options)){
+        if(! (opt %in% NOLOGOPTS)){
+            oldval <- options[[opt]]
+            if(!is.logical(options[[opt]])){
+                options[[opt]] <- c2l(options[[opt]])
+            }
+            if(is.na(options[[opt]]))
+                stop(gettextf("invalid value for '%s' : %s", opt, oldval),
+                     domain = NA)
+        }
+        else if(opt %in% NUMOPTS){
+            options[[opt]] <- as.numeric(options[[opt]])
+        }
+    }
+
+    if(!is.null(options$results))
+        options$results <- tolower(as.character(options$results))
+    options$results <- match.arg(options$results,
+                                 c("verbatim", "tex", "hide"))
+
+    if(!is.null(options$strip.white))
+        options$strip.white <- tolower(as.character(options$strip.white))
+    options$strip.white <- match.arg(options$strip.white,
+                                     c("true", "false", "all"))
+    options
 }
 
 makeExternalShellScriptName <- function(Rnwfile) {
@@ -244,6 +289,74 @@ parse2 = function(text, ...) {
 deparse2 = function(expr, ...) {
     gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
         getOption("end.comment")), "", base::deparse(expr, ...))
+}
+
+
+    # Copied from Sweave in R version 2.12, internal chages make it necessary
+    # to register the tex.driver option as a "NOLOGOPT"
+pgfSweaveWritedoc <- function(object, chunk)
+{
+    linesout <- attr(chunk, "srclines")
+
+    if(length(grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)))
+        object$havesty <- TRUE
+
+    if(!object$havesty){
+ 	begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
+ 	which <- grep(begindoc, chunk)
+ 	if (length(which)) {
+            chunk[which] <- sub(begindoc,
+                                paste("\\\\usepackage{",
+                                      object$styfile,
+                                      "}\n\\\\begin{document}", sep=""),
+                                chunk[which])
+            linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
+            object$havesty <- TRUE
+        }
+    }
+
+    while(length(pos <- grep(object$syntax$docexpr, chunk)))
+    {
+        cmdloc <- regexpr(object$syntax$docexpr, chunk[pos[1L]])
+        cmd <- substr(chunk[pos[1L]], cmdloc,
+                      cmdloc+attr(cmdloc, "match.length")-1L)
+        cmd <- sub(object$syntax$docexpr, "\\1", cmd)
+        if(object$options$eval){
+            val <- as.character(eval(parse(text=cmd), envir=.GlobalEnv))
+            ## protect against character(0L), because sub() will fail
+            if(length(val) == 0L) val <- ""
+        }
+        else
+            val <- paste("\\\\verb{<<", cmd, ">>{", sep="")
+
+        chunk[pos[1L]] <- sub(object$syntax$docexpr, val, chunk[pos[1L]])
+    }
+    while(length(pos <- grep(object$syntax$docopt, chunk)))
+    {
+        opts <- sub(paste(".*", object$syntax$docopt, ".*", sep=""),
+                    "\\1", chunk[pos[1L]])
+        object$options <- utils:::SweaveParseOptions(opts, object$options,
+                                             pgfSweaveOptions)
+                                              browser()
+        if (isTRUE(object$options$concordance)
+              && !object$haveconcordance) {
+            savelabel <- object$options$label
+            object$options$label <- "concordance"
+            prefix <- utils:::RweaveChunkPrefix(object$options)
+            object$options$label <- savelabel
+            object$concordfile <- paste(prefix, "tex", sep=".")
+            chunk[pos[1L]] <- sub(object$syntax$docopt,
+                                 paste("\\\\input{", prefix, "}", sep=""),
+                                 chunk[pos[1L]])
+            object$haveconcordance <- TRUE
+        } else
+            chunk[pos[1L]] <- sub(object$syntax$docopt, "", chunk[pos[1L]])
+    }
+
+    cat(chunk, sep="\n", file=object$output, append=TRUE)
+    object$linesout <- c(object$linesout, linesout)
+
+    return(object)
 }
 
 
@@ -600,10 +713,12 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       if( chunkChanged | !pdfExists && (!options$pdf && !options$eps)){
       
         shellFile <- object[["shellFile"]]
-        tex.driver <- object[["tex.driver"]]
+        tex.driver <- options[["tex.driver"]]
         
         cat(tex.driver, ' --jobname=', chunkprefix,' ', 
           object[["srcfileName"]], '\n', sep='',  file=shellFile, append=TRUE)
+        if(tex.driver == "latex") 
+          cat('dvips ',chunkprefix, '\n', sep='', file=shellFile, append=TRUE)
       }
     }
     if(options$include && options$external) {
