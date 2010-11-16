@@ -185,11 +185,13 @@ tidy.source = function(source = "clipboard", keep.comment = TRUE,
     }
     text.lines = readLines(source, warn = FALSE)
     if (keep.comment) {
-        identifier = function() paste(sample(LETTERS), collapse = "")
+        identifier = function() "pgfSweaveCommentIdentifier__"
+        #paste(sample(LETTERS), collapse = "")
         if (missing(begin.comment))
             begin.comment = identifier()
         if (missing(end.comment))
             end.comment = identifier()
+        
         text.lines = gsub("^[[:space:]]+|[[:space:]]+$", "",
             text.lines)
         while (length(grep(sprintf("%s|%s", begin.comment, end.comment),
@@ -197,10 +199,14 @@ tidy.source = function(source = "clipboard", keep.comment = TRUE,
             begin.comment = identifier()
             end.comment = identifier()
         }
-        if (substring(text.lines[1], 1, 5) == "#line") text.lines = text.lines[-1]
+        line.num.comment = substring(text.lines, 1, 5) == "#line" 
+        text.lines = text.lines[!line.num.comment]
           head.comment = substring(text.lines, 1, 1) == "#"
-        if (any(head.comment)) {
+          #grep("^[[:space:]]+|#",text.lines)
+          #
+        if ( length(head.comment) > 0 ) {
             text.lines[head.comment] = gsub("\"", "'", text.lines[head.comment])
+            text.lines[head.comment] = gsub("^#", "  #", text.lines[head.comment])
             text.lines[head.comment] = sprintf("%s=\"%s%s\"",
                 begin.comment, text.lines[head.comment], end.comment)
         }
@@ -227,7 +233,7 @@ parse2 = function(text, ...) {
     zz = tempfile()
     enc = options(encoding = "native.enc")
     writeLines(text, zz)
-    tidy.res = tidy.source(zz, out = FALSE, keep.blank.line = FALSE)
+    tidy.res = tidy.source(zz, out = FALSE, keep.blank.line = TRUE)
     options(enc)
     unlink(zz)
     options(begin.comment = tidy.res$begin.comment, end.comment = tidy.res$end.comment)
@@ -347,6 +353,13 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           showto <- srclines[srcref[3]]
         }
         dce <- getSrcLines(srcfile, lastshown+1, showto)
+            # replace the comment identifiers
+        dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
+            getOption("end.comment")), "", dce)
+            # replace tabs with spaces for better looking output
+        dce <- gsub("\\\\t", "    ", dce)
+            # replace leading lines with #line from 2.12.0
+        if(substring(dce[1], 1, 5) == "#line") dce <- dce[-1]
         leading <- showfrom-lastshown
         lastshown <- showto
         srcline <- srclines[srcref[3]]
