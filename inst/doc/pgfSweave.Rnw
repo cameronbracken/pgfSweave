@@ -201,8 +201,22 @@ Output:
 
  When a graphic is newly created or when it has changed, \pkg{pgfSweave} will generate a command for externalizing that graphic in the shell script \code{$<$filename$>$.sh}.  This follows the process outlined in the externalization section of the pgf manual.  After the \pkg{Sweave} process is done the externalization commands are run.  This will create separate image files for each graphic. On later compilations this image file will simply be included instead of being regenerated.   {\color{red}NOTE:} \code{$\backslash$pgfrealjobname\{$<$basefilename$>$\}} in the header of your document otherwise externalization will not work!  For example if you document is \code{main.Rnw} then your header should contain the line \code{$\backslash$pgfrealjobname\{main\}}. Did we mention you should read the pgf manual? 
  
-\subsubsection{The Externalization Driver}
-The option \code{tex.driver} not very well publicized, but it controls which engine (\LaTeX{},PDF\LaTeX{}, Xe\LaTeX{}) is used.  This way, the externalization feature can be used to generate eps and pdf external files. 
+\subsubsection{The \code{tex.driver} option (Externalization Driver)}
+The option \code{tex.driver} controls which engine (\code{latex}, \code{pdflatex}, \code{xelatex}, etc.) is used to externalize graphics.  The value of this option gets passed to the command created in the shell script that is written. For example if the value is \code{pdflatex} then only one command to externalize the graphic gets created in the shell script. For an external figure named ``figure-name'':
+
+\begin{Verbatim}
+    pdflatex --jobname=figure-name document-name.tex
+\end{Verbatim}
+
+If the value is \code{latex} then some extra commands are issues to convert dvi output to an eps file. For an external figure named ``figure-name'':
+
+\begin{Verbatim}
+    latex --jobname=figure-name document-name.tex
+    dvipdf figure-name.dvi
+    pdftops -eps document-name.pdf
+\end{Verbatim}
+
+The command \code{dvipdf} should come with any latex installation. The command \code{pdftops} is part of xpdf but should come with most latex distributions (it dos not come with MacTeX for example).
 
 \subsubsection{Compilation Time}
 The combination of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 

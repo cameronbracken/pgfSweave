@@ -621,7 +621,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     }
     
     if(options$external){
-      if( chunkChanged | !pdfExists && (!options$pdf && !options$eps)){
+      if( chunkChanged | ifelse(options$tex.driver == "latex", 
+          !epsExists,!pdfExists) && (!options$pdf && !options$eps)){
       
         shellFile <- object[["shellFile"]]
         tex.driver <- options[["tex.driver"]]
