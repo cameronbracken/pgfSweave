@@ -11,6 +11,7 @@
 
 <<setup,echo=F>>= 
 setCacheDir("cache") 
+#options(keep.blank.line=FALSE)
 @ 
 \maketitle
 This example is identical to that in the Sweave manual and is intended to 
@@ -32,7 +33,7 @@ significantly from month to month. Finally we include a boxplot of the data:
 \begin{figure}[!ht]
 \centering
 %notice the new options
-<<boxplot,echo=F,fig=T,tikz=T,external=T,width=4,height=4,tex.driver=latex>>=
+<<boxplot,echo=F,fig=T,tikz=T,external=T,width=4,height=4>>=
 	boxplot(Ozone ~ Month, data = airquality,main='Ozone distribution',
 		xlab='Month',ylab='Concentration')
 		

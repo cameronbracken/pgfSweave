@@ -1,6 +1,15 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.0.11 - 2010-11-17
+--------------------------
+* Setting tex.driver=latex will now (in addition to working) generate an 
+  eps file
+* The global option `keep.blank.line' is respeceted to access the tidy.source 
+  option of the same name
+
+
+--------------------------
 Version 1.0.10 - 2010-11-03
 --------------------------
 * Fixed issue with echo'd code in R 2.12.0
