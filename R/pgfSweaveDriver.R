@@ -226,25 +226,25 @@ pgfSweaveWritedoc <- function(object, chunk)
         }
     }
     if(object$options$highlight){
-	    if (!object$haveHighlightSyntaxDef) {
+      if (!object$haveHighlightSyntaxDef) {
                 # get the latex style definitions from the highlight package
-	        tf <- tempfile()
-	        cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
-	        cat(boxes_latex(),sep='\n',file=tf,append=T)
-	        hstyle <- readLines(tf)
+          tf <- tempfile()
+          cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
+          cat(boxes_latex(),sep='\n',file=tf,append=T)
+          hstyle <- readLines(tf)
                 # find where to put the style definitions
-		    begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
+        begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
             which <- grep(begindoc, chunk)
             otherwhich <- grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)
             if(!length(which)) which <- otherwhich
                 # put in the style definitions before the \begin{document}
-		    if(length(which)) {
+        if(length(which)) {
                 chunk <- c(chunk[1:(which-1)],hstyle,chunk[which:length(chunk)])
-		    	
+          
                 linesout <- linesout[c(1L:which, which, seq(from = which + 
                     1L, length.out = length(linesout) - which))]
-		    	object$haveHighlightSyntaxDef <- TRUE
-		    }
+          object$haveHighlightSyntaxDef <- TRUE
+        }
         }
     }
     while(length(pos <- grep(object$syntax$docexpr, chunk)))
@@ -307,8 +307,10 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
   if(!object$quiet){
     cat(formatC(options$chunknr, width=2), ":")
-    if(options$echo) cat(" echo")
-    if(options$highlight) cat(" highlight")
+    if(options$echo){
+      cat(" echo")
+      if(options$highlight) cat(" highlight")
+    }
     if(options$keep.source) cat(" keep.source")
     if(options$eval){
       if(options$print) cat(" print")
@@ -387,8 +389,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   thisline <- 0
   for(nce in 1:length(chunkexps)){
     ce <- chunkexps[[nce]]
-    if (nce <= length(srcrefs) && 
-      !is.null(srcref <- srcrefs[[nce]])) {
+    if (nce <= length(srcrefs) && !is.null(srcref <- srcrefs[[nce]])) {
         if (options$expand) {
           srcfile <- attr(srcref, "srcfile")
           showfrom <- srcref[1]
@@ -409,8 +410,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         leading <- showfrom-lastshown
         lastshown <- showto
         srcline <- srclines[srcref[3]]
-        while (length(dce) 
-          && length(grep("^[ \\t]*$", dce[1]))) {
+        while (length(dce) && length(grep("^[ \\t]*$", dce[1]))) {
           dce <- dce[-1]
           leading <- leading - 1
         }
@@ -430,16 +430,26 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         }
           cat("\\begin{Sinput}",file=chunkout, append=TRUE)
           openSinput <- TRUE
+            # add a special newline 
       }
 
          # Code highlighting stuff
       if(options$highlight){
-	
-        highlight(parser.output=parser(text=dce),
-          renderer=renderer_latex(document=FALSE), 
-          output = chunkout, showPrompts=TRUE,final.newline = TRUE)
-            # highlight doesnt put in an ending newline for some reason
-		cat(newline_latex(),file=chunkout, append=TRUE)
+  
+        if(length(grep("^[[:space:]]*$",dce)) >= 1){
+            # for blank lines for which parser throws an error 
+          cat(translator_latex(paste(getOption("prompt"),'\n', sep="")), 
+            file=chunkout, append=TRUE, sep="")
+          cat(newline_latex(),file=chunkout, append=TRUE)
+        }else{
+          if(nce == 1)
+            cat(newline_latex(),file=chunkout, append=TRUE)
+          highlight(parser.output=parser(text=dce),
+            renderer=renderer_latex(document=FALSE),
+            output = chunkout, showPrompts=TRUE,final.newline = TRUE)
+              # highlight doesnt put in an ending newline for some reason
+          cat(newline_latex(),file=chunkout, append=TRUE)
+        }
 
       }else{
         cat("\n",paste(getOption("prompt"), dce[1:leading], sep="", 
@@ -544,7 +554,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     thisline <- thisline + 1
   }
 
-	#put in an extra newline before the output for good measure
+  #put in an extra newline before the output for good measure
   cat("\n", file=chunkout, append=TRUE)
 
 

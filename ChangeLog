@@ -1,3 +1,46 @@
+commit 88079809153bca88523d5d298847b2a6995b973c
+Merge: 0ae7ffe d788c15
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Nov 27 12:20:42 2010 -0700
+
+    Merge branch 'highlight'
+    
+    Conflicts:
+    	DESCRIPTION
+    	NEWS
+    	R/pgfSweaveDriver.R
+    	inst/example/pgfSweave-example.tex
+
+commit 0ae7ffe47b307bb50bc005b19b3cfefb4f45d565
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Nov 17 13:13:03 2010 -0700
+
+    Update NEWS and DESCRIPTION for next release
+
+ DESCRIPTION                        |    4 ++--
+ NEWS                               |    9 +++++++++
+ inst/example/pgfSweave-example.Rnw |    3 ++-
+ inst/example/pgfSweave-example.tex |    3 +++
+ 4 files changed, 16 insertions(+), 3 deletions(-)
+
+commit 6620bb2e158d6f33f988734c967e0037e1c36e78
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Nov 17 12:28:51 2010 -0700
+
+    Regenerate graphics based on eps file when tex.driver is `latex'
+
+ ChangeLog                                          |  118 ++++++++++++++++++++
+ R/pgfSweaveDriver.R                                |    3 +-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2987 -> 2960 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16290 -> 16249 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26906 -> 26894 bytes
+ inst/doc/pgfSweave-example-Rnw.in                  |    2 +-
+ inst/doc/pgfSweave-example.pdf                     |  Bin 82948 -> 82971 bytes
+ inst/doc/pgfSweave.Rnw                             |   18 +++-
+ inst/doc/pgfSweave.pdf                             |  Bin 260614 -> 261229 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   18 +++-
+ 10 files changed, 153 insertions(+), 6 deletions(-)
+
 commit 52d3f783196a7e4a79208e41d497f15fbce5849a
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Wed Nov 17 11:33:25 2010 -0700
@@ -163,6 +206,32 @@ Date:   Mon Sep 13 21:20:25 2010 -0600
 
  exec/pgfsweave-script.R |    8 ++++++--
  1 files changed, 6 insertions(+), 2 deletions(-)
+
+commit d788c1506b4c4a05aec986e38fcf0534e1b750e3
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Sep 13 17:33:25 2010 -0600
+
+    Always add a special newline after highlighted lines
+
+ R/pgfSweaveDriver.R |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 915bead6bd425cf28ca6abbd3b6e5886765233d1
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Sep 13 17:21:18 2010 -0600
+
+    New option `highlight' to color the syntax of echo'd chunks, enabled by default
+    
+      - No ready quite yet, it does not preserve the whit space in comments
+      - A few newlines need to be put in here and there where missing
+
+ DESCRIPTION                        |   21 ++-
+ NEWS                               |    6 +
+ R/pgfSweaveDriver.R                |  150 +++++++++++----
+ README.md                          |   22 ++-
+ inst/example/pgfSweave-example.Rnw |    6 +-
+ inst/example/pgfSweave-example.tex |  379 +++++++++++++++++++++++++++++++++++-
+ 6 files changed, 519 insertions(+), 65 deletions(-)
 
 commit 24d6be79db77ea2b50d222821cf74465233e0186
 Merge: 5c6e4ca 99c533d
