@@ -16,15 +16,6 @@ Pleas read the package vignette `inst/doc/pgfSweave.pdf` for more information
 on installation and usage.  
 
 
-##TODO
- 
-* Add options to access the noae and nogin options in Sweave.sty.  The 
-  logical thing for pgfSweave is to set nogin by default i.e. 
-  `\usepackage[nogin]{Sweave}`.
-
-* check for `\pgfrealjobname`
-
-
 ##BUGS
 * If java does not exist the compilation is reported as successful though 
   the pgf file did not properly get created when using eps2pgf. 
@@ -58,9 +49,6 @@ on installation and usage.
 * Nicer LaTeX number formatting.
 
 * Follow `\input` and `\include` statements. 
-
-* Automatically add the `\pgfrealjobname` command if it is not already in 
-  the file like the Sweave style file is added when `stylepath=TRUE`.
  
 * When a pgf/TikZ graphic is included manually (not in a code chunk) add 
   the commands to externalize into the graphics into the shell script that 
