@@ -46,12 +46,15 @@ if(!file.exists('figs')) dir.create('figs')
 {\large Cameron Bracken and Charlie Sharpsteen \\ \today}\vspace{1cm}
 \end{center}
 
+\tableofcontents
 
-The \pkg{pgfSweave} package is about {\color{SteelBlue1}speed} and {\color{Sienna1}style}.  For {\color{SteelBlue1}speed}, the package provides capabilities for ``caching'' graphics generated with \pkg{Sweave} on top of the caching funcitonality of \pkg{cacheSweave}\footnote{\url{http://cran.r-project.org/web/packages/cacheSweave/index.html}}.  For {\color{Sienna1}style} the \pkg{pgfSweave} package facilitates the integration of \lang{R} graphics with \LaTeX\ reports through the \pkg{tikzDevice}\footnote{\url{http://cran.r-project.org/web/packages/tikzDevice/index.html}} package and \pkg{eps2pgf}\footnote{\url{http://sourceforge.net/projects/eps2pgf/}} utility.  With these tools, figure labels are converted to \LaTeX{} strings so they match the style of the document and the full range of \LaTeX{} math symbols/equations are available.  
+\clearpage
+\section{Introduction} 
+The \pkg{pgfSweave} package is about {\color{SteelBlue1}speed} and {\color{Sienna1}style}.  For {\color{SteelBlue1}speed}, the package provides capabilities for ``caching'' graphics generated with \pkg{Sweave} on top of the caching funcitonality of \pkg{cacheSweave}\footnote{\url{http://cran.r-project.org/web/packages/cacheSweave/index.html}}.  For {\color{Sienna1}style} the \pkg{pgfSweave} package facilitates the integration of \lang{R} graphics with \LaTeX\ reports through the \pkg{tikzDevice}\footnote{\url{http://cran.r-project.org/web/packages/tikzDevice/index.html}} package or the \pkg{eps2pgf}\footnote{\url{http://sourceforge.net/projects/eps2pgf/}} utility.  With these tools, figure labels are converted to \LaTeX{} strings so they match the style of the document and the full range of \LaTeX{} math symbols/equations are available.  In addition \pkg{pgfSweave} can produce syntax highlighted and/or cleaned up source code. 
 
 The backbone of \pkg{pgfSweave} is a a new driver for \pkg{Sweave} (\code
 {pgfSweaveDriver}). The driver provides new chunk options \code{tikz}, \code{pgf} and \code
-{external} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package 
+{external}, \code{sanitize}, \code{highlight} and \code{tidy} on top of the \code{cache} option provided by \pkg{cacheSweave}.  This package 
 started as a fork of \pkg{cacheSweave}. This document highlights the features and usage of 
 \pkg{pgfSweave}.  This document assumes familiarity with \pkg{Sweave}.  
 
@@ -208,7 +211,7 @@ Output:
 
  When a graphic is newly created or when it has changed, \pkg{pgfSweave} will generate a command for externalizing that graphic in the shell script \code{$<$filename$>$.sh}.  This follows the process outlined in the externalization section of the pgf manual.  After the \pkg{Sweave} process is done the externalization commands are run.  This will create separate image files for each graphic. On later compilations this image file will simply be included instead of being regenerated.   {\color{red}NOTE:} \code{$\backslash$pgfrealjobname\{$<$basefilename$>$\}} in the header of your document otherwise externalization will not work!  For example if you document is \code{main.Rnw} then your header should contain the line \code{$\backslash$pgfrealjobname\{main\}}. Did we mention you should read the pgf manual? 
  
-\subsubsection{The \code{tex.driver} option (Externalization Driver)}
+\subsection{The \code{tex.driver} option (Externalization Driver)}
 The option \code{tex.driver} controls which engine (\code{latex}, \code{pdflatex}, \code{xelatex}, etc.) is used to externalize graphics.  The value of this option gets passed to the command created in the shell script that is written. For example if the value is \code{pdflatex} then only one command to externalize the graphic gets created in the shell script. For an external figure named ``figure-name'':
 
 \begin{Verbatim}
@@ -226,7 +229,21 @@ If the value is \code{latex} then some extra commands are issues to convert dvi 
 The command \code{dvipdf} should come with any latex installation. The command \code{pdftops} is part of xpdf but should come with most latex distributions (it does not come with MacTeX for example).
 
 \subsection{The \code{highlight} option}
-Version 1.1.0 of \pkg{pgfSweave} introduced the \code{highlight} option.  The default is \code{TRUE} by default so code will be syntax-highlighted with the \pkg{highlight} package. To disable highlighting add \code{\backslash SweaveOpts\{highlight=F\}} to disable it. For example:
+Version 1.1.0 of \pkg{pgfSweave} introduced the \code{highlight} option.  The default is \code{TRUE} by default so code will be syntax-highlighted with the \pkg{highlight} package. To disable highlighting add \code{\textbackslash SweaveOpts\{highlight=F\}} to disable it. This option can be combined with the \code{keep.source} option or the \code{tidy} option.  For example:
+
+The original code in the chunk looks like:
+
+\begin{Verbatim}
+        # here is a comment
+    x <- numeric(100)
+    for( i in 1:100){
+        x[i] <- rnorm(1)
+    }
+        # OR
+    y <- rnorm(100)
+    
+    plot(x,y)
+\end{Verbatim}
 
 Normal:
 <<nohi,echo=T,highlight=F,fig=F>>=
@@ -254,7 +271,49 @@ With Highlighting:
     plot(x,y)
 @
 
-\subsubsection{Compilation Time}
+\subsection{The \code{tidy} option}
+Version 1.1.0 of \pkg{pgfSweave} introduced the \code{tidy} option.  This functionality was built into earlier releases, but is now available as an option for greater control.  Setting this chunk option to \code{TRUE} will clean up your code with the \code{tidy.source} function from the \code{animation} package. Using this option will not only preserve comments in the code but will reformat it's appearance.  This option takes precedent over the \code{keep.source} function but can be combined with the \code{highlight} option. Using the previous example:
+
+Normal:
+<<notidy,echo=T,tidy=F,fig=F>>=
+        # here is a comment
+    x <- numeric(100)
+    for( i in 1:100){
+        x[i] <- rnorm(1)
+    }
+        # OR
+    y <- rnorm(100)
+    
+    plot(x,y)
+@
+
+With Tidying:
+<<tidy,echo=T,tidy=T,fig=F>>=
+        # here is a comment
+    x <- numeric(100)
+    for( i in 1:100){
+        x[i] <- rnorm(1)
+    }
+        # OR
+    y <- rnorm(100)
+
+    plot(x,y)
+@
+
+With Tidying and Highlighting:
+<<tidy,echo=T,tidy=T,highlight=T,fig=F>>=
+        # here is a comment
+    x <- numeric(100)
+    for( i in 1:100){
+        x[i] <- rnorm(1)
+    }
+        # OR
+    y <- rnorm(100)
+
+    plot(x,y)
+@
+
+\subsection{Compilation Time}
 The combination of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 
 
 \subsection{A Complete Example}

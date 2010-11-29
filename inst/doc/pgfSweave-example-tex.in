@@ -2,7 +2,6 @@
 
 \usepackage{tikz}
 \usepackage[margin=1in]{geometry}
-\pgfrealjobname{pgfSweave-example}
 \title{Minimal pgfSweave Example}
 \author{Cameron Bracken}    
 
@@ -369,9 +368,9 @@
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 
+\pgfrealjobname{pgfSweave-example}
 \usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Sweave}
 \begin{document}
-
 
 
 
@@ -383,6 +382,10 @@ the pgfSweave vignette for more usage instructions.
 We embed parts of the examples from the \texttt{kruskal.test} help page 
 into a \LaTeX{} document:
 
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }{\ }{\ }{\ }{\ }hey,{\ }a{\ }comment}\mbox{}
+\normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{data}\hlkeyword{(}\hlsymbol{airquality}\hlkeyword{)}\mbox{}

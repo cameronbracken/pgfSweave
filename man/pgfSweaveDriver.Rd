@@ -14,7 +14,7 @@ pgfSweaveSetup(file, syntax,
                eval = TRUE, split = FALSE, stylepath = TRUE, pdf = FALSE,
                eps = FALSE, cache = FALSE, pgf = FALSE, tikz = TRUE,
                external=FALSE, sanitize = FALSE, highlight = FALSE, 
-               tex.driver = "pdflatex")
+               tidy=FALSE, tex.driver = "pdflatex")
 }
 \arguments{
     \item{file}{A connection or a character string giving the name of the Sweave file to load.}
@@ -34,6 +34,7 @@ pgfSweaveSetup(file, syntax,
     \item{external}{Set default for option \code{external}, see details below.}
     \item{sanitize}{Set default for option \code{sanitize}, see details below.}
     \item{highlight}{Should echo'd code be highlighted with the highlight package.}
+    \item{tidy}{Should echo'd code be cleaned up with the \code{\link[animation]{tidy.source}} function from the \code{\link[animation]{animation}} package.}
     \item{tex.driver}{Set default for option \code{tex.driver}, see details below.}
 }
 \details{
@@ -51,7 +52,9 @@ To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as t
 	
 	\item{\code{sanitize}}{ Access to the \pkg{tikzDevice} option of the same name, see \code{\link[tikzDevice]{tikzDevice}} for more info.}
 	
-		\item{\code{highlight}}{ If \code{TRUE} output will be syntax highlighted with the \code{\link[highlight]{highlight}} package.}
+	\item{\code{highlight}}{ If \code{TRUE} output will be syntax highlighted with the \code{\link[highlight]{highlight}} package.}
+	
+	\item{\code{tidy}}{ If \code{TRUE} (default is \code{FALSE}) output code will be cleaned up with the \code{\link[animation]{tidy.source}} function from the \code{\link[animation]{animation}} package.}
 		
 	\item{\code{tex.driver}}{ A character string giving the LaTeX driver to use for compiling external graphics (defaults to ``pdflatex'') }
 	

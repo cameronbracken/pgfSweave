@@ -36,92 +36,13 @@ pgfSweaveDriver <- function() {
 source('R/cacheSweaveUnexportedFunctions.R')
 source('R/utilities.R')
 
-
-################################################################################
-## [RDP]
-## The major modification is here: Rather than evaluate expressions
-## and leave them in the global environment, we evaluate them in a
-## local environment (that has globalenv() as the parent) and then
-## store the assignments in a 'stashR' database.  If an expression
-## does not give rise to new R objects, then nothing is saved.
-##
-## For each expression ('expr'), we compute a digest and associate
-## with that digest the names of the objects that were created by
-## evaluating the expression.  That way, for a given cached
-## expression, we know which keys to lazy-load from the cache when
-## evaluation is skipped.
-## end [RDP]
-##
-## [CWB]
-## minor modification to the original function 'cacheSweaveEvalWithOpt' has 
-## two outputs helping to improve the recognition of changes to code chunks
-## end [CWB]
-################################################################################
-
-
-pgfSweaveEvalWithOpt <- function (expr, options) {
-  chunkDigest <- options$chunkDigest
-  
-  ## 'expr' is a single expression, so something like 'a <- 1'
-  res <- NULL
-  chunkChanged <- TRUE
-
-  if(!options$eval)
-      return(res)
-  if(options$cache) {
-    cachedir <- getCacheDir()
-  
-    ## Create database name from chunk label and MD5
-    ## digest
-    dbName <- makeChunkDatabaseName(cachedir, options,chunkDigest)
-    exprDigest <- mangleDigest(digest(expr))
-  
-    ## Create 'stashR' database
-    db <- new("localDB", dir = dbName, name = basename(dbName))
-  
-    ## If the current expression is not cached, then
-    ## evaluate the expression and dump the resulting
-    ## objects to the database.  Otherwise, just read the
-    ## vector of keys from the database
-  
-    if(!dbExists(db, exprDigest)){
-      keys <- try({
-        evalAndDumpToDB(db, expr, exprDigest)
-        }, silent = TRUE)
-    }
-    else{
-      keys <- dbFetch(db, exprDigest)
-      chunkChanged <- FALSE
-    }
-    
-  
-    ## If there was an error then just return the
-    ## condition object and let Sweave deal with it.
-    if(inherits(keys, "try-error"))
-      return(list(err=keys,chunkChanged=chunkChanged))
-  
-    dbLazyLoad(db, globalenv(), keys)
-  }
-  else {
-      ## If caching is turned off, just evaluate the expression
-      ## in the global environment
-      res <- try(.Internal(eval.with.vis(expr, .GlobalEnv,baseenv())),silent=TRUE)
-      
-      if(inherits(res, "try-error"))
-        return(list(err=res,chunkChanged=chunkChanged))
-      if(options$print | (options$term & res$visible))
-        print(res$value)
-  }
-  list(err=res,chunkChanged=chunkChanged)
-}
-
 ## Add the 'pgf' and 'external', 'pdflatex', 'sanitize' option to the list
 pgfSweaveSetup <- function(file, syntax,
               output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
               eval=TRUE, split=FALSE, stylepath=TRUE, 
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE, 
               tikz=TRUE, external=FALSE, sanitize = FALSE, 
-              highlight = FALSE, tex.driver="pdflatex")
+              highlight = FALSE, tidy = FALSE, tex.driver="pdflatex")
 {
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
                      debug=debug, echo=echo, eval=eval,
@@ -140,6 +61,7 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["tex.driver"]] <- tex.driver
     out$options[["sanitize"]] <- sanitize
     out$options[["highlight"]] <- ifelse(echo,highlight,FALSE)
+    out$options[["tidy"]] <- tidy
     out[["haveHighlightSyntaxDef"]] <- FALSE
     out[["haveRealjobname"]] <- FALSE
     ## end [CWB]
@@ -248,7 +170,6 @@ pgfSweaveWritedoc <- function(object, chunk)
      
      # always add the syntax definitions because there is no real way to 
      # check if a single code chunk as the option before hand. 
-    #if(object$options$highlight){
       if (!object$haveHighlightSyntaxDef){
                 # get the latex style definitions from the highlight package
           tf <- tempfile()
@@ -269,7 +190,6 @@ pgfSweaveWritedoc <- function(object, chunk)
           object$haveHighlightSyntaxDef <- TRUE
         }
       }
-    #}
      
     while(length(pos <- grep(object$syntax$docexpr, chunk)))
     {
@@ -334,6 +254,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     if(options$echo){
       cat(" echo")
       if(options$highlight) cat(" highlight")
+      if(options$tidy) cat(" tidy")
     }
     if(options$keep.source) cat(" keep.source")
     if(options$eval){
@@ -372,9 +293,16 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   on.exit(options(saveopts))
 
   SweaveHooks(options, run=TRUE)
-
+  # remove unwanted "#line" comments added by R 2.12
+  if(substring(chunk[1], 1, 5) == "#line") chunk <- chunk[-1]
+  
   ## parse entire chunk block
-  chunkexps <- try(parse2(text=chunk), silent=TRUE)
+  chunkexps <- 
+    if(options$tidy){
+      try(parse2(text=chunk), silent=TRUE) 
+    }else{
+      try(parse(text=chunk), silent=TRUE)
+    }
   RweaveTryStop(chunkexps, options)
 
   ## [CWB] Create a DB entry which is simply the digest of the text of 
@@ -412,6 +340,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   else
     lastshown <- srcline - 1
   thisline <- 0
+  
   for(nce in 1:length(chunkexps)){
     ce <- chunkexps[[nce]]
     if (nce <= length(srcrefs) && !is.null(srcref <- srcrefs[[nce]])) {
@@ -426,12 +355,13 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         }
         dce <- getSrcLines(srcfile, lastshown+1, showto)
             # replace the comment identifiers
-        dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
-            getOption("end.comment")), "", dce)
-            # replace tabs with spaces for better looking output
-        dce <- gsub("\\\\t", "    ", dce)
+        if(options$tidy){
+          dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
+              getOption("end.comment")), "", dce)
+              # replace tabs with spaces for better looking output
+          dce <- gsub("\\\\t", "    ", dce)
+        }
             # replace leading lines with #line from 2.12.0
-        if(substring(dce[1], 1, 5) == "#line") dce <- dce[-1]
         leading <- showfrom-lastshown
         lastshown <- showto
         srcline <- srclines[srcref[3]]
@@ -440,7 +370,12 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           leading <- leading - 1
         }
     } else {
-      dce <- deparse2(ce, width.cutoff = 0.75*getOption("width"))
+      dce <- 
+      if(options$tidy){
+        deparse2(ce, width.cutoff = 0.75*getOption("width"))
+      }else{
+        deparse(ce, width.cutoff = 0.75*getOption("width"))
+      }
       leading <- 1
     }
     if(object$debug)
@@ -455,7 +390,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         }
           cat("\\begin{Sinput}",file=chunkout, append=TRUE)
           openSinput <- TRUE
-            # add a special newline 
       }
 
          # Code highlighting stuff

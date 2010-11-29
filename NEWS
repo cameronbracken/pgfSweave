@@ -1,13 +1,19 @@
 Please see the README.md file for development info
 
 --------------------------
-Version 1.1 - 2010-11-27
+Version 1.1 - 2010-11-29
 --------------------------
 * New chunk option `highlight' for automatic highlighting of echo'd source 
   code.  This option is enabled by default when echo=T.
+* New chunk option `tidy' which turns on the tidying of source code via the
+  tidy.source function from the animation package. This feature was enabled 
+  by default (with no option to do otherwise) in earlier releases. Now it 
+  must be turned on explicitly. 
 * A \pgfrealjobname command is added if it does not exist similarly to the 
   the addition of the \usepackage{Sweave} line.
+* keep.source now works again correctly and can be used with highlighting
 
+--------------------------
 Version 1.0.11 - 2010-11-17
 --------------------------
 * Setting tex.driver=latex will now (in addition to working) generate an 

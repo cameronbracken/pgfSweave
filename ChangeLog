@@ -1,3 +1,31 @@
+commit 84540e92f3e2b185ec6cc5ed68cf3721e0e75475
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Nov 29 00:24:19 2010 -0700
+
+    Add \pgfrealjobname automatically if it does not exist
+    
+    - Make highlighting NOT default
+    
+    - Update docs to include example of highlighting
+
+ ChangeLog                                          |   21 +
+ NEWS                                               |    3 +-
+ R/pgfSweaveDriver.R                                |   51 ++-
+ R/utilities.R                                      |   13 +
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3056 -> 2960 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16270 -> 16287 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26900 -> 26849 bytes
+ inst/doc/pgfSweave-example-Rnw.in                  |   10 +-
+ inst/doc/pgfSweave-example-tex.in                  |   28 +--
+ inst/doc/pgfSweave-example.pdf                     |  Bin 77647 -> 75856 bytes
+ inst/doc/pgfSweave.Rnw                             |   56 +++-
+ inst/doc/pgfSweave.pdf                             |  Bin 239764 -> 262641 bytes
+ inst/example/pgfSweave-example.Rnw                 |   12 +-
+ inst/example/pgfSweave-example.tex                 |  410 +-------------------
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   33 ++-
+ man/pgfSweaveDriver.Rd                             |    7 +-
+ 16 files changed, 193 insertions(+), 451 deletions(-)
+
 commit 685894fade10a45d376d35a96add52aa0c7b1ab6
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Sat Nov 27 14:10:21 2010 -0700
