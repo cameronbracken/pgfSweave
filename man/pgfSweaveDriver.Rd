@@ -13,7 +13,8 @@ pgfSweaveSetup(file, syntax,
                output = NULL, quiet = FALSE, debug = FALSE, echo = TRUE,
                eval = TRUE, split = FALSE, stylepath = TRUE, pdf = FALSE,
                eps = FALSE, cache = FALSE, pgf = FALSE, tikz = TRUE,
-               external=FALSE, sanitize = FALSE, tex.driver = "pdflatex")
+               external=FALSE, sanitize = FALSE, highlight = FALSE, 
+               tex.driver = "pdflatex")
 }
 \arguments{
     \item{file}{A connection or a character string giving the name of the Sweave file to load.}
@@ -32,6 +33,7 @@ pgfSweaveSetup(file, syntax,
     \item{pgf}{Set default for option \code{pgf}, see details below.}
     \item{external}{Set default for option \code{external}, see details below.}
     \item{sanitize}{Set default for option \code{sanitize}, see details below.}
+    \item{highlight}{Should echo'd code be highlighted with the highlight package.}
     \item{tex.driver}{Set default for option \code{tex.driver}, see details below.}
 }
 \details{
@@ -49,6 +51,8 @@ To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as t
 	
 	\item{\code{sanitize}}{ Access to the \pkg{tikzDevice} option of the same name, see \code{\link[tikzDevice]{tikzDevice}} for more info.}
 	
+		\item{\code{highlight}}{ If \code{TRUE} output will be syntax highlighted with the \code{\link[highlight]{highlight}} package.}
+		
 	\item{\code{tex.driver}}{ A character string giving the LaTeX driver to use for compiling external graphics (defaults to ``pdflatex'') }
 	
 }
@@ -83,4 +87,5 @@ cacheSweave vignette: \url{http://cran.r-project.org/web/packages/cacheSweave/vi
 \code{\link[cacheSweave]{cacheSweave}}, 
 \code{\link{Sweave}}, 
 \code{\link[tikzDevice]{tikzDevice}}
+\code{\link[highlight]{highlight}}
 }

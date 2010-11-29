@@ -120,8 +120,8 @@ pgfSweaveSetup <- function(file, syntax,
               output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
               eval=TRUE, split=FALSE, stylepath=TRUE, 
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE, 
-              tikz=TRUE, external=FALSE, tex.driver="pdflatex", 
-              sanitize = FALSE, highlight = TRUE)
+              tikz=TRUE, external=FALSE, sanitize = FALSE, 
+              highlight = FALSE, tex.driver="pdflatex")
 {
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
                      debug=debug, echo=echo, eval=eval,
@@ -141,6 +141,7 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["sanitize"]] <- sanitize
     out$options[["highlight"]] <- ifelse(echo,highlight,FALSE)
     out[["haveHighlightSyntaxDef"]] <- FALSE
+    out[["haveRealjobname"]] <- FALSE
     ## end [CWB]
 
     ## We assume that each .Rnw file gets its own map file
@@ -152,6 +153,7 @@ pgfSweaveSetup <- function(file, syntax,
     ##      graphic 
     out[["shellFile"]] <- makeExternalShellScriptName(file)
     out[["srcfileName"]] <- sub("\\.Rnw$", "\\.tex", file)
+    out[["jobname"]] <- basename(removeExt(file))
     file.create(out[["shellFile"]])  ## Overwrite an existing file
     ######################################################################
 
@@ -211,22 +213,43 @@ pgfSweaveWritedoc <- function(object, chunk)
 
     if(length(grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)))
         object$havesty <- TRUE
-
+        
+    haverealjobname <- FALSE
+    if(length(grep("\\pgfrealjobname\\{.*\\}", chunk)))
+        haverealjobname <- TRUE
+        
+    
     if(!object$havesty){
     begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
     which <- grep(begindoc, chunk)
     if (length(which)) {
-            chunk[which] <- sub(begindoc,
-                                paste("\\\\usepackage{",
-                                      object$styfile,
-                                      "}\n\\\\begin{document}", sep=""),
-                                chunk[which])
+      print(object$srcfile)
+            chunk[which] <- paste("\\usepackage{", object$styfile, "}\n",
+                  chunk[which], sep="")
             linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
             object$havesty <- TRUE
         }
     }
-    if(object$options$highlight){
-      if (!object$haveHighlightSyntaxDef) {
+    
+      # add pgfrealjobname if it doesnt exist
+    if(!haverealjobname){
+     begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
+     which <- grep(begindoc, chunk)
+      # if Sweave line also does not exist
+     otherwhich <- grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)
+     if(length(which) == 0) which <- otherwhich
+     if (length(which)) {
+             chunk[which] <- paste("\\pgfrealjobname{",object$jobname,"}\n",
+                      chunk[which], sep="")
+             linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
+             object$haverealjobname <- TRUE
+         }
+     }
+     
+     # always add the syntax definitions because there is no real way to 
+     # check if a single code chunk as the option before hand. 
+    #if(object$options$highlight){
+      if (!object$haveHighlightSyntaxDef){
                 # get the latex style definitions from the highlight package
           tf <- tempfile()
           cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
@@ -240,13 +263,14 @@ pgfSweaveWritedoc <- function(object, chunk)
                 # put in the style definitions before the \begin{document}
         if(length(which)) {
                 chunk <- c(chunk[1:(which-1)],hstyle,chunk[which:length(chunk)])
-          
+
                 linesout <- linesout[c(1L:which, which, seq(from = which + 
                     1L, length.out = length(linesout) - which))]
           object$haveHighlightSyntaxDef <- TRUE
         }
-        }
-    }
+      }
+    #}
+     
     while(length(pos <- grep(object$syntax$docexpr, chunk)))
     {
         cmdloc <- regexpr(object$syntax$docexpr, chunk[pos[1L]])
@@ -329,6 +353,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       cat(" (label=", options$label, ")", sep="")
       cat("\n")
   }
+
 
   chunkprefix <- RweaveChunkPrefix(options)
 

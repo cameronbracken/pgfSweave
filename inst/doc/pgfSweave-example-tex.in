@@ -373,28 +373,7 @@
 \begin{document}
 
 
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}options(keep.blank.line=FALSE)}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}options(keep.blank.line=FALSE)}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}options(keep.blank.line=FALSE)}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{setCacheDir}\hlkeyword{(}\hlstring{"cache"}\hlkeyword{)}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}options(keep.blank.line=FALSE)}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}
+
 
 \maketitle
 This example is identical to that in the Sweave manual and is intended to 
@@ -418,11 +397,7 @@ into a \LaTeX{} document:
 \noindent which shows that the location parameter of the Ozone distribution varies 
 significantly from month to month. Finally we include a boxplot of the data:
 
-
-\setkeys{Gin}{width=4in} 
-
 \begin{figure}[!ht]
-\hfill{}
 %notice the new options
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
@@ -436,7 +411,6 @@ significantly from month to month. Finally we include a boxplot of the data:
 \beginpgfgraphicnamed{pgfSweave-example-boxplot}
 \input{pgfSweave-example-boxplot.tikz}
 \endpgfgraphicnamed
-\hfill{}
 \caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the
  font of the document.}
 \end{figure}

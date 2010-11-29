@@ -5,7 +5,8 @@ Version 1.1 - 2010-11-27
 --------------------------
 * New chunk option `highlight' for automatic highlighting of echo'd source 
   code.  This option is enabled by default when echo=T.
---------------------------
+* A \pgfrealjobname command is added if it does not exist similarly to the 
+  the addition of the \usepackage{Sweave} line.
 
 Version 1.0.11 - 2010-11-17
 --------------------------

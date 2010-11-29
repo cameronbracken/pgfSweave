@@ -225,6 +225,35 @@ If the value is \code{latex} then some extra commands are issues to convert dvi 
 
 The command \code{dvipdf} should come with any latex installation. The command \code{pdftops} is part of xpdf but should come with most latex distributions (it does not come with MacTeX for example).
 
+\subsection{The \code{highlight} option}
+Version 1.1.0 of \pkg{pgfSweave} introduced the \code{highlight} option.  The default is \code{TRUE} by default so code will be syntax-highlighted with the \pkg{highlight} package. To disable highlighting add \code{\backslash SweaveOpts\{highlight=F\}} to disable it. For example:
+
+Normal:
+<<nohi,echo=T,highlight=F,fig=F>>=
+        # here is a comment
+    x <- numeric(100)
+    for( i in 1:100){
+        x[i] <- rnorm(1)
+    }
+        # OR
+    y <- rnorm(100)
+    
+    plot(x,y)
+@
+
+With Highlighting:
+<<hi,echo=T,highlight=T,fig=F>>=
+        # here is a comment
+    x <- numeric(100)
+    for( i in 1:100){
+        x[i] <- rnorm(1)
+    }
+        # OR
+    y <- rnorm(100)
+
+    plot(x,y)
+@
+
 \subsubsection{Compilation Time}
 The combination of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 
 
@@ -245,9 +274,9 @@ or
 $ R CMD pgfsweave example.Rnw
 \end{Verbatim}
 
-And we get:
+And we get (from compiling \texttt{pgfSweave-example.tex}):
 
-\VerbatimInput[frame=single,label={pgfSweave-example{}.tex},labelposition=all]{../../example/pgfSweave-example.tex}
+%\VerbatimInput[frame=single,label={pgfSweave-example{}.tex},labelposition=all]{../../example/pgfSweave-example.tex}
 
 \begin{figure}[!hp]
 \framebox{\includegraphics[width=\textwidth]{../../example/pgfSweave-example.pdf}}

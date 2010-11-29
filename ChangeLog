@@ -1,3 +1,24 @@
+commit 685894fade10a45d376d35a96add52aa0c7b1ab6
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat Nov 27 14:10:21 2010 -0700
+
+    Highlighting now incorporated with main code, works now with fixes in tidy.souce
+
+ ChangeLog                                 |   69 +++++
+ DESCRIPTION                               |    2 +-
+ R/pgfSweaveDriver.R                       |   56 +++--
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 2960 -> 3056 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 16249 -> 16270 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 26894 -> 26900 bytes
+ inst/doc/pgfSweave-example-Rnw.in         |   19 +-
+ inst/doc/pgfSweave-example-tex.in         |  418 ++++++++++++++++++++++++++++-
+ inst/doc/pgfSweave-example.pdf            |  Bin 82971 -> 77647 bytes
+ inst/doc/pgfSweave.Rnw                    |  377 ++++++++++++++++++++++++++-
+ inst/doc/pgfSweave.pdf                    |  Bin 261229 -> 239764 bytes
+ inst/example/pgfSweave-example.Rnw        |    6 +-
+ inst/example/pgfSweave-example.tex        |  395 ++++++++++++++++++++++++++-
+ 13 files changed, 1287 insertions(+), 55 deletions(-)
+
 commit 88079809153bca88523d5d298847b2a6995b973c
 Merge: 0ae7ffe d788c15
 Author: cameronbracken <cameron.bracken@gmail.com>

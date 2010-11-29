@@ -90,3 +90,16 @@ deparse2 <- function(expr, ...) {
     gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
         getOption("end.comment")), "", base::deparse(expr, ...))
 }
+
+  # from the limma package on bioconductor
+removeExt  <- function (x) 
+{
+    x <- as.character(x)
+    n <- length(x)
+    if (length(grep("\\.", x)) < n) 
+        return(x)
+    ext <- sub("(.*)\\.(.*)$", "\\2", x)
+    if (all(ext[1] == ext)) 
+        return(sub("(.*)\\.(.*)$", "\\1", x))
+    else return(x)
+}
