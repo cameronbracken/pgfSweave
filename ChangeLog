@@ -1,3 +1,21 @@
+commit 6aefd96107e78e2dbec3cd2e05d12e8a04bb44a2
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Dec 3 11:42:37 2010 -0700
+
+    Actually make highlighting TRUE by default
+
+ ChangeLog                                          |   37 ++
+ R/pgfSweaveDriver.R                                |    4 +-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2960 -> 2937 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16275 -> 16182 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26946 -> 26895 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 76205 -> 82901 bytes
+ inst/doc/pgfSweave.Rnw                             |  469 ++------------------
+ inst/doc/pgfSweave.pdf                             |  Bin 270239 -> 271887 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   11 +-
+ man/pgfSweaveDriver.Rd                             |    2 +-
+ 10 files changed, 85 insertions(+), 438 deletions(-)
+
 commit 185ce5677556e845293214973b45cd42c26977a5
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Mon Nov 29 04:36:59 2010 -0700
