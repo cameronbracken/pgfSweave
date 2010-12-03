@@ -42,7 +42,7 @@ pgfSweaveSetup <- function(file, syntax,
               eval=TRUE, split=FALSE, stylepath=TRUE, 
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE, 
               tikz=TRUE, external=FALSE, sanitize = FALSE, 
-              highlight = FALSE, tidy = FALSE, tex.driver="pdflatex")
+              highlight = TRUE, tidy = FALSE, tex.driver="pdflatex")
 {
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
                      debug=debug, echo=echo, eval=eval,
@@ -129,6 +129,8 @@ pgfSweaveOptions <- function(options)
 
     # Copied from Sweave in R version 2.12, internal chages make it necessary
     # to register the tex.driver option as a "NOLOGOPT"
+    # This function checks for the \usepackage{Sweave} line and the 
+    # \pgfrealjobname line
 pgfSweaveWritedoc <- function(object, chunk)
 {
     linesout <- attr(chunk, "srclines")

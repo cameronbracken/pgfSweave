@@ -13,7 +13,7 @@ pgfSweaveSetup(file, syntax,
                output = NULL, quiet = FALSE, debug = FALSE, echo = TRUE,
                eval = TRUE, split = FALSE, stylepath = TRUE, pdf = FALSE,
                eps = FALSE, cache = FALSE, pgf = FALSE, tikz = TRUE,
-               external=FALSE, sanitize = FALSE, highlight = FALSE, 
+               external=FALSE, sanitize = FALSE, highlight = TRUE, 
                tidy=FALSE, tex.driver = "pdflatex")
 }
 \arguments{

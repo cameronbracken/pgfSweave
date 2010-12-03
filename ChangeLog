@@ -1,3 +1,40 @@
+commit 185ce5677556e845293214973b45cd42c26977a5
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Nov 29 04:36:59 2010 -0700
+
+    Updated README
+
+ README.md |   12 ------------
+ 1 files changed, 0 insertions(+), 12 deletions(-)
+
+commit d5bf42416de481c5855e84ae4af052bb41934c52
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Nov 29 04:15:53 2010 -0700
+
+    Tidy functionality is now provided as an option that is disabled by default, also fix keep.source
+    
+    - Updated Vignette
+    - Updated NEWS for Version 1.1.0
+
+ ChangeLog                                          |   28 ++
+ DESCRIPTION                                        |    8 +-
+ NEWS                                               |    8 +-
+ R/pgfSweaveDriver.R                                |  116 ++-----
+ R/utilities.R                                      |   79 ++++
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2960 -> 2960 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16287 -> 16275 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26849 -> 26946 bytes
+ inst/doc/pgfSweave-example-Rnw.in                  |   12 +-
+ inst/doc/pgfSweave-example-tex.in                  |    7 +-
+ inst/doc/pgfSweave-example.pdf                     |  Bin 75856 -> 76205 bytes
+ inst/doc/pgfSweave.Rnw                             |   86 ++++-
+ inst/doc/pgfSweave.pdf                             |  Bin 262641 -> 270239 bytes
+ inst/example/pgfSweave-example.Rnw                 |   10 +-
+ inst/example/pgfSweave-example.tex                 |  413 +++++++++++++++++++-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   69 +++-
+ man/pgfSweaveDriver.Rd                             |    7 +-
+ 17 files changed, 696 insertions(+), 147 deletions(-)
+
 commit 84540e92f3e2b185ec6cc5ed68cf3721e0e75475
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Mon Nov 29 00:24:19 2010 -0700

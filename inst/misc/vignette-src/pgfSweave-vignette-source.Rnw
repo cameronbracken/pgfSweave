@@ -59,9 +59,7 @@ started as a fork of \pkg{cacheSweave}. This document highlights the features an
 \pkg{pgfSweave}.  This document assumes familiarity with \pkg{Sweave}.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
 \section{Motivation and Background} 
 
 \pkg{Sweave} is a tool for generating ``reproducible research'' documents by embedding \lang{R} or \lang{S} ``code chunks'' directly into a \LaTeX{} document.  For small projects, this approach works well.  For large papers or projects, heavy data analysis or computation can cause document compilation times that are unacceptable.  The problem of performing lengthy computations in Sweave documents is not a new one.  Previous attempts to tackle this problem include the \pkg{cacheSweave} and \pkg{weaver}\footnote{\url{http://www.bioconductor.org/packages/2.3/bioc/html/weaver.html}} packages.  These packages address the problem that code chunks with lengthy computations are executed every time a document is compiled.  Both packages provide a \code{cache} option which saves R objects for quick access during successive compilations. The \pkg{cacheSweave} package stores results in a \pkg{filehash}\footnote{\url{http://cran.r-project.org/package=filehash}} databases while the \pkg{weaver} package stores RData files.  The benefit of the \pkg{cacheSweave} method is lazy loading of objects.  Both methods provide significant speedup for most \pkg{Sweave} documents, namely those which create objects in the global environment.
@@ -115,7 +113,7 @@ We assume a familiarity with the usage of \pkg{Sweave}, for more information see
 
 \subsection{The \code{tikz} option}
 The first new code chunk option, \code{tikz}, acts the same as the \code{pdf} or \code{eps} options but instead of resulting in an \code{$\backslash$includegraphics\{\}} statement the 
-esult is an \code{$\backslash$input\{\}} statement. Consider the following code:
+result is an \code{$\backslash$input\{\}} statement. Consider the following code:
 
 \begin{minipage}[!ht]{.5\linewidth}
 Input:
@@ -209,7 +207,12 @@ Output:
 \end{Verbatim}
 \end{minipage}
 
- When a graphic is newly created or when it has changed, \pkg{pgfSweave} will generate a command for externalizing that graphic in the shell script \code{$<$filename$>$.sh}.  This follows the process outlined in the externalization section of the pgf manual.  After the \pkg{Sweave} process is done the externalization commands are run.  This will create separate image files for each graphic. On later compilations this image file will simply be included instead of being regenerated.   {\color{red}NOTE:} \code{$\backslash$pgfrealjobname\{$<$basefilename$>$\}} in the header of your document otherwise externalization will not work!  For example if you document is \code{main.Rnw} then your header should contain the line \code{$\backslash$pgfrealjobname\{main\}}. Did we mention you should read the pgf manual? 
+ When a graphic is newly created or when it has changed, \pkg{pgfSweave} will generate a command for externalizing that graphic in the shell script \code{$<$filename$>$.sh}.  This follows the process outlined in the externalization section of the pgf manual.  After the \pkg{Sweave} process is done the externalization commands are run.  This will create separate image files for each graphic. On later compilations this image file will simply be included instead of being regenerated.  
+ 
+
+\subsection{The \code{$\backslash$pgfrealjobname} commmand}
+
+Those familiar with the externalization mechanism in pgf will know that a command of the form \code{$\backslash$pgfrealjobname\{$<$basefilename$>$\}} in the header of your document is required when using externalization.   For example if you document is \code{main.Rnw} then your header should contain the line \code{$\backslash$pgfrealjobname\{main\}}. \pkg{pgfSweave} version 1.1 or later will add this for you automatically, so {\color{red} don't add it yourself!}.  This way if you rename your document, everything will still work out fine.  If you do add that line, \pkg{pgfSweave} will not add its own line.  
  
 \subsection{The \code{tex.driver} option (Externalization Driver)}
 The option \code{tex.driver} controls which engine (\code{latex}, \code{pdflatex}, \code{xelatex}, etc.) is used to externalize graphics.  The value of this option gets passed to the command created in the shell script that is written. For example if the value is \code{pdflatex} then only one command to externalize the graphic gets created in the shell script. For an external figure named ``figure-name'':
