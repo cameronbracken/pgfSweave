@@ -20,7 +20,7 @@ the pgfSweave vignette for more usage instructions.
 We embed parts of the examples from the \texttt{kruskal.test} help page 
 into a \LaTeX{} document:
 
-<<data,cache=T,tidy=T,highlight=T>>=
+<<data,cache=T,tidy=T>>=
         	#     hey, a comment
     data(airquality)
     kruskal.test( Ozone ~ Month, data = airquality )

@@ -3,4 +3,4 @@
 all : cmdScript  $(SHLIB)
 
 cmdScript :
-	${R_HOME}/bin/Rscript ../exec/install-script.R
+	$(R_HOME)/bin$(R_ARCH_BIN)/Rscript ../exec/install-script.R

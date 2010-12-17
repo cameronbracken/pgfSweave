@@ -215,7 +215,6 @@ pgfSweaveWritedoc <- function(object, chunk)
                     "\\1", chunk[pos[1L]])
         object$options <- utils:::SweaveParseOptions(opts, object$options,
                                              pgfSweaveOptions)
-                                              browser()
         if (isTRUE(object$options$concordance)
               && !object$haveconcordance) {
             savelabel <- object$options$label
