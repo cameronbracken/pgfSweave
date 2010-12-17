@@ -11,23 +11,31 @@ rel_script <- "../exec/pgfsweave-script.R"
 abs_script <- file.path(Sys.getenv('R_PACKAGE_DIR'),
 	'exec','pgfsweave-script.R')
 
-script <- readLines(rel_script)
-win_shebang <- paste("#!",file.path(bindir,'Rscript'),sep='')
-win_script <- c( win_shebang, script)
-
-success <- FALSE
-
-if( .Platform$OS.type == 'windows' ){
-	
-	tf <- tempfile()
-	writeLines( win_script, tf )
-	if(file.copy(tf,bin_script))
-		success <- TRUE
-	
+script <- try(readLines(rel_script),silent=T)
+if(class(script) == "try-error"){
+  
+  success <- FALSE
+  
 }else{
-	if(file.symlink(abs_script,bin_script))
-		success <- TRUE
+  
+  win_shebang <- paste("#!",file.path(bindir,'Rscript'),sep='')
+  win_script <- c( win_shebang, script)
+
+  success <- FALSE
+
+  if( .Platform$OS.type == 'windows' ){
+	
+  	tf <- tempfile()
+  	writeLines( win_script, tf )
+  	if(file.copy(tf,bin_script))
+  		success <- TRUE
+	
+  }else{
+  	if(file.symlink(abs_script,bin_script))
+  		success <- TRUE
 		
+  }
+  
 }
 
 if(success){
@@ -48,8 +56,8 @@ if(success){
 	
 	cat('\n***********************\n')
 	cat('Failed to install custom pgfsweave script:\n')
-	cat('  Thats ok! You can manually install it later!\n')
-	cat('***********************\n')
+	cat('  Thats ok! You can manually install it later.\n')
+	cat('***********************\n\n')
 	
 }
 	
