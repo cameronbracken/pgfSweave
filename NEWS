@@ -1,6 +1,19 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.1.2 - 2010-12-17
+--------------------------
+* Remove extraneous browser() call
+* Correctly find arch dependent Rscript when installing command line interface
+* Dont fail on installation when user has hardcoded working directory
+
+--------------------------
+Version 1.1.1 - 2010-12-03
+--------------------------
+* Actually make Highlight TRUE by default, as advertised
+
+
+--------------------------
 Version 1.1 - 2010-11-29
 --------------------------
 * New chunk option `highlight' for automatic highlighting of echo'd source 
