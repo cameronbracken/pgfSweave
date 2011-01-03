@@ -79,6 +79,10 @@ pgfSweaveSetup <- function(file, syntax,
     file.create(out[["shellFile"]])  ## Overwrite an existing file
     ######################################################################
 
+    options(device = function(...) {
+        .Call("R_GD_nullDevice", PACKAGE = "grDevices")
+    })
+
     out
 }
 
@@ -529,6 +533,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   }
 
   if(options$fig && options$eval){
+    
     ## [CWB] adding checking for external options
     pdfExists <- file.exists(paste(chunkprefix, "pdf", sep="."))
     epsExists <- file.exists(paste(chunkprefix, "eps", sep="."))

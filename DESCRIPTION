@@ -10,7 +10,7 @@ Imports: digest, tools, utils
 SystemRequirement: pgf (>=2.00) (http://sourceforge.net/projects/pgf/) for the 
       vignette and for externalization.
 Description:  pgfSweave provides a number of improvements to the improve 
-      speed and quality of the Sweave output including: (1) capabilities for 
+      speed and quality of Sweave output including: (1) capabilities for 
       'caching' graphics generated with Sweave on top of the caching 
       mechanisms provided by cacheSweave, (2) an interface to the tikzDevice 
       package which provides graphics with consistent font style, sizing 

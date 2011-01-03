@@ -23,17 +23,19 @@ into a \LaTeX{} document:
 <<data,cache=T,tidy=T>>=
         	#     hey, a comment
     data(airquality)
-    kruskal.test( Ozone ~ Month, data = airquality )
 @
 \noindent which shows that the location parameter of the Ozone distribution varies 
 significantly from month to month. Finally we include a boxplot of the data:
 
 \begin{figure}[!ht]
+\begin{center}
 %notice the new options
-<<boxplot,echo=T,fig=T,tikz=T,external=T,width=4,height=4,highlight=T>>=
+<<boxplot,echo=T,fig=T,width=4,height=4,tikz=T,external=T,highlight=T>>=
 	boxplot(Ozone ~ Month, data = airquality,
-		main='Ozone distribution',xlab='Month',ylab='Concentration')
+		main='Ozone distribution',xlab='Month',ylab='Concentration') #  sdkfhd
+	print(kruskal.test( Ozone ~ Month, data = airquality ))
 @
+\end{center}
 \caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the
  font of the document.}
 \end{figure}

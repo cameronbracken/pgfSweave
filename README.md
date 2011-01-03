@@ -2,7 +2,7 @@
 ##ABOUT
 
 pgfSweave provides a number of improvements to the improve 
-speed and quality of the Sweave output including: (1) capabilities for 
+speed and quality of Sweave output including: (1) capabilities for 
 'caching' graphics generated with Sweave on top of the caching 
 mechanisms provided by cacheSweave, (2) an interface to the tikzDevice 
 package which provides graphics with consistent font style, sizing 
@@ -12,31 +12,11 @@ driver for Sweave (pgfSweaveDriver) with new chunk options tikz, pgf,
 external, sanitize and highlight on top of the cache option provided by 
 cacheSweave.
 
-Pleas read the package vignette `inst/doc/pgfSweave.pdf` for more information 
-on installation and usage.  
+_Please read the package vignette `inst/doc/pgfSweave.pdf` for more information on installation and usage._
 
 
-##BUGS
-* If java does not exist the compilation is reported as successful though 
-  the pgf file did not properly get created when using eps2pgf. 
- 
-* A stray Rplots.pdf gets generated using caching. Not sure if this a 
-  cacheSweave or Sweave or a pgfSweave problem.  When using a gui 
-  interface a plotting window opens up.
-
-
-##ISSUES:
-
-* `external=T` only works if a single plot is generated with a single code 
-  chunk.  This is an issue with Sweave as well. The offered fix in Sweave 
-  is to `cat()` your own includegraphics commands.
- 
-* Not all latex commands work in labels for example `\scshape` works but 
-  `\textsc{}` does not
- 
-* Changing the width and height of a figure ONLY but not the code chunk 
-  does not register as a change and thus the code chunk will not 
-  recompile.
+##ISSUES
+* See https://github.com/cameronbracken/pgfSweave/issues
 
 
 ##POSSIBLE NEW FEATURES
