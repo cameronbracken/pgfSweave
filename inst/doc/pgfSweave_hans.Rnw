@@ -1,0 +1,380 @@
+\documentclass[a4paper,10pt,english]{scrartcl}
+\setkomafont{sectioning}{\rmfamily}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{paralist}
+\setlength{\pltopsep}{0.2cm}
+\usepackage{fancyvrb}
+\newcommand{\code}{\texttt}
+\usepackage[bookmarks=true,bookmarksopen=true,colorlinks=true,urlcolor=blue]{hyperref}
+
+%% \VignetteIndexEntry{Efficient use of \code{pgfSweave} on large data-sets}
+\begin{document}
+
+\title{Efficient use of \code{pgfSweave} on large data-sets}
+\author{Hans Ekbrand}
+\maketitle
+\tableofcontents
+
+\section{Summary}
+
+This document is rather long, so here is the summary if you are in a hurry:
+
+Create a directory to hold the cache.
+
+\begin{verbatim}
+mkdir -p ~/sweave-cache/figs
+mkdir -p ~/sweave-cache/values
+\end{verbatim}
+
+Here is a template \code{Sweave} document, note that \code{\textbackslash{}pgfrealjobname} should be the filename minus ``\code{.Rnw}'', so for this content to work, it should be saved as \code{my-title.Rnw}
+
+\begin{Verbatim}[frame=single,label={my-title.Rnw},labelposition=topline]
+ \documentclass{article}
+ \usepackage{tikz}
+ \pgfrealjobname{my-title}
+ \usepackage[nogin]{Sweave}
+ \ SweaveOpts{echo=F,eval=T,fig=F,results=hide,
+            cache=T,prefix.string=sweave-cache/figs/fig}
+ \begin{document}
+ <<setup,cache=F>>=
+ setCacheDir("sweave-cache/values")
+ @
+ \end{document}
+\end{Verbatim}
+
+For an example that actually uses the tips on how to use the caching mechanism smart, see this \hyperlink{example}{complete example}.
+
+
+\section{Intended usage, target audience}
+
+This article focus on real world applications of \code{pgfSweave}, involving writing articles based on really large datasets. Using \code{pgfSweave} for teaching purposes, typically do not involve large datasets so there these advice is likely not useful. On the contrary, not imposing the rules I propose here will do your creativity good when writing \code{Sweave} documents for teaching \code{R}, particularly since it is a good a teaching practice to dynamically make up the data to operate on.
+
+\section{How to get your \code{Sweave} documents to compile super fast}
+
+The trick is to encapsulate all calculations that are being done on \textbf{large objects} into functions. Since functions do not affect the top environment, there is no large objects to cache - or read from the cache, and the compilation will be super fast. For a chunk not to be repeated, it still has to have \code{cache=T}, even if it does not actually save anything to the cache. In \code{pgfSweave}, \code{rm()} does not work as it normally does, which is why you really should wrap the code in a function instead of merely \code{rm()} the large object(s) before closing the chunk.
+
+Trying to minimise the stuff that will be cached will \textbf{enforce good coding routines}, since you will have to write functions that return what you want and it will be clear what objects/variables in your code are only temporarily used as means to summarize data. The temporary stuff will never turn up in the global environment nor in the cache.
+
+
+\section{All your code-chunks should be one of these five types}
+
+\begin{enumerate}
+\item a function to \textbf{\hyperlink{shape-up}{shape-up the raw data}} the way you want it (e.g. import spss file(s), convert some factors to numeric, convert value labels to UTF-8, remove uninteresting cases/variables, merge data-sets, \dots{}), save it in a RData-file and not returning anything at all, \textbf{cached}.
+\item a function \textbf{\hyperlink{summarizing-data}{summarize data}}, returning an object or a list of objects that should be plotted or tabulated by the other two types of chunks; \textbf{cached}.
+\item a \textbf{\hyperlink{plot-data}{figure generator}}, \textbf{cached}
+\item a \textbf{\hyperlink{table}{table or value output generator}}, \textbf{not cached}.
+\item a \textbf{\hyperlink{config}{configurator/sourcing chunk}}, \textbf{not cached}.
+\end{enumerate}
+
+\subsection{Data shape-up chunk}
+\hypertarget{shape-up}{This type} of chunk hold the code used to create the R object(s) that further analysis will use. Typically this involves:
+
+\begin{compactitem}
+\item import data from external formats (\code{.csv}, \code{.sav}, etc.)
+\item merge data-sets
+\item combine data from various external sources to one \code{R} object (e.g. a dataframe).
+\item remove uninteresting cases or variables
+\item saving the R object(s)
+\end{compactitem}
+
+By hiding away this work within a function, the cache is not cluttered with the raw data. The function does not return anything, so nothing is cached. But still \code{cache=T} is needed, otherwise the chunk will be repeated the next run. Here is a minimal example, which reads a \code{csv}-file, removes columns 14 to 21 and saves the object in a file \code{foo.RData}.
+
+\begin{Verbatim}[frame=single,label={data shape-up chunk}]
+ <<importing.files>>=
+ importing.files.function <- function () {
+   foo <- read.csv("original-source.csv")
+   foo <- foo[,-c(14:21)]
+   save(foo, file="foo.RData")
+ }
+ importing.files.function()
+ @
+\end{Verbatim}
+
+\subsection{Data summarize chunk}
+\hypertarget{summarizing-data}{Chunks of this type} load the object from a file, run some analysis on it, and return the interesting parts of the summary object of the analysis. When the analysis is \code{lm, summary(lm(formula = ...))} is not small enough, save only the \code{\$coefficients}.
+
+\begin{Verbatim}[frame=single,label={data summarize chunk}]
+ <<load.foo.and.run.regressions>>=
+ regressions.function <- function() {
+   load("foo.RData") 
+
+   ## total crime activity
+   my.fit.tca <- summary(lm(formula = total.crime.activity ~ sex +
+   one.parent.immigrant + both.parents.immigrants +
+   both.parents.and.child.imigrants + socio.economic.status +
+   parents.do.not.live.together + good.contact.with.parents +
+   parents.usually.monitors.child + likes.school + school.grades +
+   can.talk.openheartedly.to.friends + friends.tolerate.crimes +
+   friends.tolerate.alcohol, data = foo))$coefficients 
+
+   ## fire-setting
+   my.fit.fs <- summary(lm(formula = fire.setting ~ sex +
+   one.parent.immigrant + both.parents.immigrants +
+   both.parents.and.child.imigrants + socio.economic.status +
+   parents.do.not.live.together + good.contact.with.parents +
+   parents.usually.monitors.child + likes.school + school.grades +
+   can.talk.openheartedly.to.friends + friends.tolerate.crimes +
+   friends.tolerate.alcohol, data = sd.1995))$coefficients
+
+   list(my.fit.tca=my.fit.tca, my.fit.fs=my.fit.fs)
+ }
+ regressions.results <- regressions.function()
+ @
+\end{Verbatim}
+
+\code{regressions.results} is returned and cached and can later be used by ploting or table-generating chunks.
+
+Admittedly, the line
+
+\begin{Verbatim}[frame=single]
+  list(my.fit.tca=my.fit.tca, my.fit.fs=my.fit.fs)
+\end{Verbatim}
+
+sure is ugly. The function \code{llist} in Frank E Harrell Jr's useful package \href{http://cran.r-project.org/web/packages/Hmisc/}{Hmisc} gives the same result using a much nicer syntax:
+
+\begin{Verbatim}[frame=single]
+  llist(my.fit.tca, my.fit.fs)
+\end{Verbatim}
+
+\subsection{Data plot chunk (a figure generator)}
+\hypertarget{plot-data}{The data plot chunk type} should use a summarized object created by a data summarize chunk. Since the data plot chunks is cached, you won't bloat the cache if you have that code in the same chunk as the data summarizing code, but there are other good reasons for keeping ploting and summarizing in different chunks:
+
+\begin{itemize}
+\item you can change parameters in the plot without having to redo the calculations
+\item you can generate more than one plot
+\end{itemize}
+
+Data plot chunks must have \code{fig=T} in the definition of the chunk. In the example below, a previous chunk has summarized data into two objects with long and descriptive names, which are now being plotted.
+
+\begin{Verbatim}[frame=single,label={a figure generating chunk}]
+ <<age,fig=T>>=
+ plot(15:20, misstankta.summary.results$prop.fire.setters.by.age,
+      type = "l", ylab = "Proportion of suspects", xlab = "Age",
+      col = "blue", ylim = c(0,31))
+ lines(15:20, misstankta.summary.results$prop.non.fire.setters.by.age,
+      col = "red")
+ @
+\end{Verbatim}
+
+\subsection{The table or value output generator}
+\hypertarget{table}{Unlike data plot chunks}, \textbf{tables cannot be cached}. Tables are printed output, a sort of anonymous objects. Therefore a table generator chunk will have to be evaluated everytime \code{pgfSweave} processes the document. This is not a problem, since generating a \LaTeX -table is done in a fraction of a second even on a slow computer, if the figures that should go in it are already calculated. In the example below, the figures are cached in the variable \code{regressions.results\$my.fit.tca} which was the result of the \code{regressions.function()} defined and evaluated in the \code{load.foo.and.run.regressions} chunk above.
+
+\begin{Verbatim}[frame=single,label={a table or value output generator}]
+ <<regression.fit.total.table,results=tex,cache=F>>=
+ my.table.lmfit(regressions.results$my.fit.tca)
+ @
+\end{Verbatim}
+
+\subsection{Configuration/sourcing chunk}
+\hypertarget{config}{This chunk type} configures R at runtime or sources general - stable - R functions. In the first case, it does not return anything, and in the latter, you want it to source the current version of the functions, so \textbf{caching is not meaningful here}. Typical examples include
+
+\begin{compactenum}
+\item \hyperlink{sourcing}{sourcing general R functions from external files}
+\item \hyperlink{configuring-pgfSweave}{Setting parameters for the pgfSweave module}
+\item \hyperlink{setting-R-options}{Setting width for output generated by R.}
+\end{compactenum}
+
+\subsubsection{Sourcing general R functions from external files}
+\hypertarget{sourcing}{While sourcing functions} from external files in a way counters the aim of a single file as a the source for the analysis, you may still want to source some general utility functions, e.g. for laying out tables and graphs. Another way is to create proper R packages (and publish them), but for most users, I think that involves an unecessary extra task. As an example I have a few wrapper functions for \href{http://cran.r-project.org/web/packages/xtable}{xtable}, which I prefer not to include in every \code{.Rnw}-file.
+
+\begin{Verbatim}[frame=single,label={sourcing general R functions}]
+ <<load-my-functions,cache=F>>=
+ ## load my.table, my.table.lmfit and my.table.fact.anal
+ source("text/src/r/my.xtable.r")
+ @
+\end{Verbatim}
+
+\subsubsection{Configuring \code{pgfSweave} to use a particular directory as cache:}
+\hypertarget{configuring-pgfSweave}{Example:}
+
+\begin{Verbatim}[frame=single,label={configuring - pgfSweave}]
+ <<setup,cache=F>>=
+ setCacheDir("sweave-cache/values")
+ @
+\end{Verbatim}
+
+
+\subsubsection{Setting width on auto-generated output:}
+\hypertarget{setting-R-options}{Example:}
+
+\begin{Verbatim}[frame=single,label={configuring - R}]
+ <<set.width,cache=F>>=
+ options(width=45)
+ @
+\end{Verbatim}
+
+
+\section{Understanding caching in \code{pgfSweave}}
+
+\subsection{Never, ever, close a code-chunk which has variables/objects containing raw data}
+
+It will hurt your harddisk, and waste RAM every run.
+
+I once made four simple regressions on a large data-set, and printed a table with statistics for each regression. The wrong way of doing it is to run the first regression and print a table and close the chunk, then start a new chunk, run the second regression, print the table with statistics from this run, and so on. The problem with that method is that the large data-set itself will be cached. The right way of doing it is to load the data-set within a function, run the four regressions in that function and save (return) the coefficients part of the lm.fit object for each regression, \textbf{caching only the coefficients of the lm.fit object not the data-set itself}. The actual printing of the statistics - in nice \LaTeX -tables - is done in four later chunks, which can have normal text between them.
+
+Admittedly, if I change a parameter in one of these regressions, the whole chunk will have to be run again. But that is - in my usage of sweave a rather uncommon event. First you develop the code that does what you want, then you include in your article. If you have relatively small data-sets and more complicated computations you might off course think differently, or load the data-set separately for each chunk.
+
+
+\subsection{Strategies for weaving}
+
+Weaving is nice, it makes a \code{.Rnw}-file easy to follow. If you are bothered that the rules I suggest in this document will tend to decrease weaving and make you write very large data summarizing chunks, then note that as long as you wrap loading of the large data-set into a function, you can still weave code-chunks with text in the normal way \textbf{as long as you load the data-set from disk in each chunk}. For chunks with \code{cache=T}, the performance hit of \code{save()} and \code{load()} is small since such chunks are only evaluated once. Thus, you can keep the data summarizing chunks as small as you want them.
+
+
+\subsection{Anonymous objects are not cached!}
+
+Do not try to cache the return value of a function, it will not work unless a variable is used to ``catch'' the value.
+
+\begin{itemize}
+\item Variables (named objects, that exists in the global environment) is automatically cached by \code{pgfSweave}.
+\item Plots are cached by \code{pgfSweave}.
+\end{itemize}
+
+A typical example of an anonymous object that \textbf{will not be cached} is the return value of a function that creates \LaTeX -code, for example \code{xtable} (or more correctly the ``\code{print}'' method of the ``\code{xtable}'' class).
+
+To maximise the caching effect, save as much as absolutely possible in variables in a separate code chunck that is cached, before a non-cached code chunck that merely prints the values in the saved variables. This strategy is mentioned in the documentation of \code{cacheSweave}.
+
+
+\section{Some other things to note}
+
+\subsection{If you set a cachedir in sweaveopts, you have to create the dir manually.}
+
+\begin{Verbatim}[frame=single,fontsize=\small]
+ \ SweaveOpts{echo=FALSE,keep.source=TRUE,prefix.string=sweave-cache/figs/fig}
+\end{Verbatim}
+
+will fail, with a mysterious error message, ``tikZ device setup was unsuccessful!'', unless \code{sweave-cache/figs} exists.
+
+
+\subsection{No dots in the name of chunks with fig=T}
+
+\begin{Verbatim}[frame=single]
+ <<prevalence.means.plot,fig=T,width=4,height=3.5>>=
+\end{Verbatim}
+
+will fail, try ``-'' instead of ``.'':
+
+\begin{Verbatim}[frame=single]
+ <<prevalence-means-plot,fig=T,width=4,height=3.5>>=
+\end{Verbatim}
+
+For chunks with fig=F, dots are OK in the name:
+
+\begin{Verbatim}[frame=single]
+ <<regression.fit.stealing.from.car.table,fig=F>>=
+\end{Verbatim}
+
+\subsection{Consider runing \code{pgfSweave} from within an active \code{R} session rather than from a shell-script}
+
+You will gain the time it takes to start up R and load pgfSweave and the library it depends on. Each and every time you rebuild your document. As a bonus, it will save RAM too.
+
+\begin{Verbatim}[frame=single]
+pgfSweave(file="Young-arsonists.Rnw", compile.tex=F, pdf=T)
+\end{Verbatim}
+
+The \code{pdf=T} is passed on to \code{tex2dvi}, I think is it there for tex to create pdf-files rather then encapsulated postcript files.
+
+I use \code{compile.tex=F} because I use a custom make command to run \code{pdflatex} (This way I can use my favourite \LaTeX-packages without having to specify them in the every \code{.tex}-document).
+
+\hypertarget{example}{\section{Complete example}}
+
+\begin{Verbatim}[frame=single,label={my-filename.Rnw},fontsize=\small]
+
+ \documentclass{article}
+ \usepackage{tikz}
+ \pgfrealjobname{my-filename}
+ \usepackage[nogin]{Sweave}
+ \ SweaveOpts{echo=F,eval=T,fig=F,results=hide,cache=T,tikz=T,
+             external=T,prefix.string=sweave-cache/figs/fig}
+ \begin{document}
+ <<setup,cache=F>>=
+ setCacheDir("sweave-cache/values")
+ @
+
+ % First a chunk that only does some data washing and merges two
+ % dataset. The function returns nothing, so nothing is cached,
+ % but since cache=T, it will only be evaluated once
+
+ <<shape-up-data>>=
+ shape.up.data.function <- function() {
+   foo <- read.spss("~/datasets/foo.sav")
+   ## remove three last columns 937:939
+   foo <- foo[,1:936]
+   my.variable.indices <- function(x, name, data.frame=foo) {
+     base <- which(names(data.frame) == name)
+     seq(from = base, to = (base+28)*30, by = 28)[x] }
+   ## wash the values of the date variables, by removing the separator "-"
+   ## "2008-08-17" -> "20080817"
+   for(i in 1:max(foo$AntBrott)){ 
+     foo[,my.variable.indices(i, "B1_from")] <- 
+        gsub("-", "", foo[,my.variable.indices(i, "B1_from")]) }
+   ## add a column indicating that this is the
+   ## control/reference-group, control = T
+   foo[,ncol(foo)+1] <- T
+   colnames(foo) <- c(colnames(foo)[-ncol(foo)], "control")
+   ## Load dataset bar, which is already in RData format.
+   load("~/datasets/bar.RData")
+   ## was list, want data.frame
+   bar <- as.data.frame(bar)
+   ## remove columns 937:939
+   bar <- bar[,1:936]
+   ## add a column indicating that this is the fire-setters, control = F
+   bar[,ncol(bar)+1] <- F
+   colnames(bar) <- c(colnames(bar)[-ncol(bar)], "control")
+   ## merge data-sets, but first modify LOPNR in bar, so that LOPNR is
+   ## unique (length(foo[,1] + LOPNR makes LOPNR unique in bar.)
+   bar$LOPNR <- bar$LOPNR + length(foo[,1])
+   final <- rbind(bar, foo)
+   save(final, file="~/datasets/final.RData")
+   return()
+ }
+ shape.up.data.function()
+ @
+ % then a summarizing function, which only caches a summary of each regression
+ <<summarize-data-one>>=
+ summarize.data.function <- function() {
+   load("~/datasets/final.RData") 
+
+   my.fit.a <- summary(lm(formula = abuse ~ sex + one.parent.immigrant
+   + both.parents.immigrants + both.parents.and.child.imigrants +
+   socio.economic.status + parents.do.not.live.together +
+   good.contact.with.parents + parents.usually.monitors.child +
+   likes.school + school.grades + can.talk.openheartedly.to.friends +
+   friends.tolerate.crimes + friends.tolerate.alcohol, data =
+   sd.1995))$coefficients
+
+   my.fit.sfc <- summary(lm(formula = stealing.from.car ~ sex +
+   one.parent.immigrant + both.parents.immigrants +
+   both.parents.and.child.imigrants + socio.economic.status +
+   parents.do.not.live.together + good.contact.with.parents +
+   parents.usually.monitors.child + likes.school + school.grades +
+   can.talk.openheartedly.to.friends + friends.tolerate.crimes +
+   friends.tolerate.alcohol, data = sd.1995))$coefficients
+
+   ## return a list with a summary of each regression
+   list(my.fit.a=my.fit.a, my.fit.sfc=my.fit.sfc)
+ }
+ regressions.results <- regressions.function()
+ @
+
+ % Now, we want to print a table in a non-caching code-chunk. The
+ % result of this code chunk is that a table is printed, and since
+ % printing cannot be cached, there is no point in caching this
+ % code-chunk. 
+
+ \section{Factors explaining abuse}
+ In the table below summaries a linear regression with abuse as the 
+ dependent variable.
+ <<table-one,cache=F,results=tex>>=
+ xtable(regressions.results$my.fit.a)
+ @
+ % Finally, a caching code chunk that outputs a picture, type-set with tikz,
+ % thus with the same font as the main document.
+ <<picture-one,fig=T,tikz=T,external=T>>=
+ plot(regressions.results$my.fit.a)
+ @
+ \end{document}
+\end{Verbatim}
+
+\end{document}
