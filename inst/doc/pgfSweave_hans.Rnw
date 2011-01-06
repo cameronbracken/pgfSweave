@@ -248,6 +248,8 @@ will fail, with a mysterious error message, ``tikZ device setup was unsuccessful
 
 \subsection{No dots in the name of chunks with fig=T}
 
+When \code{pdfSweave} is called with \code{pdf=T}, there must be no dots in the name of the chunk, if the cunk has \code{fig=T}.
+
 \begin{Verbatim}[frame=single]
  <<prevalence.means.plot,fig=T,width=4,height=3.5>>=
 \end{Verbatim}
@@ -258,7 +260,7 @@ will fail, try ``-'' instead of ``.'':
  <<prevalence-means-plot,fig=T,width=4,height=3.5>>=
 \end{Verbatim}
 
-For chunks with fig=F, dots are OK in the name:
+For chunks with fig=F (or when target output is a \code{dvi}-file) dots are OK in the name:
 
 \begin{Verbatim}[frame=single]
  <<regression.fit.stealing.from.car.table,fig=F>>=
