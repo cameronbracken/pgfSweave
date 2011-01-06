@@ -243,8 +243,7 @@ To maximise the caching effect, save as much as absolutely possible in variables
  \ SweaveOpts{echo=FALSE,keep.source=TRUE,prefix.string=sweave-cache/figs/fig}
 \end{Verbatim}
 
-will fail, with a mysterious error message, ``tikZ device setup was unsuccessful!'', unless \code{sweave-cache/figs} exists.
-
+will fail unless \code{sweave-cache/figs} exists.
 
 \subsection{No dots in the name of chunks with fig=T}
 
