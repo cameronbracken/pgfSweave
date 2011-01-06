@@ -272,7 +272,7 @@ You will gain the time it takes to start up R and load pgfSweave and the library
 pgfSweave(file="Young-arsonists.Rnw", compile.tex=F, pdf=T)
 \end{Verbatim}
 
-The \code{pdf=T} is passed on to \code{tex2dvi}, I think is it there for tex to create pdf-files rather then encapsulated postcript files.
+The \code{pdf=T} is passed on to \code{tex2dvi}, It is there for \code{texi2dvi} to create \code{pdf}-files rather then \code{dvi}-files.
 
 I use \code{compile.tex=F} because I use a custom make command to run \code{pdflatex} (This way I can use my favourite \LaTeX-packages without having to specify them in the every \code{.tex}-document).
 
