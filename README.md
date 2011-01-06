@@ -14,6 +14,8 @@ cacheSweave.
 
 _Please read the package vignette `inst/doc/pgfSweave.pdf` for more information on installation and usage._
 
+_also see http://code.cjb.net/pgfSweave.html for a great example._
+
 
 ##ISSUES
 * See https://github.com/cameronbracken/pgfSweave/issues
