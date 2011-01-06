@@ -28,12 +28,11 @@ mkdir -p ~/sweave-cache/figs
 mkdir -p ~/sweave-cache/values
 \end{verbatim}
 
-Here is a template \code{Sweave} document, note that \code{\textbackslash{}pgfrealjobname} should be the filename minus ``\code{.Rnw}'', so for this content to work, it should be saved as \code{my-title.Rnw}
+Here is a template \code{Sweave} document.
 
 \begin{Verbatim}[frame=single,label={my-title.Rnw},labelposition=topline]
  \documentclass{article}
  \usepackage{tikz}
- \pgfrealjobname{my-title}
  \usepackage[nogin]{Sweave}
  \ SweaveOpts{echo=F,eval=T,fig=F,results=hide,
             cache=T,prefix.string=sweave-cache/figs/fig}
@@ -244,10 +243,11 @@ To maximise the caching effect, save as much as absolutely possible in variables
  \ SweaveOpts{echo=FALSE,keep.source=TRUE,prefix.string=sweave-cache/figs/fig}
 \end{Verbatim}
 
-will fail, with a mysterious error message, ``tikZ device setup was unsuccessful!'', unless \code{sweave-cache/figs} exists.
-
+will fail unless \code{sweave-cache/figs} exists.
 
 \subsection{No dots in the name of chunks with fig=T}
+
+When \code{pdfSweave} is called with \code{pdf=T}, there must be no dots in the name of the chunk, if the cunk has \code{fig=T}.
 
 \begin{Verbatim}[frame=single]
  <<prevalence.means.plot,fig=T,width=4,height=3.5>>=
@@ -259,7 +259,7 @@ will fail, try ``-'' instead of ``.'':
  <<prevalence-means-plot,fig=T,width=4,height=3.5>>=
 \end{Verbatim}
 
-For chunks with fig=F, dots are OK in the name:
+For chunks with fig=F (or when target output is a \code{dvi}-file) dots are OK in the name:
 
 \begin{Verbatim}[frame=single]
  <<regression.fit.stealing.from.car.table,fig=F>>=
@@ -273,7 +273,7 @@ You will gain the time it takes to start up R and load pgfSweave and the library
 pgfSweave(file="Young-arsonists.Rnw", compile.tex=F, pdf=T)
 \end{Verbatim}
 
-The \code{pdf=T} is passed on to \code{tex2dvi}, I think is it there for tex to create pdf-files rather then encapsulated postcript files.
+The \code{pdf=T} is passed on to \code{tex2dvi}, It is there for \code{texi2dvi} to create \code{pdf}-files rather then \code{dvi}-files.
 
 I use \code{compile.tex=F} because I use a custom make command to run \code{pdflatex} (This way I can use my favourite \LaTeX-packages without having to specify them in the every \code{.tex}-document).
 
@@ -283,7 +283,6 @@ I use \code{compile.tex=F} because I use a custom make command to run \code{pdfl
 
  \documentclass{article}
  \usepackage{tikz}
- \pgfrealjobname{my-filename}
  \usepackage[nogin]{Sweave}
  \ SweaveOpts{echo=F,eval=T,fig=F,results=hide,cache=T,tikz=T,
              external=T,prefix.string=sweave-cache/figs/fig}
