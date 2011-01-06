@@ -151,7 +151,7 @@ pgfSweaveWritedoc <- function(object, chunk)
     begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
     which <- grep(begindoc, chunk)
     if (length(which)) {
-      print(object$srcfile)
+      #print(object$srcfile)
             chunk[which] <- paste("\\usepackage{", object$styfile, "}\n",
                   chunk[which], sep="")
             linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
@@ -298,8 +298,20 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   on.exit(options(saveopts))
 
   SweaveHooks(options, run=TRUE)
-  # remove unwanted "#line" comments added by R 2.12
-  if(substring(chunk[1], 1, 5) == "#line") chunk <- chunk[-1]
+  
+  # remove unwanted "#line" directives added by R 2.12
+  cat('********* Chunk Before ************\n')
+  print(chunk)  
+  removeLineJunk <- function(chunk){
+    lines <- grep("#line", chunk)
+    srclines <- attr(chunk, "srclines")
+    chunk <- chunk[-lines]
+    attr(chunk, "srclines") <- srclines[-lines]
+    chunk
+  }
+  chunk <- removeLineJunk(chunk)
+  cat('********* Chunk After ************\n')
+  print(chunk)  
   
   ## parse entire chunk block
   chunkexps <- 
@@ -350,7 +362,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     ce <- chunkexps[[nce]]
     if (nce <= length(srcrefs) && !is.null(srcref <- srcrefs[[nce]])) {
         if (options$expand) {
-          srcfile <- attr(srcref, "srcfile")
+          #browser()
+          srcfile <- attr(srcref, "srcfile")#object$srcfile#
           showfrom <- srcref[1]
           showto <- srcref[3]
         } else {
