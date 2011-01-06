@@ -28,12 +28,11 @@ mkdir -p ~/sweave-cache/figs
 mkdir -p ~/sweave-cache/values
 \end{verbatim}
 
-Here is a template \code{Sweave} document, note that \code{\textbackslash{}pgfrealjobname} should be the filename minus ``\code{.Rnw}'', so for this content to work, it should be saved as \code{my-title.Rnw}
+Here is a template \code{Sweave} document.
 
 \begin{Verbatim}[frame=single,label={my-title.Rnw},labelposition=topline]
  \documentclass{article}
  \usepackage{tikz}
- \pgfrealjobname{my-title}
  \usepackage[nogin]{Sweave}
  \ SweaveOpts{echo=F,eval=T,fig=F,results=hide,
             cache=T,prefix.string=sweave-cache/figs/fig}
@@ -283,7 +282,6 @@ I use \code{compile.tex=F} because I use a custom make command to run \code{pdfl
 
  \documentclass{article}
  \usepackage{tikz}
- \pgfrealjobname{my-filename}
  \usepackage[nogin]{Sweave}
  \ SweaveOpts{echo=F,eval=T,fig=F,results=hide,cache=T,tikz=T,
              external=T,prefix.string=sweave-cache/figs/fig}
