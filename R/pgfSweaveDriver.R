@@ -372,7 +372,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
             # replace the comment identifiers
         if(options$tidy){
           dce <- tidy.sub(dce)
-          print(dce)
         }
             # replace leading lines with #line from 2.12.0
         leading <- showfrom-lastshown
@@ -438,10 +437,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     if(options$tidy){
           # full line comments 
       dce <- tidy.sub(dce)
-      #browser()
       ce <- parse(text=dce)
     }
-    #browser()
     chunkChanged <- FALSE#err$chunkChanged
       # do not evaluate empty expressions
     if(length(ce) > 0){
