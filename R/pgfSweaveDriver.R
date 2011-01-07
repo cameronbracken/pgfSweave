@@ -408,7 +408,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
          # Code highlighting stuff
       if(options$highlight){
   
-        if(length(grep("^[[:space:]]*$",dce)) >= 1){
+        if(length(grep("^[[:space:]]*$",dce)) >= 1 & length(dce) == 1){
             # for blank lines for which parser throws an error 
           cat(translator_latex(paste(getOption("prompt"),'\n', sep="")), 
             file=chunkout, append=TRUE, sep="")
@@ -433,98 +433,103 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       linesout[thisline + 1:length(dce)] <- srcline
       thisline <- thisline + length(dce)
     }
-  
-    ## tmpcon <- textConnection("output", "w")
-    ## avoid the limitations (and overhead) of output text
-    ## connections
-    tmpcon <- file()
-    sink(file=tmpcon)
-    err <- NULL
     
     ## [RDP] change this line to use my EvalWithOpt function
     if(options$tidy){
           # full line comments 
       dce <- tidy.sub(dce)
+      #browser()
       ce <- parse(text=dce)
     }
-
-    if(options$eval) err <- pgfSweaveEvalWithOpt(ce, options)
-    ## [CWB] added another output specifying if the code chunk
-    ##     was changed or not. This was an ititial attempt to 
-    ##     improve cacheSweave''s  recognition of chages in a
-    ##     code chunk though it is defunct now.
+    #browser()
     chunkChanged <- FALSE#err$chunkChanged
-    err <- err$err
-    ## [CWB] end
-    ## [RDP] end change
-  
-    cat("\n") # make sure final line is complete
-    sink()
-    output <- readLines(tmpcon)
-    close(tmpcon)
-    
-    ## delete empty output
-    if(length(output)==1 & output[1]=="") output <- NULL
-      # new hackery, if a comment line is evaluated alone we get two values of 
-      # output, 'NULL' and '', hopefully this wil not interefere when the 
-      # user actually wants NULL output 
-    if(!is.null(output)) 
-      if(length(output)==2 & output[1] == "NULL" & output[2]==""
-        & length(grep('^[[:space:]]*#',dce)) > 0) output <- NULL
-  
-    RweaveTryStop(err, options)
-  
-    if(object$debug)
-      cat(paste(output, collapse="\n"))
-  
-    if(length(output)>0 & (options$results != "hide")){
-      if(openSinput){
-        cat("\n\\end{Sinput}\n", file=chunkout,append=TRUE)
-        linesout[thisline + 1:2] <- srcline
-        thisline <- thisline + 2
-        openSinput <- FALSE
-      }
+      # do not evaluate empty expressions
+    if(length(ce) > 0){
       
-      if(options$results=="verbatim"){
-        if(!openSchunk){
-          cat("\\begin{Schunk}\n",file=chunkout, append=TRUE)
+      ## tmpcon <- textConnection("output", "w")
+      ## avoid the limitations (and overhead) of output text
+      ## connections
+      tmpcon <- file()
+      sink(file=tmpcon)
+      err <- NULL
+      
+      if(options$eval) err <- pgfSweaveEvalWithOpt(ce, options)
+        ## [CWB] added another output specifying if the code chunk
+        ##     was changed or not. This was an ititial attempt to 
+        ##     improve cacheSweave''s  recognition of chages in a
+        ##     code chunk though it is defunct now.
+      err <- err$err
+      ## [CWB] end
+      ## [RDP] end change
+  
+      cat("\n") # make sure final line is complete
+      sink()
+      output <- readLines(tmpcon)
+      close(tmpcon)
+    
+      ## delete empty output
+      if(length(output)==1 & output[1]=="") output <- NULL
+        # new hackery, if a comment line is evaluated alone we get two values of 
+        # output, 'NULL' and '', hopefully this wil not interefere when the 
+        # user actually wants NULL output 
+      if(!is.null(output)) 
+        if(length(output)==2 & output[1] == "NULL" & output[2]==""
+          & length(grep('^[[:space:]]*#',dce)) > 0) output <- NULL
+  
+      RweaveTryStop(err, options)
+  
+      if(object$debug)
+        cat(paste(output, collapse="\n"))
+  
+      if(length(output)>0 & (options$results != "hide")){
+        if(openSinput){
+          cat("\n\\end{Sinput}\n", file=chunkout,append=TRUE)
+          linesout[thisline + 1:2] <- srcline
+          thisline <- thisline + 2
+          openSinput <- FALSE
+        }
+    
+        if(options$results=="verbatim"){
+          if(!openSchunk){
+            cat("\\begin{Schunk}\n",file=chunkout, append=TRUE)
+            linesout[thisline + 1] <- srcline
+            thisline <- thisline + 1
+            openSchunk <- TRUE
+          }
+          cat("\\begin{Soutput}\n",file=chunkout, append=TRUE)
           linesout[thisline + 1] <- srcline
           thisline <- thisline + 1
-          openSchunk <- TRUE
         }
-        cat("\\begin{Soutput}\n",file=chunkout, append=TRUE)
-        linesout[thisline + 1] <- srcline
-        thisline <- thisline + 1
-      }
     
-      output <- paste(output,collapse="\n")
+        output <- paste(output,collapse="\n")
       
-      if(options$strip.white %in% c("all", "true")){
-        output <- sub("^[[:space:]]*\n", "", output)
-        output <- sub("\n[[:space:]]*$", "", output)
-        if(options$strip.white=="all")
-          output <- sub("\n[[:space:]]*\n", "\n", output)
-      }
+        if(options$strip.white %in% c("all", "true")){
+          output <- sub("^[[:space:]]*\n", "", output)
+          output <- sub("\n[[:space:]]*$", "", output)
+          if(options$strip.white=="all")
+            output <- sub("\n[[:space:]]*\n", "\n", output)
+        }
       
-      cat(output, file=chunkout, append=TRUE)
-      count <- sum(strsplit(output, NULL)[[1]] == "\n")
+        cat(output, file=chunkout, append=TRUE)
+        count <- sum(strsplit(output, NULL)[[1]] == "\n")
       
-      if (count > 0) {
-        linesout[thisline + 1:count] <- srcline
-        thisline <- thisline + count
-      }
+        if (count > 0) {
+          linesout[thisline + 1:count] <- srcline
+          thisline <- thisline + count
+        }
     
-      remove(output)
+        remove(output)
     
-      if(options$results=="verbatim"){
-        cat("\n\\end{Soutput}\n", file=chunkout, append=TRUE)
-        linesout[thisline + 1:2] <- srcline
-        thisline <- thisline + 2
+        if(options$results=="verbatim"){
+          cat("\n\\end{Soutput}\n", file=chunkout, append=TRUE)
+          linesout[thisline + 1:2] <- srcline
+          thisline <- thisline + 2
+        }
       }
     }
   }
 
-  if(options$highlight)
+  if(options$highlight || options$tidy)
     cat("\n", file=chunkout, append=TRUE)
 
   if(openSinput){
@@ -540,7 +545,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   }
 
   #put in an extra newline before the output for good measure
-  cat("\n", file=chunkout, append=TRUE)
+  #cat("\n", file=chunkout, append=TRUE)
 
 
   if(is.null(options$label) & options$split)
