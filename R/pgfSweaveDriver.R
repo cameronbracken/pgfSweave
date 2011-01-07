@@ -360,7 +360,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     ce <- chunkexps[[nce]]
     if (nce <= length(srcrefs) && !is.null(srcref <- srcrefs[[nce]])) {
         if (options$expand) {
-          #browser()
           srcfile <- attr(srcref, "srcfile")#object$srcfile#
           showfrom <- srcref[1]
           showto <- srcref[3]
@@ -372,13 +371,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         dce <- getSrcLines(srcfile, lastshown+1, showto)
             # replace the comment identifiers
         if(options$tidy){
-              # full line comments 
-          dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
-              getOption("end.comment")), "", dce)
-              # replace tabs with spaces for better looking output
-          dce <- gsub("\\\\t", "    ", dce)
-              # Inline comments
-          dce <- gsub(" \\+[ ]{0,1}[\n ]*\"([ ]{2,}#[^\"]*)\"", "\\1", dce)
+          dce <- tidy.sub(dce)
+          print(dce)
         }
             # replace leading lines with #line from 2.12.0
         leading <- showfrom-lastshown
@@ -389,11 +383,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           leading <- leading - 1
         }
     } else {
-      dce <- 
       if(options$tidy){
-        deparse2(ce, width.cutoff = 0.75*getOption("width"))
+        dce <- deparse2(ce, width.cutoff = 0.75*getOption("width"))
+        dce <- tidy.sub(dce)
       }else{
-        deparse(ce, width.cutoff = 0.75*getOption("width"))
+        dce <- deparse(ce, width.cutoff = 0.75*getOption("width"))
       }
       leading <- 1
     }
@@ -448,15 +442,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     err <- NULL
     
     ## [RDP] change this line to use my EvalWithOpt function
-    #browser()
     if(options$tidy){
           # full line comments 
-      dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
-          getOption("end.comment")), "  ", dce)
-          # replace tabs with spaces for better looking output
-      dce <- gsub("\\\\t", "    ", dce)
-          # Inline comments
-      dce <- gsub(" \\+[ ]{0,1}[\n ]*\"([ ]{2,}#[^\"]*)\"", "\\1", dce)
+      dce <- tidy.sub(dce)
       ce <- parse(text=dce)
     }
 

@@ -86,6 +86,17 @@ makeExternalShellScriptName <- function(Rnwfile) {
     shellfile
 }
 
+tidy.sub <- function(dce){
+     # full line comments 
+  dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
+      getOption("end.comment")), "", dce)
+      # replace tabs with spaces for better looking output
+  dce <- gsub("\\\\t", "    ", dce)
+      # Inline comments
+  dce <- gsub(" \\+[ ]{0,1}[\n ]*\"([ ]{2,}#[^\"]*)\"", "\\1", dce)
+  dce
+}
+
 ## to replace the default parse()
 parse2 <- function(text, ...) {
     tidy.res = formatR::tidy.source(text = text, out = FALSE, keep.blank.line = 
