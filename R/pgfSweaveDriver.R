@@ -300,8 +300,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   SweaveHooks(options, run=TRUE)
   
   # remove unwanted "#line" directives added by R 2.12
-  cat('********* Chunk Before ************\n')
-  print(chunk)  
   removeLineJunk <- function(chunk){
     lines <- grep("#line", chunk)
     srclines <- attr(chunk, "srclines")
@@ -310,17 +308,17 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     chunk
   }
   chunk <- removeLineJunk(chunk)
-  cat('********* Chunk After ************\n')
-  print(chunk)  
   
   ## parse entire chunk block
+  chunkexps <- try(parse(text=chunk), silent=TRUE)
+
+  RweaveTryStop(chunkexps, options)
   chunkexps <- 
     if(options$tidy){
       try(parse2(text=chunk), silent=TRUE) 
     }else{
       try(parse(text=chunk), silent=TRUE)
     }
-  RweaveTryStop(chunkexps, options)
 
   ## [CWB] Create a DB entry which is simply the digest of the text of 
   ## the chunk so that if anything has changed the chunk will be 
@@ -374,10 +372,13 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         dce <- getSrcLines(srcfile, lastshown+1, showto)
             # replace the comment identifiers
         if(options$tidy){
+              # full line comments 
           dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
               getOption("end.comment")), "", dce)
               # replace tabs with spaces for better looking output
           dce <- gsub("\\\\t", "    ", dce)
+              # Inline comments
+          dce <- gsub(" \\+[ ]{0,1}[\n ]*\"([ ]{2,}#[^\"]*)\"", "\\1", dce)
         }
             # replace leading lines with #line from 2.12.0
         leading <- showfrom-lastshown
@@ -447,6 +448,18 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     err <- NULL
     
     ## [RDP] change this line to use my EvalWithOpt function
+    #browser()
+    if(options$tidy){
+          # full line comments 
+      dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
+          getOption("end.comment")), "  ", dce)
+          # replace tabs with spaces for better looking output
+      dce <- gsub("\\\\t", "    ", dce)
+          # Inline comments
+      dce <- gsub(" \\+[ ]{0,1}[\n ]*\"([ ]{2,}#[^\"]*)\"", "\\1", dce)
+      ce <- parse(text=dce)
+    }
+
     if(options$eval) err <- pgfSweaveEvalWithOpt(ce, options)
     ## [CWB] added another output specifying if the code chunk
     ##     was changed or not. This was an ititial attempt to 
@@ -461,8 +474,15 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     sink()
     output <- readLines(tmpcon)
     close(tmpcon)
+    
     ## delete empty output
     if(length(output)==1 & output[1]=="") output <- NULL
+      # new hackery, if a comment line is evaluated alone we get two values of 
+      # output, 'NULL' and '', hopefully this wil not interefere when the 
+      # user actually wants NULL output 
+    if(!is.null(output)) 
+      if(length(output)==2 & output[1] == "NULL" & output[2]==""
+        & length(grep('^[[:space:]]*#',dce)) > 0) output <- NULL
   
     RweaveTryStop(err, options)
   
