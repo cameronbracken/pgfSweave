@@ -1,0 +1,148 @@
+% !TEX TS-program = pgfSweave
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3cm,bmargin=2cm,lmargin=2cm,rmargin=2cm}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\providecommand{\LyX}{L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\usepackage{tikz}
+\usepackage[nogin]{Sweave}
+
+\makeatother
+
+\begin{document}
+
+
+\title{A Simple Demo on Caching R Objects and Graphics with \textbf{pgfSweave}}
+
+
+\author{Yihui Xie}
+
+\maketitle
+\SweaveOpts{pdf=FALSE, eps=FALSE, tikz=TRUE, tidy=TRUE, external=TRUE,highlight=FALSE}
+
+<<setup,echo=FALSE>>=
+
+## the 1st option below is only necessary for LyX < 2.0
+
+## 'continue' and 'prompt' are here to remove the '> ' and '+ ' in R output
+
+options(keep.blank.line=FALSE, continue=' ', prompt=' ', width=95)
+
+## Put cache directories in a separate directory
+
+setCacheDir('cache')
+
+@
+
+Caching is often necessary in our daily statistical computation. Fortunately
+the R packages \textbf{cacheSweave} and \textbf{pgfSweave} have provided
+functionalities to cache R objects and graphics respectively. This
+short article contains a simple demo using Gibbs sampling to generate
+random numbers from a bivariate Normal distribution. We need to introduce
+a little bit about the background first.
+
+For the bivariate Normal distribution\[
+\left[\begin{array}{c}
+X\\
+Y\end{array}\right]\sim\mathcal{N}\left(\left[\begin{array}{c}
+\mu_{X}\\
+\mu_{Y}\end{array}\right],\left[\begin{array}{cc}
+\sigma_{X}^{2} & \rho\sigma_{X}\sigma_{Y}\\
+\rho\sigma_{X}\sigma_{Y} & \sigma_{Y}^{2}\end{array}\right]\right)\]
+we know the conditional distributions\begin{eqnarray*}
+Y|X=x & \sim & \mathcal{N}\left(\mu_{Y}+\frac{\sigma_{Y}}{\sigma_{X}}\rho(x-\mu_{X}),\,(1-\rho^{2})\sigma_{Y}^{2}\right)\\
+X|Y=y & \sim & \mathcal{N}\left(\mu_{X}+\frac{\sigma_{X}}{\sigma_{Y}}\rho(y-\mu_{Y}),\,(1-\rho^{2})\sigma_{X}^{2}\right)\end{eqnarray*}
+so we can use the Gibbs sampling to generate random numbers from the
+joint Normal distribution. First initialize $x^{(0)}$ and $y^{(0)}$,
+then repeatedly generate $x^{(k)}\sim f(x|y^{(k-1)})$ and $y^{(k)}\sim f(y|x^{(k)})$
+(these two conditional distributions are given above).
+
+The Gibbs sample algorithm is fairly easy to implement:
+
+<<cache-obj, cache=TRUE>>=
+
+## this Gibbs sampling algorithm can be time-consuming 
+
+## when n is large
+
+rbinormal=function(n,mu1,mu2,sigma1,sigma2,rho){
+
+x=rnorm(1,mu1,sigma1)
+
+y=rnorm(1,mu2,sigma2)
+
+xy=matrix(nrow=n,ncol=2)
+
+for(i in 1:n){
+
+x=rnorm(1,mu1+sigma1/sigma2*rho*(y-mu2),sqrt(1-rho^2)*sigma1)
+
+y=rnorm(1,mu2+sigma2/sigma1*rho*(x-mu1),sqrt(1-rho^2)*sigma2)
+
+xy[i,]=c(x,y)
+
+}
+
+xy
+
+}
+
+## this may take more than 30 seconds
+
+dat=rbinormal(500000,0,1,2,3,.7)
+
+@
+
+Note this code chunk is cached, so next we can use the object \texttt{dat}
+directly, e.g. the marginal means and standard deviations as well
+as the covariance matrix are as follows:
+
+<<varcov,echo=TRUE,results=verbatim>>=
+
+## marginal means and standard deviations of the sample
+
+apply(dat, 2, mean)
+
+apply(dat, 2, sd)
+
+cov(dat)
+
+@
+
+%
+\begin{figure}[tb]
+
+<<cache-graph,fig=TRUE,tikz=TRUE,width=4,height=4>>=
+
+library(KernSmooth)
+
+est=bkde2D(dat, c(.2,.2))
+
+par(mar=c(4,4,1.5,.1), mgp=c(2, .9, 0))
+
+plot(dat[sample(nrow(dat), 500),], pch=20,cex=.5,xlab='$X$',ylab='$Y$',col='red',main='$(X,Y) \\sim MVN(\\mu,\\Sigma)$',cex.main=1)
+
+abline(v=0,h=1,lty=2,col='darkgray')
+
+contour(est$x1, est$x2, est$fhat, nlevels=15,drawlabels=FALSE,add=TRUE,col='darkgray')
+
+@
+
+\caption{Distribution of the simulated random numbers from the bivariate Normal
+distribution with $\mu_{X}=0,\ \sigma_{X}=2,\ \mu_{Y}=1,\ \sigma_{Y}=3,\ \rho=0.7$.\label{fig:binormal}}
+
+\end{figure}
+
+Figure \ref{fig:binormal} shows the bivariate distribution with a
+contour plot, which we can expect from the structure of the bivariate
+Normal distribution. Note that only 500 sample points are shown on
+the plot.
+
+\end{document}
