@@ -1,0 +1,21 @@
+% !TEX TS-program = pgfSweave
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+
+\usepackage{tikz}
+
+\begin{document}
+
+<<setup>>=
+## keep the leading spaces
+options(keep.space=TRUE)
+@
+
+<<tidy=TRUE>>=
+   ## asdf
+1+1
+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+13   #qwer
+@
+
+\end{document}
