@@ -386,7 +386,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
           # Important to use the actual width here,
           # see the comments in parse.tidy for why
-        dce <- deparse.tidy(ce, width.cutoff = getOption("width"))
+        dce <- deparse.tidy(ce, width.cutoff = 0.75 * getOption("width"))
 
       }else{
         dce <- deparse(ce, width.cutoff = 0.75 * getOption("width"))
