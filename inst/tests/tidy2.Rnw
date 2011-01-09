@@ -5,7 +5,7 @@
 \usepackage{Sweave}
 \usepackage{tikz}
 \usepackage{verbatim}
-%\SweaveOpts{keep.source=TRUE, highlight=FALSE, prefix.string=./Graphs/mon}  %with line 8 commented out, 
+\SweaveOpts{keep.source=TRUE, highlight=T}  %with line 8 commented out, 
 % there is no problem...Uncomment line 8 and...it will not work with lines 66-68...reusing a code chunk.
 
 \begin{document}
@@ -17,7 +17,7 @@
 
 <<echo=FALSE>>=
 library(PASWR)
-options(width=80)
+options(width=60,keep.space=FALSE)
 @
 
 To start, I want to be able to write comments to the right of my code which reguires 
@@ -28,19 +28,19 @@ will not show up in the final document.
 
 
 
-<<fig=T,tikz=T, width=3.5, height=3.5, tidy=FALSE>>=
+<<fig=T,tikz=T, width=3.5, height=3.5, tidy=F>>=
 # This is another histogram with options highlight=FALSE and tidy=FALSE
-junk <- rnorm(10000)
-hist(junk, col="yellow", main="Yellow Junk") # Histogram!
+junk <- morejunk <- more <- rnorm(10000)  # Histogram!
+hist(junk, col="yellow", main="Yellow Junk")  # Histogram!
 @
 
 
 The following is one long line of code separated with semicolons.  The comment above
 the code will still print.  However, any comments to the right of the code will not print.
 <<fig=F, echo=TRUE, tidy=TRUE,highlight=FALSE>>=
-  	# Small function with highlight=FALSE and tidy=TRUE and some additional garbage.......
+  # Small function with highlight=FALSE and tidy=TRUE and some additional garbage.......
   # garbage to see how it wraps.
-cip <- function(x=10, n=100, conf.level=0.95){phat <- x/n; z <- qnorm(1-(1 - conf.level)/2); SE <- sqrt(phat*(1-phat)/n); ME <- z*SE; c(phat-ME, phat+ME)} # cip function
+cip <- function(x=10, n=100, conf.level=0.95){phat <- x/n; z <- qnorm(1-(1 - conf.level)/2); SE <- sqrt(phat*(1-phat)/n); ME <- z*SE; c(phat-ME, phat+ME)}  # cip function
 @
 Note:  with \texttt{tidy=FALSE} the comment to the right prints!
 <<fig=F, echo=TRUE, tidy=FALSE>>=

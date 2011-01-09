@@ -310,15 +310,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   chunk <- removeLineJunk(chunk)
   
   ## parse entire chunk block
-  chunkexps <- try(parse(text=chunk), silent=TRUE)
-
-  RweaveTryStop(chunkexps, options)
   chunkexps <- 
     if(options$tidy){
-      try(parse2(text=chunk), silent=TRUE) 
+      try(parse.tidy(text=chunk), silent=TRUE) 
     }else{
       try(parse(text=chunk), silent=TRUE)
     }
+    
+  RweaveTryStop(chunkexps, options)
 
   ## [CWB] Create a DB entry which is simply the digest of the text of 
   ## the chunk so that if anything has changed the chunk will be 
@@ -330,8 +329,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   chunkTextEvalString <- paste("chunkText <- '", 
     digest(paste(chunk,collapse='')), "'", sep='')
   attr(chunk, "digest") <- digest(paste(chunk,collapse=''))
-  #if(substr(chunk[1],1,9)!='chunkText')
-  #  chunk <- c(chunkTextEvalString, chunk)
   ## end [CWB]
 
   ## Adding my own stuff here [RDP]
@@ -358,9 +355,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   
   for(nce in 1:length(chunkexps)){
     ce <- chunkexps[[nce]]
+
     if (nce <= length(srcrefs) && !is.null(srcref <- srcrefs[[nce]])) {
         if (options$expand) {
-          srcfile <- attr(srcref, "srcfile")#object$srcfile#
+            # then expand references to other chunks
+          srcfile <- attr(srcref, "srcfile")
           showfrom <- srcref[1]
           showto <- srcref[3]
         } else {
@@ -369,29 +368,37 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           showto <- srclines[srcref[3]]
         }
         dce <- getSrcLines(srcfile, lastshown+1, showto)
-            # replace the comment identifiers
-        if(options$tidy){
-          dce <- tidy.sub(dce)
-        }
-            # replace leading lines with #line from 2.12.0
+        
+        if(options$tidy) dce <- unmask.source(dce)
+        
         leading <- showfrom-lastshown
         lastshown <- showto
         srcline <- srclines[srcref[3]]
-        while (length(dce) && length(grep("^[ \\t]*$", dce[1]))) {
+          # Remove blank lines at head of chunk
+        while (length(dce) && length(grep("^[[:blank:]]*$", dce[1]))) {
           dce <- dce[-1]
           leading <- leading - 1
         }
+        
     } else {
+      
       if(options$tidy){
-        dce <- deparse2(ce, width.cutoff = 0.75*getOption("width"))
-        dce <- tidy.sub(dce)
+        
+          # Important to use the actual width here, 
+          # see the comments in parse.tidy for why
+        dce <- deparse.tidy(ce, width.cutoff = getOption("width"))
+
       }else{
-        dce <- deparse(ce, width.cutoff = 0.75*getOption("width"))
+        dce <- deparse(ce, width.cutoff = 0.75 * getOption("width"))
       }
+      
       leading <- 1
+      
     }
+    
     if(object$debug)
       cat("\nRnw> ", paste(dce, collapse="\n+  "),"\n")
+      
     if(options$echo && length(dce)){
       if(!openSinput & !options$highlight){
         if(!openSchunk){
@@ -404,7 +411,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           openSinput <- TRUE
       }
 
-         # Code highlighting stuff
+         # Actual printing of chunk code
       if(options$highlight){
   
         if(length(grep("^[[:space:]]*$",dce)) >= 1 & length(dce) == 1){
@@ -432,13 +439,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       linesout[thisline + 1:length(dce)] <- srcline
       thisline <- thisline + length(dce)
     }
-    
-    ## [RDP] change this line to use my EvalWithOpt function
-    if(options$tidy){
-          # full line comments 
-      dce <- tidy.sub(dce)
-      ce <- parse(text=dce)
-    }
+      
     chunkChanged <- FALSE#err$chunkChanged
       # do not evaluate empty expressions
     if(length(ce) > 0){
@@ -469,9 +470,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         # new hackery, if a comment line is evaluated alone we get two values of 
         # output, 'NULL' and '', hopefully this wil not interefere when the 
         # user actually wants NULL output 
-      if(!is.null(output)) 
-        if(length(output)==2 & output[1] == "NULL" & output[2]==""
-          & length(grep('^[[:space:]]*#',dce)) > 0) output <- NULL
   
       RweaveTryStop(err, options)
   
@@ -541,7 +539,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     thisline <- thisline + 1
   }
 
-  #put in an extra newline before the output for good measure
+  #put in an extra newline before the output for good measure 
+  # (actually that is what Sweave does)
   #cat("\n", file=chunkout, append=TRUE)
 
 

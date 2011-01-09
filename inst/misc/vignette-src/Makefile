@@ -19,8 +19,8 @@ EXEC_PATH=../../../exec/
 CHANGELOG_PATH=../../../
 
 RM_PATH={*,$(DOC_PATH)/*}
-RM_SUFFIX={sh,map,aux,tex,log,pdf,dvi,in,fdb_latexmk,out}
-BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk}
+RM_SUFFIX={sh,map,aux,tex,log,dvi,in,fdb_latexmk,out,toc}
+BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk,toc,out}
 
 #
 VIGNETTE_SOURCE_PDF=pgfSweave-vignette-source.pdf

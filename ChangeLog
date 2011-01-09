@@ -1,3 +1,214 @@
+commit 05087396230a7436dbb38354324592be9e23031b
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jan 7 13:39:40 2011 -0700
+
+    Remove debugging code
+
+ R/pgfSweaveDriver.R                |    3 ---
+ inst/example/pgfSweave-example.Rnw |    1 +
+ 2 files changed, 1 insertions(+), 3 deletions(-)
+
+commit c542d07aa53eea2e50c9eb6acf42993cfeaabb0c
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jan 7 13:32:35 2011 -0700
+
+    New example from Yihui Xie, updated existing example
+
+ inst/example/Makefile              |    3 +
+ inst/example/caching.Rnw           |  148 ++++++++++++++++++++++++++++++++++++
+ inst/example/pgfSweave-example.Rnw |    4 +-
+ 3 files changed, 153 insertions(+), 2 deletions(-)
+
+commit 9c507a65e552cba1d9ae593e25fd8031c615a166
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jan 7 13:31:57 2011 -0700
+
+    Inline comments actually work now with tidy=T
+
+ R/pgfSweaveDriver.R |  141 ++++++++++++++++++++++++++------------------------
+ 1 files changed, 73 insertions(+), 68 deletions(-)
+
+commit 94dc4f68ac69ebdf18d5eadb4e848f72a0cf6b4d
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jan 7 12:18:24 2011 -0700
+
+    Inline comments actually working now
+
+ R/pgfSweaveDriver.R |   24 ++++++------------------
+ R/utilities.R       |   11 +++++++++++
+ 2 files changed, 17 insertions(+), 18 deletions(-)
+
+commit 97855e0a2831109b6b8bf05559271329444d7341
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jan 7 12:16:40 2011 -0700
+
+    Tests using tidy and inline comments, from Yihui Xie and Alan Arnholt
+
+ inst/tests/Makefile  |   11 +++++
+ inst/tests/tidy.Rnw  |   21 +++++++++
+ inst/tests/tidy2.Rnw |  110 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 142 insertions(+), 0 deletions(-)
+
+commit 606352f7b7b804f853079f8973cad55d045cf437
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Jan 6 17:23:42 2011 -0700
+
+    Inline comments are now preserved when tidy=T
+
+ DESCRIPTION         |    4 +-
+ NEWS                |    8 ++++-
+ R/pgfSweaveDriver.R |   30 ++++++++++++++++++---
+ R/utilities.R       |   70 +--------------------------------------------------
+ 4 files changed, 34 insertions(+), 78 deletions(-)
+
+commit db16ab329d5ec5a2576c4fd89209c6d79c4de434
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Jan 6 15:47:05 2011 -0700
+
+    Rebuild pdf version of Hans' Vignette
+
+ inst/doc/pgfSweave_hans.pdf |  Bin 236774 -> 236103 bytes
+ 1 files changed, 0 insertions(+), 0 deletions(-)
+
+commit d1bd42a8443ea9708315f22da429c0f532f2a163
+Merge: 785d963 99d5bdd
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Jan 6 15:42:34 2011 -0700
+
+    Merge branch 'master' of https://github.com/hans-ekbrand/pgfSweave into hans-ekbrand-master
+
+commit 99d5bddc0dfe65a7a5f19993151857cd01f79af5
+Author: Hans Ekbrand <hans.ekbrand@gmail.com>
+Date:   Thu Jan 6 23:33:52 2011 +0100
+
+    removed the reference to the mysterious error message when the cache dir did not exist
+
+ inst/doc/pgfSweave_hans.Rnw |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+commit 4b22d8cc3603ce668abe32387f8737fe9e7a315c
+Author: Hans Ekbrand <hans.ekbrand@gmail.com>
+Date:   Thu Jan 6 23:33:21 2011 +0100
+
+    Enhancement: no dots in chunk-name when fig=T and pdf=T
+
+ inst/doc/pgfSweave_hans.Rnw |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+commit 31c020ef40a703b1786f7ce85b9ecf74e5eda7ac
+Author: Hans Ekbrand <hans.ekbrand@gmail.com>
+Date:   Thu Jan 6 23:32:22 2011 +0100
+
+    Correction: dvi-files, not encapsulated postscript files
+
+ inst/doc/pgfSweave_hans.Rnw |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit c457b004ff17e448bfabb201daf1573871019482
+Author: Hans Ekbrand <hans.ekbrand@gmail.com>
+Date:   Thu Jan 6 23:31:04 2011 +0100
+
+    Removing any references to \pgfrealjobname since these are not necessary with pgfSweave 1.1 and above
+
+ inst/doc/pgfSweave_hans.Rnw |    4 +---
+ 1 files changed, 1 insertions(+), 3 deletions(-)
+
+commit 785d96375024ba9ad762ae1a9542e659f7d007a1
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Jan 6 13:59:19 2011 -0700
+
+    Updates to the vignette, prepping for next release
+
+ DESCRIPTION                                        |    4 +-
+ NEWS                                               |    2 +
+ README.md                                          |    2 +
+ inst/example/pgfSweave-example.Rnw                 |    4 +--
+ inst/misc/test-for-pgf.tex                         |    2 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   22 +++++++++++++++----
+ 6 files changed, 25 insertions(+), 11 deletions(-)
+
+commit 4fb9b4eef7f466cecb261052a74d80548b907d4a
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Jan 6 13:57:10 2011 -0700
+
+    Fix for reusing code chunks with keep.source=T, fixes Issue 9
+
+ R/pgfSweaveDriver.R |   21 +++++++++++++++++----
+ 1 files changed, 17 insertions(+), 4 deletions(-)
+
+commit 716f33dd47c205c39fc78265ddefa1ffa98aa661
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Jan 5 15:30:35 2011 -0700
+
+    New Vignette! Courtesy of Hans Ekbrand.
+
+ inst/doc/pgfSweave_hans.Rnw |  380 +++++++++++++++++++++++++++++++++++++++++++
+ inst/doc/pgfSweave_hans.pdf |  Bin 0 -> 236774 bytes
+ 2 files changed, 380 insertions(+), 0 deletions(-)
+
+commit e338a7313ca7b5bc0e7be415bd4263d9bee7888a
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Jan 3 12:46:35 2011 -0700
+
+    Don't produce extra Rplots.pdf file
+
+ DESCRIPTION                        |    2 +-
+ NEWS                               |    7 +-
+ R/pgfSweaveDriver.R                |    5 +
+ README.md                          |   28 +--
+ inst/doc/pgfSweave.pdf             |  Bin 258644 -> 258657 bytes
+ inst/example/pgfSweave-example.Rnw |    8 +-
+ inst/example/pgfSweave-example.tex |  424 ------------------------------------
+ 7 files changed, 21 insertions(+), 453 deletions(-)
+
+commit 93accdf3f78829c601e0a35ee111086c71562646
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Dec 17 17:11:05 2010 -0700
+
+    Update NEWS and version number
+
+ DESCRIPTION |    4 ++--
+ NEWS        |   13 +++++++++++++
+ 2 files changed, 15 insertions(+), 2 deletions(-)
+
+commit d79d82577d58f2af5c367081ef4d6675c3435982
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Dec 17 16:50:53 2010 -0700
+
+    Don't fail on installation when the user has a hardcoded working directory
+
+ exec/install-script.R |   36 ++++++++++++++++++++++--------------
+ 1 files changed, 22 insertions(+), 14 deletions(-)
+
+commit e3543663ab267471d29b80c8dd47143fd4e8b290
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Dec 17 16:29:39 2010 -0700
+
+    Remove excess browser() call, correctly find arch dependent Rscript
+
+ R/pgfSweaveDriver.R                |    1 -
+ inst/doc/pgfSweave.pdf             |  Bin 258644 -> 258644 bytes
+ inst/example/pgfSweave-example.Rnw |    2 +-
+ inst/example/pgfSweave-example.tex |    1 +
+ src/Makevars                       |    2 +-
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+
+commit dc89b16767daf9fa5eba9bc16635b96a0704e4e8
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Dec 3 11:52:40 2010 -0700
+
+    Version 1.1.1
+
+ ChangeLog                                 |   18 ++
+ DESCRIPTION                               |    4 +-
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 2937 -> 3139 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf      |  Bin 16182 -> 16297 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 26895 -> 26936 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 82901 -> 27626 bytes
+ inst/doc/pgfSweave.Rnw                    |  458 +++++++++++++++++++++++++++--
+ inst/doc/pgfSweave.pdf                    |  Bin 271887 -> 258644 bytes
+ 8 files changed, 448 insertions(+), 32 deletions(-)
+
 commit 6aefd96107e78e2dbec3cd2e05d12e8a04bb44a2
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Fri Dec 3 11:42:37 2010 -0700

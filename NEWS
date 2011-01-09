@@ -1,7 +1,7 @@
 Please see the README.md file for development info
 
 --------------------------
-Version 1.1.3 - 2011-01-06
+Version 1.1.3 - 2011-01-07
 --------------------------
 * Use the "null device" to avoid generation of Rplots.pdf, as suggested by 
   yihui, fixes Issue 8
@@ -11,6 +11,7 @@ Version 1.1.3 - 2011-01-06
 * Inline comments are now preserved thanks to changes in the tidy.source() 
   function from the formatR package 
 * The formatR package is now a dependency of pgfSweave
+* New caching example document courtesy of Yihui Xie
 
 --------------------------
 Version 1.1.2 - 2010-12-17

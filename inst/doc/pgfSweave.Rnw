@@ -400,7 +400,9 @@
 
 \begin{center}
 {\Large The \pkg{pgfSweave} Package}\\
-{\large Cameron Bracken and Charlie Sharpsteen \\ \today}\vspace{1cm}
+{\large Cameron Bracken and Charlie Sharpsteen \\ \today}\\
+http://cran.r-project.org/web/packages/pgfSweave/index.html
+\vspace{1cm}
 \end{center}
 
 \tableofcontents
@@ -600,7 +602,7 @@ The original code in the chunk looks like:
         x[i] <- rnorm(1)
     }
         # OR
-    y <- rnorm(100)
+    y <- rnorm(100)  # and another comment
     
     plot(x,y)
 \end{Verbatim}
@@ -616,7 +618,6 @@ Normal:
 > plot(x, y)
 \end{Sinput}
 \end{Schunk}
-
 
 With Highlighting:
 \hspace*{\fill}\\
@@ -640,43 +641,35 @@ With Highlighting:
 \hspace*{\fill}\\
 \hlstd{}
 
-
 \subsection{The \code{tidy} option}
-Version 1.1.0 of \pkg{pgfSweave} introduced the \code{tidy} option.  This functionality was built into earlier releases, but is now available as an option for greater control.  Setting this chunk option to \code{TRUE} will clean up your code with the \code{tidy.source} function from the \code{animation} package. Using this option will not only preserve comments in the code but will reformat it's appearance.  This option takes precedent over the \code{keep.source} function but can be combined with the \code{highlight} option. Using the previous example:
+Version 1.1.0 of \pkg{pgfSweave} introduced the \code{tidy} option.  This functionality was built into earlier releases, but is now available as an option for greater control.  Setting this chunk option to \code{TRUE} will clean up your code with an internal version of the \code{tidy.source} function from the \code{formatR} package. Using this option will not only preserve comments in the code but will reformat it's appearance.  This option takes precedent over the \code{keep.source} function but can be combined with the \code{highlight} option. Using the previous example:
 
 Normal:
-\begin{Schunk}
-\begin{Sinput}
-> x <- numeric(100)
-> for (i in 1:100) {
-+     x[i] <- rnorm(1)
-+ }
-> y <- rnorm(100)
-> plot(x, y)
-\end{Sinput}
-\end{Schunk}
-
-
-With Tidying:
-\begin{Schunk}
-\begin{Sinput}
->   # here is a comment
-> x <- numeric(100)
-> for (i in 1:100) {
-+     x[i] <- rnorm(1)
-+ }
->   # OR
-> y <- rnorm(100)
-> 
-> plot(x, y)
-\end{Sinput}
-\end{Schunk}
-
-
-With Tidying and Highlighting:
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlkeyword{for}{\ }\hlkeyword{(}\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}
+
+With Tidying:
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
@@ -690,11 +683,11 @@ With Tidying and Highlighting:
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }OR}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }OR}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\usebox{\hlnormalsizeboxgreaterthan}{\ }
@@ -705,6 +698,39 @@ With Tidying and Highlighting:
 \hspace*{\fill}\\
 \hlstd{}
 
+With Tidying and Highlighting:
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlkeyword{for}{\ }\hlkeyword{(}\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }OR}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another{\ }comment}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\usebox{\hlnormalsizeboxgreaterthan}{\ }
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}
+
+NOTE: Inline comments are defined by the \code{tidy.source()} function to be ``two or more spaces plus the hash symbol \# in your source code.'' Two hash symbols will also not work. 
 
 \subsection{Compilation Time}
 The combination of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 
@@ -799,7 +825,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
     \draw[a] (move) |- (past);
     
 \end{tikzpicture}
-\caption{Flow chart of modeling procedure.}\label{flow}
+\caption{Flow chart of \pkg{pgfSweave} procedure.}\label{flow}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -853,7 +879,7 @@ The default in \code{Sweave.sty} is to fix the width of every image to 80\% of t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Command line interface\label{commandline}}
 
-In recent versions, \pkg{pgfSweave} got an \code{R CMD} command line interface.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
+In versions 0.7.0, \pkg{pgfSweave} got an \code{R CMD} command line interface.  On Unix alikes (including Mac OS X) a symbolic link \code{\$R\_HOME/bin/pgfsweave} to \code{\$R\_HOME/library/pgfSweave/exec/pgfsweave-script.R}.  On Windows a copy of the script is made instead.  {\color{red} This script is only installed if pgfSweave is installed from source}.
 
 Here is a listing from \code{R CMD pgfsweave --help}:
 
@@ -968,5 +994,15 @@ make
 \end{verbatim}
 Which will create \code{pgfSweave-vignette-source.pdf}
 
+\section{Additional Resources}
+This is an on going list of third-party resources for \pkg{pgfSweave}. Suggestions for this list are welcome. 
+
+\begin{itemize}
+  
+  \item \url{http://code.cjb.net/pgfSweave.html}
+  
+  \item \url{http://yihui.name/en/tag/pgfsweave/}
+  
+\end{itemize}
 
 \end{document}

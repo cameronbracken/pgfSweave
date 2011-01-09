@@ -245,7 +245,7 @@ The original code in the chunk looks like:
         x[i] <- rnorm(1)
     }
         # OR
-    y <- rnorm(100)
+    y <- rnorm(100)  # and another comment
     
     plot(x,y)
 \end{Verbatim}
@@ -258,7 +258,7 @@ Normal:
         x[i] <- rnorm(1)
     }
         # OR
-    y <- rnorm(100)
+    y <- rnorm(100)  # and another comment
     
     plot(x,y)
 @
@@ -271,7 +271,7 @@ With Highlighting:
         x[i] <- rnorm(1)
     }
         # OR
-    y <- rnorm(100)
+    y <- rnorm(100)  # and another comment
 
     plot(x,y)
 @
@@ -287,7 +287,7 @@ Normal:
         x[i] <- rnorm(1)
     }
         # OR
-    y <- rnorm(100)
+    y <- rnorm(100)  # and another comment
     
     plot(x,y)
 @
@@ -300,7 +300,7 @@ With Tidying:
         x[i] <- rnorm(1)
     }
         # OR
-    y <- rnorm(100)
+    y <- rnorm(100)  # and another comment
 
     plot(x,y)
 @
@@ -313,10 +313,12 @@ With Tidying and Highlighting:
         x[i] <- rnorm(1)
     }
         # OR
-    y <- rnorm(100)
+    y <- rnorm(100)  # and another comment
 
     plot(x,y)
 @
+
+NOTE: Inline comments are defined by the \code{tidy.source()} function to be ``two or more spaces plus the hash symbol \# in your source code.'' Two hash symbols will also not work. 
 
 \subsection{Compilation Time}
 The combination of \pkg{cacheSweave} code caching and \pkg{pgfSweave} figure caching can provide drastic decrease in compilation time.  The time speedup is highly dependednt on what code you are executing but using \pkg{pgfSweave} effectivly reduces the compilation time of \pkg{Sweave} to the time it takes to compile the \LaTeX{} document. 
