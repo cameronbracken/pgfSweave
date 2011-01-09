@@ -86,46 +86,6 @@ makeExternalShellScriptName <- function(Rnwfile) {
     shellfile
 }
 
-tidy.sub <- function(dce){
-     # full line comments
-  dce <- gsub(sprintf("%s = \"|%s\"", getOption("begin.comment"),
-      getOption("end.comment")), "", dce)
-      # replace tabs with spaces for better looking output
-  dce <- gsub("\\\\t", "    ", dce)
-      # Inline comments
-  dce <- gsub(" \\+[ ]{0,1}[\n ]*\"([ ]{2,}#[^\"]*)\"", "\\1", dce)
-  dce
-}
-
-## to replace the default parse()
-parse.tidy <- function(text, ...) {
-
-      # Respected tidy.source options
-    keep.blank.line <- ifelse(is.null(getOption('keep.blank.line')),
-      FALSE, getOption('keep.blank.line'))
-    keep.space <- ifelse(is.null(getOption('keep.space')),
-      FALSE, getOption('keep.space'))
-
-      # This corrects for a very subtle printing problem with deparse.tidy'd
-      # code:
-      #  If a line with an inline comment would normally fit in the width but
-      #  the "%InLiNe_IdEnTiFiEr%" pushes it over the width, the line will
-      #  break when it shouldn't causing unmask.source to fail
-    width.add <- nchar("%InLiNe_IdEnTiFiEr%")
-
-    tidy.res <- formatR::tidy.source(text = text, out = FALSE,
-      keep.blank.line = keep.blank.line,
-      keep.space = keep.space,
-      width.cutoff = getOption("width") + width.add)
-
-    base::parse(text = tidy.res$text.mask)
-}
-
-## to replace the default deparse()
-deparse.tidy <- function(expr, ...) {
-  unmask.source(base::deparse(expr, ...))
-}
-
   # from the limma package on bioconductor
 removeExt  <- function (x)
 {
