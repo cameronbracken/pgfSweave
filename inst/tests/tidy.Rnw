@@ -7,15 +7,16 @@
 
 \begin{document}
 
-<<setup>>=
+<<setup,tidy=T>>=
 ## keep the leading spaces
-options(keep.space=TRUE)
+options(keep.space=TRUE,keep.comment=TRUE)  #fdslgkjdf
 @
 
 <<tidy=TRUE>>=
+
    ## asdf
 1+1
-1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+13   #qwer
+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1+2+1   #qwer
 @
 
 \end{document}
