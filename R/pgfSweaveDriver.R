@@ -248,7 +248,7 @@ pgfSweaveWritedoc <- function(object, chunk)
 ## instead.  Note that everything in this function operates at the
 ## chunk level.  The code has been copied from R 2.5.0.
 
-## [CWB] Here are the main changes that allow for tikz graphic output and 
+## [CWB] Here are the main changes that allow for tikz graphic output and
 ## highlighting and such
 pgfSweaveRuncode <- function(object, chunk, options) {
 
@@ -376,7 +376,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         leading <- showfrom-lastshown
         lastshown <- showto
         srcline <- srclines[srcref[3]]
-        
+
           # Remove blank lines at head of chunk
         while (length(dce) && length(grep("^[[:blank:]]*$", dce[1]))) {
           dce <- dce[-1]
@@ -385,7 +385,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
     } else {
 
-      dce <- 
+      dce <-
       if(options$tidy){
         deparse.tidy(ce, width.cutoff = 0.75 * getOption("width"))
       }else{
@@ -416,14 +416,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
           # print highlighted output, treat blank lines specially
         if(length(grep("^[[:space:]]*$",dce)) >= 1 & length(dce) == 1){
-          
+
             # for blank lines for which parser throws an error
           cat(translator_latex(paste(getOption("prompt"),'\n', sep="")),
             file=chunkout, append=TRUE, sep="")
           cat(newline_latex(),file=chunkout, append=TRUE)
-          
+
         }else{
-          
+
           if(nce == 1)
             cat(newline_latex(),file=chunkout, append=TRUE)
           highlight(parser.output=parser(text=dce),
@@ -431,7 +431,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
             output = chunkout, showPrompts=TRUE,final.newline = TRUE)
               # highlight doesnt put in an ending newline for some reason
           cat(newline_latex(),file=chunkout, append=TRUE)
-          
+
         }
 
       }else{
@@ -441,9 +441,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if (length(dce) > leading)
           cat("\n", paste(getOption("continue"), dce[-(1:leading)], sep="",
             collapse="\n"), file=chunkout, append=TRUE, sep="")
-            
+
       }
-      
+
       linesout[thisline + 1:length(dce)] <- srcline
       thisline <- thisline + length(dce)
     }
@@ -650,11 +650,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if(inherits(err, "try-error")) stop(err)
       }
     }
-    
-      # External option, write commands to externalize graphics if the 
+
+      # External option, write commands to externalize graphics if the
       # graphic file does not exist
     if( options$external ){
-      if(ifelse(options$tex.driver == "latex", !epsExists, !pdfExists) && 
+      if(ifelse(options$tex.driver == "latex", !epsExists, !pdfExists) &&
          (!options$pdf && !options$eps)){
 
         shellFile <- object[["shellFile"]]
@@ -670,7 +670,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         }
       }
     }
-      # Write the extrnalization commands if the user does not want 
+      # Write the extrnalization commands if the user does not want
       # to do it themselves already
     if(options$include && options$external) {
       cat("\n\\beginpgfgraphicnamed{",chunkprefix,"}\n",sep="",
@@ -678,7 +678,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
     }
-      # Write the includegraphics command for eps or pdf 
+      # Write the includegraphics command for eps or pdf
       # only if we are not useing pgf or tikz
     if(options$include && !options$pgf && !options$tikz && !options$external) {
       cat("\\includegraphics{", chunkprefix, "}\n", sep="",
