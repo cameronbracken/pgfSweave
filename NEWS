@@ -3,15 +3,16 @@ Please see the README.md file for development info
 --------------------------
 Version 1.1.3 - 2011-01-07
 --------------------------
-* Use the "null device" to avoid generation of Rplots.pdf, as suggested by 
-  yihui, fixes Issue 8
-* New Vignette, courtesy of Hans Ekbrand! Focuses on the use of pgfSweave 
-  with large data sets 
-* Reusing code chunks now works as expected, fixes Issue 9
-* Inline comments are now preserved thanks to changes in the tidy.source() 
-  function from the formatR package 
-* The formatR package is now a dependency of pgfSweave
-* New caching example document courtesy of Yihui Xie
+* [NEW] Use the "null device" to avoid generation of Rplots.pdf, as suggested 
+  by yihui, fixes Issue 8
+* [NEW] New Vignette, courtesy of Hans Ekbrand! Focuses on the use of 
+  pgfSweave with large data sets 
+* [NEW] Example using caching by Yihui, inst/example/caching.Rnw
+* [NEW] Inline comments are now preserved thanks to changes in the 
+  tidy.source() function from the formatR package 
+* [NEW] The formatR package is now a dependency of pgfSweave
+* [NEW] New caching example document courtesy of Yihui Xie
+* [FIXED] Reusing code chunks now works as expected, fixes Issue 9
 
 --------------------------
 Version 1.1.2 - 2010-12-17
