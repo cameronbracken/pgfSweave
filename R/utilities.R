@@ -26,7 +26,6 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
 
   ## 'expr' is a single expression, so something like 'a <- 1'
   res <- NULL
-  chunkChanged <- TRUE
 
   if(!options$eval)
       return(res)
@@ -53,14 +52,13 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
     }
     else{
       keys <- dbFetch(db, exprDigest)
-      chunkChanged <- FALSE
     }
 
 
     ## If there was an error then just return the
     ## condition object and let Sweave deal with it.
     if(inherits(keys, "try-error"))
-      return(list(err=keys,chunkChanged=chunkChanged))
+      return(list(err=keys))
 
     dbLazyLoad(db, globalenv(), keys)
   }
@@ -70,11 +68,11 @@ pgfSweaveEvalWithOpt <- function (expr, options) {
       res <- try(.Internal(eval.with.vis(expr, .GlobalEnv,baseenv())),silent=TRUE)
 
       if(inherits(res, "try-error"))
-        return(list(err=res,chunkChanged=chunkChanged))
+        return(list(err=res))
       if(options$print | (options$term & res$visible))
         print(res$value)
   }
-  list(err=res,chunkChanged=chunkChanged)
+  list(err=res)
 }
 
 makeExternalShellScriptName <- function(Rnwfile) {

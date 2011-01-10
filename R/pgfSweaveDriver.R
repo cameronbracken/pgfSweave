@@ -1,5 +1,5 @@
 ######################################################################
-## Copyright (C) 2008, Cameron Bracken <cameron.bracken@gmail.com>
+## Copyright (C) 2011, Cameron Bracken <cameron.bracken@gmail.com>
 ##             Charlie Sharpsteen <source@shaprpsteen.net>
 ##
 ## This program is free software; you can redistribute it and/or modify
@@ -71,14 +71,14 @@ pgfSweaveSetup <- function(file, syntax,
     file.create(out[["mapFile"]])  ## Overwrite an existing file
     ## End additions [RDP]
 
-    ## [CWB]  create a shell script with a command for each modified
-    ##      graphic
+    ## [CWB]  create a shell script with a command for each modified graphic
     out[["shellFile"]] <- makeExternalShellScriptName(file)
     out[["srcfileName"]] <- sub("\\.Rnw$", "\\.tex", file)
     out[["jobname"]] <- basename(removeExt(file))
     file.create(out[["shellFile"]])  ## Overwrite an existing file
     ######################################################################
 
+      # Avoids creation of Rplots.pdf
     options(device = function(...) {
         .Call("R_GD_nullDevice", PACKAGE = "grDevices")
     })
@@ -242,12 +242,14 @@ pgfSweaveWritedoc <- function(object, chunk)
 
 
 
-## This function is essentially unchanged from the original Sweave
+## [RDP] This function is essentially unchanged from the original Sweave
 ## version, except I compute the digest of the entire chunk, write out
 ## information to the map file, and use 'cacheSweaveEvalWithOpt'
 ## instead.  Note that everything in this function operates at the
 ## chunk level.  The code has been copied from R 2.5.0.
 
+## [CWB] Here are the main changes that allow for tikz graphic output and 
+## highlighting and such
 pgfSweaveRuncode <- function(object, chunk, options) {
 
   if(!(options$engine %in% c("R", "S"))){
@@ -299,7 +301,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
   SweaveHooks(options, run=TRUE)
 
-  # remove unwanted "#line" directives added by R 2.12
+    # remove unwanted "#line" directives added by R 2.12
   removeLineJunk <- function(chunk){
     lines <- grep("#line", chunk)
     srclines <- attr(chunk, "srclines")
@@ -358,7 +360,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
     if (nce <= length(srcrefs) && !is.null(srcref <- srcrefs[[nce]])) {
         if (options$expand) {
-            # then expand references to other chunks
+            # expand references to other chunks
           srcfile <- attr(srcref, "srcfile")
           showfrom <- srcref[1]
           showto <- srcref[3]
@@ -374,6 +376,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         leading <- showfrom-lastshown
         lastshown <- showto
         srcline <- srclines[srcref[3]]
+        
           # Remove blank lines at head of chunk
         while (length(dce) && length(grep("^[[:blank:]]*$", dce[1]))) {
           dce <- dce[-1]
@@ -382,14 +385,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
     } else {
 
+      dce <- 
       if(options$tidy){
-
-          # Important to use the actual width here,
-          # see the comments in parse.tidy for why
-        dce <- deparse.tidy(ce, width.cutoff = 0.75 * getOption("width"))
-
+        deparse.tidy(ce, width.cutoff = 0.75 * getOption("width"))
       }else{
-        dce <- deparse(ce, width.cutoff = 0.75 * getOption("width"))
+        deparse(ce, width.cutoff = 0.75 * getOption("width"))
       }
 
       leading <- 1
@@ -414,12 +414,16 @@ pgfSweaveRuncode <- function(object, chunk, options) {
          # Actual printing of chunk code
       if(options$highlight){
 
+          # print highlighted output, treat blank lines specially
         if(length(grep("^[[:space:]]*$",dce)) >= 1 & length(dce) == 1){
+          
             # for blank lines for which parser throws an error
           cat(translator_latex(paste(getOption("prompt"),'\n', sep="")),
             file=chunkout, append=TRUE, sep="")
           cat(newline_latex(),file=chunkout, append=TRUE)
+          
         }else{
+          
           if(nce == 1)
             cat(newline_latex(),file=chunkout, append=TRUE)
           highlight(parser.output=parser(text=dce),
@@ -427,37 +431,33 @@ pgfSweaveRuncode <- function(object, chunk, options) {
             output = chunkout, showPrompts=TRUE,final.newline = TRUE)
               # highlight doesnt put in an ending newline for some reason
           cat(newline_latex(),file=chunkout, append=TRUE)
+          
         }
 
       }else{
+          # regular output, may be tidy'd or not
         cat("\n",paste(getOption("prompt"), dce[1:leading], sep="",
           collapse="\n"), file=chunkout, append=TRUE, sep="")
         if (length(dce) > leading)
           cat("\n", paste(getOption("continue"), dce[-(1:leading)], sep="",
             collapse="\n"), file=chunkout, append=TRUE, sep="")
+            
       }
+      
       linesout[thisline + 1:length(dce)] <- srcline
       thisline <- thisline + length(dce)
     }
 
-    chunkChanged <- FALSE#err$chunkChanged
-      # do not evaluate empty expressions
+      # do not evaluate empty expressions, these may occur when tidy=T
     if(length(ce) > 0){
 
-      ## tmpcon <- textConnection("output", "w")
-      ## avoid the limitations (and overhead) of output text
-      ## connections
+        ## tmpcon <- textConnection("output", "w")
+        ## avoid the limitations (and overhead) of output text connections
       tmpcon <- file()
       sink(file=tmpcon)
       err <- NULL
 
       if(options$eval) err <- pgfSweaveEvalWithOpt(ce, options)
-        ## [CWB] added another output specifying if the code chunk
-        ##     was changed or not. This was an ititial attempt to
-        ##     improve cacheSweave''s  recognition of chages in a
-        ##     code chunk though it is defunct now.
-      err <- err$err
-      ## [CWB] end
       ## [RDP] end change
 
       cat("\n") # make sure final line is complete
@@ -467,9 +467,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
       ## delete empty output
       if(length(output)==1 & output[1]=="") output <- NULL
-        # new hackery, if a comment line is evaluated alone we get two values of
-        # output, 'NULL' and '', hopefully this wil not interefere when the
-        # user actually wants NULL output
 
       RweaveTryStop(err, options)
 
@@ -539,10 +536,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     thisline <- thisline + 1
   }
 
-  #put in an extra newline before the output for good measure
-  # (actually that is what Sweave does)
-  #cat("\n", file=chunkout, append=TRUE)
-
 
   if(is.null(options$label) & options$split)
     close(chunkout)
@@ -561,7 +554,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     epsExists <- file.exists(paste(chunkprefix, "eps", sep="."))
 
     if(options$eps & !options$pgf & !options$tikz){
-      if(!options$external | (chunkChanged | !epsExists) ){
+      if(!options$external | !epsExists ){
 
           # [CWB] the useKerning option was added in R 2.9.0
           # so check for the R version and set the
@@ -585,7 +578,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       }
     }
     if(options$pdf & !options$pgf & !options$tikz){
-      if(!options$external | (chunkChanged | !pdfExists) ){
+      if(!options$external | !pdfExists ){
         grDevices::pdf(file=paste(chunkprefix, "pdf", sep="."),
           width=options$width, height=options$height,
           version=options$pdf.version, encoding=options$pdf.encoding)
@@ -611,7 +604,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     ##
 
     if(options$pgf){
-      if(chunkChanged | !pdfExists){
+      if( !pdfExists ){
 
           # [CWB] the useKerning option was added in R 2.9.0
           # so check for the R version and set the
@@ -644,8 +637,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       }
     }
     if(options$tikz){
-      if(chunkChanged | ifelse(options$tex.driver == "latex",
-          !epsExists,!pdfExists)){
+      if(ifelse(options$tex.driver == "latex", !epsExists, !pdfExists)){
         tikzDevice::tikz(file=paste(chunkprefix, "tikz", sep="."),
           width=options$width, height=options$height,
           sanitize=options$sanitize)
@@ -658,10 +650,12 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if(inherits(err, "try-error")) stop(err)
       }
     }
-
-    if(options$external){
-      if( chunkChanged | ifelse(options$tex.driver == "latex",
-          !epsExists,!pdfExists) && (!options$pdf && !options$eps)){
+    
+      # External option, write commands to externalize graphics if the 
+      # graphic file does not exist
+    if( options$external ){
+      if(ifelse(options$tex.driver == "latex", !epsExists, !pdfExists) && 
+         (!options$pdf && !options$eps)){
 
         shellFile <- object[["shellFile"]]
         tex.driver <- options[["tex.driver"]]
@@ -676,27 +670,32 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         }
       }
     }
+      # Write the extrnalization commands if the user does not want 
+      # to do it themselves already
     if(options$include && options$external) {
       cat("\n\\beginpgfgraphicnamed{",chunkprefix,"}\n",sep="",
         file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
     }
+      # Write the includegraphics command for eps or pdf 
+      # only if we are not useing pgf or tikz
     if(options$include && !options$pgf && !options$tikz && !options$external) {
       cat("\\includegraphics{", chunkprefix, "}\n", sep="",
         file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
     }
+      # input statements for tikz and pgf
     if(options$include && (options$pgf || options$tikz)) {
-      #if tikz is TRUE or both tikz and pgf are true,
-      # use tikz, otherwise use pgf
+      #if tikz takes precident over pgf option
       suffix <- ifelse(options$tikz,'tikz','pgf')
       cat("\\input{", paste(chunkprefix,suffix,sep='.'),
         "}\n", sep="", file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
     }
+      # ending externalization command
     if(options$include && options$external) {
       cat("\\endpgfgraphicnamed\n",sep="",file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
