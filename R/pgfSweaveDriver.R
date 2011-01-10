@@ -42,7 +42,7 @@ pgfSweaveSetup <- function(file, syntax,
               eval=TRUE, split=FALSE, stylepath=TRUE,
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE,
               tikz=TRUE, external=FALSE, sanitize = FALSE,
-              highlight = TRUE, tidy = FALSE, tex.driver="pdflatex")
+              highlight = TRUE, tidy = FALSE, center = TRUE, tex.driver="pdflatex")
 {
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
                      debug=debug, echo=echo, eval=eval,
@@ -62,6 +62,7 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["sanitize"]] <- sanitize
     out$options[["highlight"]] <- ifelse(echo,highlight,FALSE)
     out$options[["tidy"]] <- tidy
+    out$options[["center"]] <- center
     out[["haveHighlightSyntaxDef"]] <- FALSE
     out[["haveRealjobname"]] <- FALSE
     ## end [CWB]
@@ -670,6 +671,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         }
       }
     }
+    if (options$include && options$center) {
+        cat("\\begin{center}\n", file=object$output, append=TRUE)
+        linesout[thisline + 1] <- srcline
+        thisline <- thisline + 1
+    }
       # Write the extrnalization commands if the user does not want
       # to do it themselves already
     if(options$include && options$external) {
@@ -700,6 +706,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       cat("\\endpgfgraphicnamed\n",sep="",file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
+    }
+    if (options$include && options$center) {
+        cat("\\end{center}\n", file=object$output, append=TRUE)
+        linesout[thisline + 1] <- srcline
+        thisline <- thisline + 1
     }
     ##end graphics options [CWB]
     #############################################
