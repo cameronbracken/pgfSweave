@@ -17,7 +17,7 @@
 
 <<echo=FALSE>>=
 library(PASWR)
-options(width=60,keep.space=FALSE)
+options(width=80,keep.space=FALSE)
 @
 
 To start, I want to be able to write comments to the right of my code which reguires 
@@ -28,7 +28,7 @@ will not show up in the final document.
 
 
 
-<<fig=T,tikz=T, width=3.5, height=3.5, tidy=F>>=
+<<fig=T,tikz=T, width=3.5, height=3.5, tidy=F,highlight=FALSE>>=
 # This is another histogram with options highlight=FALSE and tidy=FALSE
 junk <- morejunk <- more <- rnorm(10000)  # Histogram!
 hist(junk, col="yellow", main="Yellow Junk")  # Histogram!

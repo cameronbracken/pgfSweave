@@ -413,7 +413,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
          # Actual printing of chunk code
       if(options$highlight){
-
+        
           # print highlighted output, treat blank lines specially
         if(length(grep("^[[:space:]]*$",dce)) >= 1 & length(dce) == 1){
           
