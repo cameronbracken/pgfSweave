@@ -73,7 +73,7 @@ pgfSweaveSetup <- function(file, syntax,
 
     ## [CWB]  create a shell script with a command for each modified graphic
     out[["shellFile"]] <- makeExternalShellScriptName(file)
-    out[["srcfileName"]] <- sub("\\.Rnw$", "\\.tex", file)
+    out[["srcfileName"]] <- sub("\\.[Rr]nw$", "\\.tex", file)
     out[["jobname"]] <- basename(removeExt(file))
     file.create(out[["shellFile"]])  ## Overwrite an existing file
     ######################################################################
@@ -457,7 +457,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       sink(file=tmpcon)
       err <- NULL
 
-      if(options$eval) err <- pgfSweaveEvalWithOpt(ce, options)
+      if(options$eval) err <- cacheSweaveEvalWithOpt(ce, options)
       ## [RDP] end change
 
       cat("\n") # make sure final line is complete
