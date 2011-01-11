@@ -4,6 +4,6 @@ pgfSweave-example.pdf:
 caching.pdf:
 	R CMD pgfsweave caching.Rnw
 clean:
-	rm -rf cache Rplots.* pgfSweave-example-*
+	rm -rf cache Rplots.* pgfSweave-example-* caching-
 	ls | grep -v Rnw | grep -v Makefile | xargs rm
 cleanforbuild: clean
