@@ -582,7 +582,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       if(!options$external | !pdfExists ){
         grDevices::pdf(file=paste(chunkprefix, "pdf", sep="."),
           width=options$width, height=options$height,
-          version=options$pdf.version, encoding=options$pdf.encoding)
+          version=options$pdf.version, encoding=options$pdf.encoding,
+          onefile=FALSE)
 
         err <- try({
           SweaveHooks(options, run=TRUE)
@@ -614,11 +615,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if(getRversion() < "2.9.0")
           grDevices::postscript(file = paste(chunkprefix, "eps", sep="."),
             width=options$width, height=options$height,
-            paper="special", horizontal=FALSE)
+            paper="special", horizontal=FALSE, onefile=FALSE)
         else
           grDevices::postscript(file = paste(chunkprefix, "eps", sep="."),
             width=options$width, height=options$height,
-            paper="special",horizontal=FALSE, useKerning=FALSE)
+            paper="special",horizontal=FALSE, useKerning=FALSE, onefile=FALSE)
 
         err <- try({
           SweaveHooks(options, run=TRUE)
@@ -687,10 +688,26 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       # Write the includegraphics command for eps or pdf
       # only if we are not useing pgf or tikz
     if(options$include && !options$pgf && !options$tikz && !options$external) {
-      cat("\\includegraphics{", chunkprefix, "}\n", sep="",
-        file=object$output, append=TRUE)
-      linesout[thisline + 1] <- srcline
-      thisline <- thisline + 1
+      scale.factor = getOption('scale.factor')
+      if (is.null(scale.factor)) scale.factor = 1
+      if (!grepl("%d", chunkprefix)) {
+          cat("\\scalebox{", scale.factor, "}{\\includegraphics{", chunkprefix, "}}\n", sep="",
+              file=object$output, append=TRUE)
+          linesout[thisline + 1] <- srcline
+          thisline <- thisline + 1
+      } else {
+          nFig <- length(list.files(dirname(chunkprefix),
+                            pattern = paste(sub('%d', '[0-9]+',
+                            basename(chunkprefix)), "(pdf|eps)", sep="\\.")))
+          figFiles <- sprintf(chunkprefix, seq_len(nFig))
+          scale.factor <- rep(scale.factor, length.out = nFig)
+          for (i in seq_len(nFig)) {
+              cat("\\scalebox{", scale.factor[i], "}{\\includegraphics{",
+                  figFiles[i], "}}\n", sep="", file=object$output, append=TRUE)
+              linesout[thisline + 1] <- srcline
+              thisline <- thisline + 1
+          }
+      }
     }
       # input statements for tikz and pgf
     if(options$include && (options$pgf || options$tikz)) {
