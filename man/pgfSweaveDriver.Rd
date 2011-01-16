@@ -34,7 +34,7 @@ pgfSweaveSetup(file, syntax,
     \item{external}{Set default for option \code{external}, see details below.}
     \item{sanitize}{Set default for option \code{sanitize}, see details below.}
     \item{highlight}{Should echo'd code be highlighted with the highlight package.}
-    \item{tidy}{Should echo'd code be cleaned up with the \code{\link[animation]{tidy.source}} function from the \code{\link[animation]{animation}} package.}
+    \item{tidy}{Should echo'd code be cleaned up with the \code{\link[formatR]{tidy.source}} function from the \code{\link[formatR]{formatR}} package.}
     \item{tex.driver}{Set default for option \code{tex.driver}, see details below.}
 }
 \details{
@@ -54,7 +54,7 @@ To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as t
 	
 	\item{\code{highlight}}{ If \code{TRUE} output will be syntax highlighted with the \code{\link[highlight]{highlight}} package.}
 	
-	\item{\code{tidy}}{ If \code{TRUE} (default is \code{FALSE}) output code will be cleaned up with the \code{\link[animation]{tidy.source}} function from the \code{\link[animation]{animation}} package.}
+	\item{\code{tidy}}{ If \code{TRUE} (default is \code{FALSE}) output code will be cleaned up with the \code{\link[formatR]{tidy.source}} function from the \code{\link[formatR]{formatR}} package.}
 		
 	\item{\code{tex.driver}}{ A character string giving the LaTeX driver to use for compiling external graphics (defaults to ``pdflatex'') }
 	
