@@ -148,10 +148,10 @@ pgfSweaveWritedoc <- function(object, chunk)
 
 
     if(!object$havesty){
-    begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
-    which <- grep(begindoc, chunk)
-    if (length(which)) {
-      #print(object$srcfile)
+      begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
+      which <- grep(begindoc, chunk)
+      if (length(which)) {
+        if(length(which) > 1) cat('havesty',which,'\n')
             chunk[which] <- paste("\\usepackage{", object$styfile, "}\n",
                   chunk[which], sep="")
             linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
@@ -164,39 +164,49 @@ pgfSweaveWritedoc <- function(object, chunk)
      begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
      which <- grep(begindoc, chunk)
       # if Sweave line also does not exist
-     otherwhich <- grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)
-     if(length(which) == 0) which <- otherwhich
+     #otherwhich <- grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)
+     otherwhich <- grep("^[[:space:]]*\\\\usepackage\\{.*tikz.*\\}", chunk)
+     other <- FALSE
+     if(length(which) == 0){which <- otherwhich;other <- T}
      if (length(which)) {
-             chunk[which] <- paste("\\pgfrealjobname{",object$jobname,"}\n",
-                      chunk[which], sep="")
-             linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
-             object$haverealjobname <- TRUE
-         }
-     }
-
+     if(length(which) > 1) {cat('haverealjobname',which,'\n');browser()}
+      chunk[which] <- 
+        if(other) 
+          paste(chunk[which],"\n\\pgfrealjobname{",object$jobname,"}\n", sep="")
+        else
+          paste("\\pgfrealjobname{",object$jobname,"}\n",chunk[which], sep="")
+      linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
+      object$haverealjobname <- TRUE
+      }
+    }
+     
      # always add the syntax definitions because there is no real way to
      # check if a single code chunk as the option before hand.
       if (!object$haveHighlightSyntaxDef){
-                # get the latex style definitions from the highlight package
-          tf <- tempfile()
-          cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
-          cat(boxes_latex(),sep='\n',file=tf,append=T)
-          hstyle <- readLines(tf)
-                # find where to put the style definitions
+              # get the latex style definitions from the highlight package
+        tf <- tempfile()
+        cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
+        cat(boxes_latex(),sep='\n',file=tf,append=T)
+        hstyle <- readLines(tf)
+          # find where to put the style definitions
         begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
-            which <- grep(begindoc, chunk)
-            otherwhich <- grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)
-            if(!length(which)) which <- otherwhich
-                # put in the style definitions before the \begin{document}
+          # first try to put it before the begin{document} command
+          # this may not work if there is a code chunk before it
+        which <- grep(begindoc, chunk)
+          # also try to put it by the Sweave style file, 
+        otherwhich <- grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)
+        if(!length(which)) which <- otherwhich
+        
+              # put in the style definitions before the \begin{document}
+              # or \usepackage{Sweave}
         if(length(which)) {
-                chunk <- c(chunk[1:(which-1)],hstyle,chunk[which:length(chunk)])
-
-                linesout <- linesout[c(1L:which, which, seq(from = which +
-                    1L, length.out = length(linesout) - which))]
+    if(length(which) > 1) cat('havehighlight',which,'\n')          
+          chunk <- c(chunk[1:(which-1)],hstyle,chunk[which:length(chunk)])
+          linesout <- linesout[c(1L:which, which, seq(from = which +
+              1L, length.out = length(linesout) - which))]
           object$haveHighlightSyntaxDef <- TRUE
         }
       }
-
     while(length(pos <- grep(object$syntax$docexpr, chunk)))
     {
         cmdloc <- regexpr(object$syntax$docexpr, chunk[pos[1L]])
