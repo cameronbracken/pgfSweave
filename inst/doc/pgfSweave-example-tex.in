@@ -1,6 +1,8 @@
 \documentclass{article}
 
 \usepackage{tikz}
+\pgfrealjobname{pgfSweave-example}
+
 \usepackage[margin=1in]{geometry}
 \title{Minimal pgfSweave Example}
 \author{Cameron Bracken}    
@@ -368,7 +370,6 @@
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 
-\pgfrealjobname{pgfSweave-example}
 \usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Sweave}
 \begin{document}
 
@@ -384,7 +385,7 @@ into a \LaTeX{} document:
 
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }{\ }{\ }{\ }{\ }hey,{\ }a{\ }comment}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }{\ }{\ }{\ }{\ }hey,{\ }a{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
@@ -392,12 +393,19 @@ into a \LaTeX{} document:
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{kruskal.test}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{print}\hlkeyword{(}\hlfunctioncall{kruskal.test}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{)}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another}\mbox{}
 \normalfont
 \hspace*{\fill}\\
-\hlstd{}\usebox{\hlnormalsizeboxgreaterthan}{\ }
-\hspace*{\fill}\\
-\hlstd{}
+\hlstd{}\begin{Schunk}
+\begin{Soutput}
+	Kruskal-Wallis rank sum test
+
+data:  Ozone by Month 
+Kruskal-Wallis chi-squared = 29.2666, df = 4, p-value = 6.901e-06
+\end{Soutput}
+
+\end{Schunk}
+
 \noindent which shows that the location parameter of the Ozone distribution varies 
 significantly from month to month. Finally we include a boxplot of the data:
 

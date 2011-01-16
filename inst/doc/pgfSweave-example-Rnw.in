@@ -9,7 +9,7 @@
 
 <<setup,echo=F>>= 
 setCacheDir("cache") 
-#options(keep.blank.line=FALSE)
+options(keep.space=TRUE)
 @ 
 
 \maketitle
@@ -21,17 +21,18 @@ We embed parts of the examples from the \texttt{kruskal.test} help page
 into a \LaTeX{} document:
 
 <<data,cache=T,tidy=T>>=
-        	#     hey, a comment
+        #     hey, a comment
     data(airquality)
-    kruskal.test( Ozone ~ Month, data = airquality )  # and another
+    print(kruskal.test( Ozone ~ Month, data = airquality ))  # and another
     
 @
+
 \noindent which shows that the location parameter of the Ozone distribution varies 
 significantly from month to month. Finally we include a boxplot of the data:
 
 \begin{figure}[!ht]
 %notice the new options
-<<boxplot,echo=T,fig=T,width=4,height=4,tikz=T,external=T,highlight=T>>=
+<<boxplot,echo=T,fig=T,width=3,height=3,tikz=T,external=T,highlight=T>>=
 	boxplot(Ozone ~ Month, data = airquality,
 		main='Ozone distribution',xlab='Month',ylab='Concentration')
 @

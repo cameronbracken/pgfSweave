@@ -15,6 +15,7 @@
 
 DOC_PATH=../../doc/
 EXAMPLE_PATH=../../example/
+TEST_PATH=../../tests/
 EXEC_PATH=../../../exec/
 CHANGELOG_PATH=../../../
 
@@ -67,15 +68,17 @@ $(EXAMPLE_PDF):
 	(cd $(EXAMPLE_PATH)/ ; make)
 
 clean:
-	rm -rf cache figs/* Rplots.* $(RM_PATH).$(RM_SUFFIX) \
-		$(DOC_PATH)/Sweave.sty $(DOC_PATH)/*.Rnw $(DOC_PATH)/figs/* tmp \
-		$(CHANGELOG)
+	rm -rf cache figs *.pdf $(RM_PATH).$(RM_SUFFIX) \
+		$(DOC_PATH)/Sweave.sty $(DOC_PATH)/pgfSweave.Rnw $(DOC_PATH)/*.pdf \
+		$(DOC_PATH)/figs/* tmp $(CHANGELOG) 
 	(cd $(EXAMPLE_PATH) ; make clean)
+	(cd $(TEST_PATH) ; make clean)
 
 cleanforbuild:
-	rm -rf cache figs/* Rplots.* $(RM_PATH).$(BUILD_RM_SUFFIX) \
-		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave-vignette.tex tmp
+	rm -rf cache figs *.pdf $(RM_PATH).$(BUILD_RM_SUFFIX) \
+		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave.tex tmp
 	(cd $(EXAMPLE_PATH) ; make cleanforbuild)
+	(cd $(TEST_PATH) ; make cleanforbuild)
 
 changelog:
 	git log --stat > ../../../ChangeLog

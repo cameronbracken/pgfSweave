@@ -1,3 +1,155 @@
+commit 199bb28ffa62532c8df42500519ef4516c04e5fc
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Jan 16 14:58:51 2011 -0700
+
+    Update links to tidy.source in docs
+
+ man/pgfSweaveDriver.Rd |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 12ecc4ea27bd259885ab9fc647bd34d2bc7df0eb
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Jan 16 14:40:42 2011 -0700
+
+    Minor cleanup and tweak to example
+
+ R/pgfSweaveDriver.R                |    4 ++--
+ inst/example/pgfSweave-example.Rnw |    8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+commit 8e42d428bc76b86a49685f2c3f631bb37e743c2e
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Jan 11 15:50:11 2011 -0700
+
+    Copy cacheSweave functions and use cacheSweaveEvalWithOpt since the old changes to that function are no longer in use.
+
+ R/pgfSweaveDriver.R   |    4 +-
+ R/utilities.R         |  178 ++++++++++++++++++++++++++++++++++++++++---------
+ inst/example/Makefile |    2 +-
+ 3 files changed, 150 insertions(+), 34 deletions(-)
+
+commit d241291787a386c78b3c6554204065e171aa1472
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Jan 10 15:47:25 2011 -0700
+
+    Cleaning up some more code
+
+ R/pgfSweaveDriver.R                |    2 +-
+ R/zzz.R                            |   86 ++++++++++++++++++------------------
+ inst/example/pgfSweave-example.Rnw |    1 +
+ inst/tests/tidy2.Rnw               |    4 +-
+ 4 files changed, 47 insertions(+), 46 deletions(-)
+
+commit 8c4283c98516de16df5883f59ba055291645245e
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Jan 10 00:33:31 2011 -0700
+
+    Add repo info to README.md
+
+ README.md |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit 7465ff4f212ac021778dbca77ba7babbfa80668a
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Jan 10 00:30:25 2011 -0700
+
+    Remove duplicate entry in NEWS
+
+ NEWS |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+commit 2368a38952e52fae58ca2fef1ab19631c9d0aafa
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Jan 10 00:28:39 2011 -0700
+
+    Remove dead code, comment and format some of driver code
+
+ R/pgfSweaveDriver.R |   81 +++++++++++++++++++++++++--------------------------
+ R/utilities.R       |    8 ++---
+ 2 files changed, 43 insertions(+), 46 deletions(-)
+
+commit 172dcba3146c14f1ce27ffd94dbd17e167a1d343
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Jan 10 00:28:29 2011 -0700
+
+    Update NEWS
+
+ NEWS |   19 ++++++++++---------
+ 1 files changed, 10 insertions(+), 9 deletions(-)
+
+commit d5ccf25b0712a3776d94d6c5891b696c87a1c0ff
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Jan 10 00:27:18 2011 -0700
+
+    Move all new features to github issue tracker, old items to OREADME.md
+
+ OREADME.md |   52 ++++++++++++++++++++++++++++++++++
+ README.md  |   90 ++---------------------------------------------------------
+ 2 files changed, 56 insertions(+), 86 deletions(-)
+
+commit 2bc528c6a21a6e19bd68ff9de70fdbdf004c0d44
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Jan 9 17:42:43 2011 -0700
+
+    Fix CRLF (just in case)
+
+ inst/tests/tidy.Rnw |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
+
+commit 06ee9f05dfc68fe5ded9703c2d163b029c1c7351
+Author: Yihui Xie <xie@yihui.name>
+Date:   Sun Jan 9 16:59:00 2011 -0600
+
+    use 0.75 is OK now; deparse.tidy() can deal with the case in which inline comments are pushed to the next line
+
+ R/pgfSweaveDriver.R |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 4a4652bf4fd978c6c80af42abfaf88e7f714e6b7
+Author: Yihui Xie <xie@yihui.name>
+Date:   Sun Jan 9 16:57:24 2011 -0600
+
+    parse.tidy and deparse.tidy are in formatR now
+
+ R/utilities.R |   40 ----------------------------------------
+ 1 files changed, 0 insertions(+), 40 deletions(-)
+
+commit 2760c5a76dddeaf97cb2f415e2524e942734ff82
+Author: Yihui Xie <xie@yihui.name>
+Date:   Sun Jan 9 16:55:43 2011 -0600
+
+    trim white spaces, as my first step to touch other people's code
+
+ R/pgfSweaveDriver.R |  230 +++++++++++++++++++++++++-------------------------
+ R/utilities.R       |   56 ++++++------
+ 2 files changed, 143 insertions(+), 143 deletions(-)
+
+commit 98db46a6e251fdc1c01b9546a79bd19f4352dc5d
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Jan 9 05:45:01 2011 -0700
+
+    Incorporate new features from formatR 0.1-7, saves alot of grief, but still a small bug in printing long lines with inline comments.
+    
+    Rebuild Vignette
+
+ ChangeLog                                          |  211 ++++++++++++++++++++
+ DESCRIPTION                                        |    2 +-
+ NEWS                                               |    3 +-
+ R/pgfSweaveDriver.R                                |   55 +++---
+ R/utilities.R                                      |   31 ++-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3139 -> 2937 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16297 -> 16299 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26936 -> 26907 bytes
+ inst/doc/pgfSweave-example-Rnw.in                  |    7 +-
+ inst/doc/pgfSweave-example-tex.in                  |    8 +-
+ inst/doc/pgfSweave-example.pdf                     |  Bin 27626 -> 76150 bytes
+ inst/doc/pgfSweave.Rnw                             |  106 +++++++----
+ inst/doc/pgfSweave.pdf                             |  Bin 258657 -> 276681 bytes
+ inst/misc/vignette-src/Makefile                    |    4 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   14 +-
+ inst/tests/tidy2.Rnw                               |   14 +-
+ 16 files changed, 359 insertions(+), 96 deletions(-)
+
 commit 05087396230a7436dbb38354324592be9e23031b
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Fri Jan 7 13:39:40 2011 -0700

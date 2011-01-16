@@ -4,30 +4,13 @@
 
 %% $ R CMD pgfsweave pgfSweave-vignette-source.Rnw
 
-
-
 % \VignetteIndexEntry{The pgfSweave Package}
 % \VignetteDepends{pgfSweave}
 % \VignetteDepends{tikzDevice}
 
-\usepackage[nogin,noae]{Sweave}
 \usepackage[x11names]{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{positioning,shapes.geometric,arrows}
-
-\usepackage[parfill]{parskip}
-\usepackage{fancyvrb}
-\usepackage[margin=1.1in]{geometry}
-\usepackage[colorlinks]{hyperref}
-\newcommand{\lang}{\textsf}
-\newcommand{\code}{\texttt}
-\newcommand{\pkg}{\textbf}
-\newcommand{\ques}[1]{\vspace{.5cm}\noindent{\bf\large#1}\vspace{.2cm}}
-
-\title{The \pkg{pgfSweave} Package}
-\author{Cameron Bracken and Charlie Sharpsteen}
-
-
 \newcommand{\hlnumber}[1]{\textcolor[rgb]{0.0823529411764706,0.0784313725490196,0.709803921568627}{#1}}%
 \newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{1,0,0}{#1}}%
 \newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
@@ -391,7 +374,23 @@
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 
+\usepackage[nogin,noae]{Sweave}
+
+\usepackage[parfill]{parskip}
+\usepackage{fancyvrb}
+\usepackage[margin=1.1in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\newcommand{\lang}{\textsf}
+\newcommand{\code}{\texttt}
+\newcommand{\pkg}{\textbf}
+\newcommand{\ques}[1]{\vspace{.5cm}\noindent{\bf\large#1}\vspace{.2cm}}
+
+\title{The \pkg{pgfSweave} Package}
+\author{Cameron Bracken and Charlie Sharpsteen}
+
 \begin{document}
+
+
 
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=FALSE and tikz=TRUE.
@@ -644,7 +643,7 @@ With Highlighting:
 \subsection{The \code{tidy} option}
 Version 1.1.0 of \pkg{pgfSweave} introduced the \code{tidy} option.  This functionality was built into earlier releases, but is now available as an option for greater control.  Setting this chunk option to \code{TRUE} will clean up your code with an internal version of the \code{tidy.source} function from the \code{formatR} package. Using this option will not only preserve comments in the code but will reformat it's appearance.  This option takes precedent over the \code{keep.source} function but can be combined with the \code{highlight} option. Using the previous example:
 
-Normal:
+Default (highlighting only, cleaned up with parse):
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
@@ -657,23 +656,58 @@ Normal:
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{z}\hlkeyword{)}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}
 
-With Tidying:
+Normal with \code{keep.source=T} (highlighting only, not cleaned up):
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\hspace*{\fill}\\
+\hlstd{}\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlkeyword{for}\hlkeyword{(}{\ }\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another{\ }comment}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}\ttfamily\noindent
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}\hlsymbol{z}\hlkeyword{)}\mbox{}
+\normalfont
+\hspace*{\fill}\\
+\hlstd{}
+
+Only Tidying:
+\begin{Schunk}
+\begin{Sinput}
+> # here is a comment
+> x <- numeric(100)  # here is a comment
+> for (i in 1:100) {
+    x[i] <- rnorm(1)
+}
+> y <- rnorm(100)  # and another comment
+> plot(x, y)
+
+\end{Sinput}
+\end{Schunk}
+
+With Tidying and highlighting:
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
@@ -683,46 +717,8 @@ With Tidying:
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }OR}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another{\ }comment}\mbox{}
 \normalfont
-\hspace*{\fill}\\
-\hlstd{}\usebox{\hlnormalsizeboxgreaterthan}{\ }
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}
-
-With Tidying and Highlighting:
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlkeyword{for}{\ }\hlkeyword{(}\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlprompt{+{\ }}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }OR}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another{\ }comment}\mbox{}
-\normalfont
-\hspace*{\fill}\\
-\hlstd{}\usebox{\hlnormalsizeboxgreaterthan}{\ }
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
@@ -976,6 +972,7 @@ or
 \begin{verbatim}
 \usepackage{atbegshi}
 \usepackage{tikz}
+
 \end{verbatim}
 
 %--------------------------------------

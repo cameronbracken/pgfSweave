@@ -5,7 +5,7 @@ tidy:
 	R CMD pgfsweave tidy2.Rnw
 
 clean:
-	rm -rf cache Rplots.* pgfSweave-example-*
+	rm -rf cache Rplots.*
 	ls | grep -v Rnw | grep -v Makefile | xargs rm
 
 cleanforbuild: clean

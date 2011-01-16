@@ -4,21 +4,14 @@
 
 %% $ R CMD pgfsweave pgfSweave-vignette-source.Rnw
 
-<<setup,echo=F>>=
-require(cacheSweave)
-setCacheDir("cache")
-require(tikzDevice)
-if(!file.exists('figs')) dir.create('figs')
-@
-
 % \VignetteIndexEntry{The pgfSweave Package}
 % \VignetteDepends{pgfSweave}
 % \VignetteDepends{tikzDevice}
 
-\usepackage[nogin,noae]{Sweave}
 \usepackage[x11names]{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{positioning,shapes.geometric,arrows}
+\usepackage[nogin,noae]{Sweave}
 
 \usepackage[parfill]{parskip}
 \usepackage{fancyvrb}
@@ -32,9 +25,14 @@ if(!file.exists('figs')) dir.create('figs')
 \title{The \pkg{pgfSweave} Package}
 \author{Cameron Bracken and Charlie Sharpsteen}
 
-\pgfrealjobname{pgfSweave-vignette-source}
-
 \begin{document}
+
+<<setup,echo=F>>=
+  require(cacheSweave)
+  setCacheDir("cache")
+  require(tikzDevice)
+  if(!file.exists('figs')) dir.create('figs')
+@
 
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=FALSE and tikz=TRUE.
@@ -279,43 +277,44 @@ With Highlighting:
 \subsection{The \code{tidy} option}
 Version 1.1.0 of \pkg{pgfSweave} introduced the \code{tidy} option.  This functionality was built into earlier releases, but is now available as an option for greater control.  Setting this chunk option to \code{TRUE} will clean up your code with an internal version of the \code{tidy.source} function from the \code{formatR} package. Using this option will not only preserve comments in the code but will reformat it's appearance.  This option takes precedent over the \code{keep.source} function but can be combined with the \code{highlight} option. Using the previous example:
 
-Normal:
+Default (highlighting only, cleaned up with parse):
 <<notidy,echo=T,tidy=F,fig=F>>=
         # here is a comment
-    x <- numeric(100)# here is a comment
-    for( i in 1:100){
-        x[i] <- rnorm(1)
-    }
-        # OR
-    y <- rnorm(100)  # and another comment
+    x <- numeric(100)  # here is a comment
+    for( i in 1:100){ x[i] <- rnorm(1)}
+    z <- rnorm(100)  # and another comment
     
-    plot(x,y)
+    plot(x,z)
 @
 
-With Tidying:
+Normal with \code{keep.source=T} (highlighting only, not cleaned up):
+<<notidy,echo=T,tidy=F,fig=F,keep.source=T>>=
+        # here is a comment
+    x <- numeric(100)  # here is a comment
+    for( i in 1:100){ x[i] <- rnorm(1)}
+    z <- rnorm(100)  # and another comment
+    
+    plot(x,z)
+@
+
+Only Tidying:
+<<tidy,echo=T,tidy=T,highlight=F,fig=F>>=
+    # here is a comment
+x <- numeric(100)  # here is a comment
+for( i in 1:100){ x[i] <- rnorm(1)} 
+y <- rnorm(100)  # and another comment
+
+plot(x,y)
+@
+
+With Tidying and highlighting:
 <<tidy,echo=T,tidy=T,fig=F>>=
-        # here is a comment
-    x <- numeric(100)
-    for( i in 1:100){
-        x[i] <- rnorm(1)
-    }
-        # OR
-    y <- rnorm(100)  # and another comment
+    # here is a comment
+x <- numeric(100)  # here is a comment
+for( i in 1:100){ x[i] <- rnorm(1)}
+y <- rnorm(100)  # and another comment
 
-    plot(x,y)
-@
-
-With Tidying and Highlighting:
-<<tidy,echo=T,tidy=T,highlight=T,fig=F>>=
-        # here is a comment
-    x <- numeric(100)
-    for( i in 1:100){
-        x[i] <- rnorm(1)
-    }
-        # OR
-    y <- rnorm(100)  # and another comment
-
-    plot(x,y)
+plot(x,y)
 @
 
 NOTE: Inline comments are defined by the \code{tidy.source()} function to be ``two or more spaces plus the hash symbol \# in your source code.'' Two hash symbols will also not work. 
