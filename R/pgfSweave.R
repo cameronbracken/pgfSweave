@@ -1,4 +1,4 @@
-pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax"), ...){
+pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax"), np = 2,...){
     
     #Run Sweave
     Sweave(file,driver=pgfSweaveDriver,syntax=syntax)
@@ -6,26 +6,27 @@ pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax
     #if available compile pgf graphics
     if(compile.tex){
         
-        #Strip the extension and compile the pgf graphics separately
-        
-        bn <- strsplit(basename(file),"\\.Rnw")[[1]][1]
-        dn <- dirname(file)
-        fn <- file.path(dn,bn)
-        cmds <- readLines(paste(fn,'sh',sep='.'))
-        dummy <- lapply(cmds,system)
+        #Strip the extension
+        fn <- tools::file_path_sans_ext(file)
 
-        #if using miktex on windows the flag is not needed
-        #texlive on linux/macosx needs the --jobname flag
-        if(.Platform$OS.type != 'windows'){
-            flag <- paste('--jobname=',bn,sep='')
-    
-            #set special versions of calls to latex or pdflatex
-            if(is.null(match.call()$pdf))
-                Sys.setenv(LATEX=paste("latex",flag))
-            else
-                Sys.setenv(PDFLATEX=paste("pdflatex",flag))
-        }
-    
+        # set initial calls to latex or pdflatex to generate makefile and 
+        # dependency lists
+        cmd <- 
+        if(is.null(match.call()$pdf))
+            Sys.getenv("LATEX","latex")
+        else
+            Sys.getenv("PDFLATEX","pdflatex")
+
+            # Initial call to pdflatex or latex
+        system(paste(cmd,fn))
+
+            # call make to externalize graphics
+        make <- Sys.which('make')
+        if(file.access(make, 1) == 0)
+          system(paste(make," -j ",np," -f ",fn,".makefile",sep=""))
+        else 
+          warning('`make` is not available, graphics will not be externalized.')
+
         #run texi2dvi on the tex file        
         tools::texi2dvi(paste(fn,'tex',sep='.'),...)
     }
