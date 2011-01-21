@@ -109,8 +109,7 @@ pgfSweaveOptions <- function(options)
                 options[[opt]] <- c2l(options[[opt]])
             }
             if(is.na(options[[opt]]))
-                stop(gettextf("invalid value for '%s' : %s", opt, oldval),
-                     domain = NA)
+                stop(gettextf("invalid value for '%s' : %s", opt, oldval),domain = NA)
         }
         else if(opt %in% NUMOPTS){
             options[[opt]] <- as.numeric(options[[opt]])
@@ -119,13 +118,11 @@ pgfSweaveOptions <- function(options)
 
     if(!is.null(options$results))
         options$results <- tolower(as.character(options$results))
-    options$results <- match.arg(options$results,
-                                 c("verbatim", "tex", "hide"))
+    options$results <- match.arg(options$results, c("verbatim", "tex", "hide"))
 
     if(!is.null(options$strip.white))
         options$strip.white <- tolower(as.character(options$strip.white))
-    options$strip.white <- match.arg(options$strip.white,
-                                     c("true", "false", "all"))
+    options$strip.white <- match.arg(options$strip.white, c("true", "false", "all"))
     options
 }
 
@@ -641,6 +638,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if(inherits(err, "try-error")) stop(err)
       }
     }
+
     if( options$tikz ){
       if( !options$external | chunkChanged ){
         tikzDevice::tikz(file=paste(chunkprefix, "tikz", sep="."),
@@ -655,6 +653,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if(inherits(err, "try-error")) stop(err)
       }
     }
+
       # Write the extrnalization commands
     if(options$include && options$external) {
       cat("\n\\tikzsetnextfilename{",chunkprefix,"}\n",sep="",
@@ -666,22 +665,27 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
     }
+
       # Write the includegraphics command for eps or pdf 
       # only if we are not useing pgf or tikz
     if(options$include && !options$pgf && !options$tikz && !options$external) {
+
       cat("\\includegraphics{", chunkprefix, "}\n", sep="",
         file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
+
     }
       # input statements for tikz and pgf
     if(options$include && (options$pgf || options$tikz)) {
-      #if tikz takes precident over pgf option
+
+        #if tikz takes precident over pgf option
       suffix <- ifelse(options$tikz,'tikz','pgf')
       cat("\\input{", paste(chunkprefix,suffix,sep='.'),
         "}\n", sep="", file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
+
     }
     ##end graphics options [CWB]
     #############################################

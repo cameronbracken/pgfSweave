@@ -60,10 +60,6 @@ if(length(file) == 0) {
     q(status=1) 
 }
 
-suppressPackageStartupMessages(library(filehash))
-suppressPackageStartupMessages(library(stashR))
-suppressPackageStartupMessages(library(cacheSweave))
-suppressPackageStartupMessages(library(tikzDevice))
 suppressPackageStartupMessages(library(pgfSweave))
 
 cat('pgfsweave-script.R: pgfSweave version',ver,'\n')
