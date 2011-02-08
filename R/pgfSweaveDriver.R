@@ -182,7 +182,7 @@ pgfSweaveWritedoc <- function(object, chunk)
       which <- grep(begindoc, chunk)
 
         # add definitions for highlight environment
-      hstyle <- c(hstyle, "\\newenvironment{Houtput}{\\begin{flushleft}}{\\end{flushleft}}")
+      hstyle <- c(hstyle, "\\newenvironment{Houtput}{\\raggedright}{%\n%\n}")
 
             # put in the style definitions after the \documentclass command
       if(length(which)) {
