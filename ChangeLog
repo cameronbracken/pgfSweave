@@ -1,3 +1,22 @@
+commit e61e2260041fa50209ff553e70a44d3733d99b8f
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 22 13:31:47 2011 -0700
+
+    Fix automatic building of Hans' vignette
+
+ ChangeLog                                 |   68 +++++++++++++++++++++++++++++
+ R/pgfSweaveDriver.R                       |    2 +-
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 3056 -> 2965 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28512 -> 28550 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 78117 -> 78117 bytes
+ inst/doc/pgfSweave.Rnw                    |    4 +-
+ inst/doc/pgfSweave.pdf                    |  Bin 288991 -> 0 bytes
+ inst/doc/pgfSweave_hans.Rnw               |    2 +-
+ inst/doc/pgfSweave_hans.pdf               |  Bin 0 -> 236093 bytes
+ inst/example/caching.Rnw                  |    2 +-
+ inst/misc/vignette-src/Makefile           |   12 ++++-
+ 11 files changed, 82 insertions(+), 8 deletions(-)
+
 commit d7c4386fbd6101d874ca024ab8a27650ba6e9dfe
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Feb 22 13:13:32 2011 -0700
