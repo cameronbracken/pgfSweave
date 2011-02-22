@@ -609,7 +609,7 @@ below the \verb"\usepackage{tikz}" command. The use of TikZ externalization libr
  
 \subsection{Generating other graphics formats (was `The \code{tex.driver} option (Externalization Driver)`}
 
-As of version 1.2, the \texttt{text.driver} is defunct. This was never really a well developed feature and the TikZ externalization driver provides a much better mechanism for generating different graphics formats (eps for example).  It is also possible to generate multiple formats at once. For example, to generate a eps and pdf version of your graphic, use the following line below \verb"\usepackage{tikz}"
+As of version 1.2, the \texttt{text.driver} option is defunct. This was never really a well developed feature and the TikZ externalization driver provides a much better mechanism for generating different graphics formats (eps for example).  It is also possible to generate multiple formats at once. For example, to generate a eps and pdf version of your graphic, use the following line below \verb"\usepackage{tikz}"
 
 \begin{Verbatim}[frame=single]
 \tikzset{external/system call={latex \tikzexternalcheckshellescape -halt-on-error 
@@ -918,7 +918,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 
 \tikzsetnextfilename{figs/fig-pgfSweave-hist}
 
-\tikzexternalfiledependsonfile{figs/fig-pgfSweave-hist}{figs/fig-pgfSweave-hist.pgf}
+\tikzexternalfiledependsonfile{figs/fig-pgfSweave-hist}{figs/fig-pgfSweave-hist.tikz}
 \input{figs/fig-pgfSweave-hist.pgf}
 \caption{This is from \pkg{pgfSweave} with the \code{pgf} option.}\label{pgfSweave-hist}
 \end{minipage}

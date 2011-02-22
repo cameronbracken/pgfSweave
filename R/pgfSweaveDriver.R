@@ -170,7 +170,7 @@ pgfSweaveWritedoc <- function(object, chunk)
         opts <- sub(paste(".*", object$syntax$docopt, ".*", sep=""),
                     "\\1", chunk[pos[1L]])
         object$options <- utils:::SweaveParseOptions(opts, object$options,
-                                             utils::RweaveLatexOptions)
+                                             utils:::RweaveLatexOptions)
         if (isTRUE(object$options$concordance)
               && !object$haveconcordance) {
             savelabel <- object$options$label

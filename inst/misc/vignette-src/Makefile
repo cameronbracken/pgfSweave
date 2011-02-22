@@ -20,14 +20,16 @@ EXEC_PATH=../../../exec/
 CHANGELOG_PATH=../../../
 
 RM_PATH={*,$(DOC_PATH)/*}
-RM_SUFFIX={sh,map,aux,tex,log,dvi,in,fdb_latexmk,out,toc,dep,dpth,figlist}
-BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk,toc,out,dep,dpth,figlist}
+RM_SUFFIX={sh,map,aux,tex,log,dvi,in,fdb_latexmk,out,toc,dep,dpth,figlist,makefile}
+BUILD_RM_SUFFIX={sh,map,aux,log,dvi,fdb_latexmk,toc,out,dep,dpth,figlist,makefile}
 
 #
 VIGNETTE_SOURCE_PDF=pgfSweave-vignette-source.pdf
 
 VIGNETTE_DUMMY_PDF=$(DOC_PATH)/pgfSweave.pdf
 VIGNETTE_DUMMY_RNW=$(DOC_PATH)/pgfSweave.Rnw
+VIGNETTE_HANS_RNW=$(DOC_PATH)/pgfSweave_hans.Rnw
+VIGNETTE_HANS_PDF=$(DOC_PATH)/pgfSweave_hans.pdf
 
 EXAMPLE_TEX=$(EXAMPLE_PATH)/pgfSweave-example.tex
 EXAMPLE_PDF=$(EXAMPLE_PATH)/pgfSweave-example.pdf
@@ -36,6 +38,9 @@ all: $(VIGNETTE_DUMMY_PDF) changelog
 
 $(VIGNETTE_DUMMY_PDF): $(VIGNETTE_DUMMY_RNW)
 	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave.Rnw; latexmk -pdf pgfSweave.tex)
+
+$(VIGNETTE_DUMMY_PDF): $(VIGNETTE_DUMMY_RNW)
+	(cd $(DOC_PATH)/ ; R CMD Sweave pgfSweave_hans.Rnw; latexmk -pdf pgfSweave_hans.tex)
 
 $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	# Copy Sweave.sty
@@ -77,7 +82,8 @@ cleanall:
 
 clean:
 	rm -rf cache figs *.pdf $(RM_PATH).$(BUILD_RM_SUFFIX) \
-		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave.tex tmp
+		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave.tex \
+		$(DOC_PATH)/pgfSweave_hans.tex tmp
 	(cd $(EXAMPLE_PATH) ; make cleanforbuild)
 	(cd $(TEST_PATH) ; make cleanforbuild)
 

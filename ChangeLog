@@ -1,3 +1,71 @@
+commit d7c4386fbd6101d874ca024ab8a27650ba6e9dfe
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 22 13:13:32 2011 -0700
+
+    Fix options call
+
+ R/pgfSweaveDriver.R    |    2 +-
+ inst/doc/pgfSweave.pdf |  Bin 288991 -> 288991 bytes
+ 2 files changed, 1 insertions(+), 1 deletions(-)
+
+commit d38f61ceb6549a73e070ee20befeafb3027902ae
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 22 12:11:52 2011 -0700
+
+    Update PGF version check to 2.10
+
+ R/zzz.R |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
+
+commit 0bad74ef4c42e0a33e6dd2e94510c4722524bff9
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 22 11:59:02 2011 -0700
+
+    Use the correct options function in the driver
+
+ R/pgfSweaveDriver.R |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 2ec6cea4fa2c3e1d7531238f27566c0ac24ef78d
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Feb 21 17:13:58 2011 -0700
+
+    Remove everything from the tex.driver option
+
+ R/pgfSweaveDriver.R                                |   47 +-------------------
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    2 +-
+ man/pgfSweaveDriver.Rd                             |    6 +--
+ 3 files changed, 3 insertions(+), 52 deletions(-)
+
+commit 844d9a9d6c95b966a1bdaf3f2e732ad99058d9b2
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Feb 21 17:09:21 2011 -0700
+
+    Update to the documentation and vignette with recent changes, new
+    example of using tikz externalization library to generate eps graphics
+
+ ChangeLog                                          |  106 +++++++++++++++
+ DESCRIPTION                                        |   10 +-
+ NEWS                                               |   26 ++++-
+ README.md                                          |    4 +-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2965 -> 3056 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16286 -> 0 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26912 -> 28512 bytes
+ inst/doc/pgfSweave-example-Rnw.in                  |    8 +-
+ inst/doc/pgfSweave-example-tex.in                  |   32 +++--
+ inst/doc/pgfSweave-example.pdf                     |  Bin 78139 -> 78117 bytes
+ inst/doc/pgfSweave.Rnw                             |  135 +++++++++++++++-----
+ inst/doc/pgfSweave.pdf                             |  Bin 278812 -> 288991 bytes
+ inst/doc/pgfSweave_hans.pdf                        |  Bin 236105 -> 0 bytes
+ inst/example/Makefile                              |   10 +-
+ inst/example/pgfSweave-example.Rnw                 |    2 +
+ inst/example/pgfSweave-latex-example.Rnw           |   50 +++++++
+ inst/misc/vignette-src/Makefile                    |   11 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   89 +++++++++++---
+ inst/tests/Makefile                                |    2 +-
+ man/pgfSweave.Rd                                   |   29 +++--
+ 20 files changed, 424 insertions(+), 90 deletions(-)
+
 commit 4d07efb597e262913c5112aa712686da9278f043
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Feb 8 14:07:39 2011 -0700

@@ -9,7 +9,7 @@
 \newcommand{\code}{\texttt}
 \usepackage[bookmarks=true,bookmarksopen=true,colorlinks=true,urlcolor=blue]{hyperref}
 
-%% \VignetteIndexEntry{Efficient use of \code{pgfSweave} on large data-sets}
+%% \VignetteIndexEntry{Efficient use of pgfSweave on large data-sets}
 \begin{document}
 
 \title{Efficient use of \code{pgfSweave} on large data-sets}

@@ -96,7 +96,7 @@ xy
 
 ## this may take more than 30 seconds
 
-dat=rbinormal(500000,0,1,2,3,.7)
+dat=rbinormal(50000,0,1,2,3,.7)
 
 @
 
