@@ -143,6 +143,9 @@ Output:
 The \code{.tikz} file is generated with the \pkg{tikzDevice} package.  {\color{red} This is the default graphics output for \pkg{pgfSweave}, the \code{tikz} option is set to \code{TRUE} by default.}
 
 \subsection{The \code{pgf} option}
+
+{\color{red} This option is depreciated, please use the \code{tikz} option instead.}
+
 The second new code chunk option \code{pgf}, acts the same as the tikz option in that the result is an \code{$\backslash$input\{\}} statement.  Consider the following code:
 
 \begin{minipage}[!ht]{.5\linewidth}
@@ -179,6 +182,27 @@ This option is a boolean value that accesses the \code{tikz()} option of the sam
 
 \subsection{The \code{external} option}
 
+Externalization is a feature of the TikZ package that is the main component of graphics caching in \pkg{pgfSweave}. Graphics that do ont change between successive runs will not be re-compiled, but simply included as pdf files.  For very complex graphs, this may not actually save much time as the inclusion of the large pdf will still take significant time. In these situations, you may want to consider using raster graphics (such as png). 
+
+Before version 1.2, \pkg{pgfSweave} used the `old' method of externalizing graphics (\verb"\beginpgfgraphicnamed"...). This method works fine but is fairly limited in terms of cool features. As of version 1.2, \pkg{pgfSweave} uses the `new' externalization via the TikZ externalization library. This library has a lot of cool bells and whistles and can even make some speed improvements over the old method. {\color{red} Please refer to the pgf manual for a comprehensive overview of the TikZ externalization library}. 
+
+The new method uses the externalization library feature \texttt{list and make}. To quote from the TikZ manual:
+
+\begin{quote}
+The mode \texttt{list and make} is similar to \texttt{list only}: it generates the same file {$<$main file$>$}.figlist, but any images which exist already are included as graphics instead of ignoring them. Furthermore, this mode generates an additional file: {$<$main file$>$}.makefile. This allows to use a work flow like
+
+\begin{Verbatim}
+% step 1: generate main.makefile: 
+pdflatex main 
+% step 2: generate ALL graphics on 2 processors: 
+make -j 2 main.makefile 
+% step 3: include the graphics: 
+pdflatex main
+\end{Verbatim}
+
+This last make method is, however unnecessary: \texttt{list and make} just assumes that images are generated somehow (not necessarily with the generated makefile). The generated makefile allows parallel externalization of graphics on multi-core systems and it supports any file dependencies configured with \verb"\tikzpicturedependsonfile".
+\end{quote}
+
 The external option is the interface to the graphics caching mechanism in \pkg{pgfSweave}. This option will wrap your graphics output in \code{$\backslash$beginpgfgraphicnamed} and \code{$\backslash$endpgfgraphicnamed}.
 
 \begin{minipage}[!ht]{.55\linewidth}
@@ -198,38 +222,71 @@ Input:
 Output:
 \begin{Verbatim}[frame=single]
  \begin{figure}[ht]
- \beginpgfgraphicnamed{external}
- \input{external.tikz}
- \endpgfgraphicnamed
+ \tikzsetnextfilename{external}
+ \tikzexternalfiledependsonfile{external}{external.tikz}
+ \input{external}
  \caption{caption}
  \label{fig:external}
  \end{figure}
 \end{Verbatim}
 \end{minipage}
 
- When a graphic is newly created or when it has changed, \pkg{pgfSweave} will generate a command for externalizing that graphic in the shell script \code{$<$filename$>$.sh}.  This follows the process outlined in the externalization section of the pgf manual.  After the \pkg{Sweave} process is done the externalization commands are run.  This will create separate image files for each graphic. On later compilations this image file will simply be included instead of being regenerated.  
+ This both registers the graphic to externalize, generating an entry in the makefile for it, and registers a dependency on the tikz file itself so that if it is changed, the graphic is re-externalized. After the \pkg{Sweave} process is done, it is necessary to run \texttt{pdflatex} and make as in the quote from the \texttt{pgf} manual.  This 
  
 
-\subsection{The \code{$\backslash$pgfrealjobname} commmand}
+\subsection{The \code{$\backslash$tikzexternalize} commmand}
 
-Those familiar with the externalization mechanism in pgf will know that a command of the form \code{$\backslash$pgfrealjobname\{$<$basefilename$>$\}} in the header of your document is required when using externalization.   For example if you document is \code{main.Rnw} then your header should contain the line \code{$\backslash$pgfrealjobname\{main\}}. \pkg{pgfSweave} version 1.1 or later will add this for you automatically, so {\color{red} don't add it yourself!}.  This way if you rename your document, everything will still work out fine.  If you do add that line, \pkg{pgfSweave} will not add its own line.  
+The \pkg{pgfSweave} will automatically add the lines
+\begin{Verbatim}
+  \usetikzlibrary{external}
+  \tikzexternalize[mode=list and make]
+\end{Verbatim}
+below the \verb"\usepackage{tikz}" command. The use of TikZ externalization library with \pkg{pgfSweave} requires these lines.  You may want to customize the options to the externalization library, for example to generate eps graphics, to do this you should use \verb"\tikzset". See the externalization library documentation in the pgf manual to see how. An example is shown in the next section.
  
-\subsection{The \code{tex.driver} option (Externalization Driver)}
-The option \code{tex.driver} controls which engine (\code{latex}, \code{pdflatex}, \code{xelatex}, etc.) is used to externalize graphics.  The value of this option gets passed to the command created in the shell script that is written. For example if the value is \code{pdflatex} then only one command to externalize the graphic gets created in the shell script. For an external figure named ``figure-name'':
+\subsection{Generating other graphics formats (was `The \code{tex.driver} option (Externalization Driver)`}
 
-\begin{Verbatim}
-    pdflatex --jobname=figure-name document-name.tex
+As of version 1.2, the \texttt{text.driver} is defunct. This was never really a well developed feature and the TikZ externalization driver provides a much better mechanism for generating different graphics formats (eps for example).  It is also possible to generate multiple formats at once. For example, to generate a eps and pdf version of your graphic, use the following line below \verb"\usepackage{tikz}"
+
+\begin{Verbatim}[frame=single]
+\tikzset{external/system call={latex \tikzexternalcheckshellescape -halt-on-error 
+  -interaction=batchmode -jobname "\image" "\texsource"; 
+  dvips -o "\image".eps "\image".dvi;
+  pdflatex \tikzexternalcheckshellescape -halt-on-error 
+  -interaction=batchmode -jobname "\image" "\texsource";}}
+\end{Verbatim}
+  
+Similarly you can use this method to generate Bitmap graphics, see the example in section 32.7 ``Bitmap Graphics Export'' of the pgf 2.10 manual. 
+
+This method can also be used to work with plain latex.  The process is a bit kludgy, but it works. Use a similar line as above the generate an eps graphic then around the graphic:
+
+\begin{Verbatim}[frame=single]
+\begin{figure}[!ht]
+\centering
+{
+\pgfkeys{/pgf/images/include external/.code={\includegraphics[width=3in]{#1}}}
+ <<plainlatex,echo=F,fig=T,width=3,height=3,tikz=T,external=T>>=
+  x <- rnorm(100)
+   plot(x)
+ @
+}% this brace ends the effect of ‘include external’
+\caption{plain latex}
+\end{figure}
 \end{Verbatim}
 
-If the value is \code{latex} then some extra commands are issues to convert dvi output to an eps file. For an external figure named ``figure-name'':
+Then the compilation process would be 
 
-\begin{Verbatim}
-    latex --jobname=figure-name document-name.tex
-    dvipdf figure-name.dvi
-    pdftops -eps document-name.pdf
+\begin{Verbatim}[frame=single]
+  % generate tex file
+R CMD pgfSweave --pgfsweave-only main.Rnw 
+  % generate makefile
+latex main.tex 
+  % externalize graphics
+make -f main.makefile
+  % include the graphics 
+latex main.tex 
+  % finally create a pdf file
+dvipdf main.dvi
 \end{Verbatim}
-
-The command \code{dvipdf} should come with any latex installation. The command \code{pdftops} is part of xpdf but should come with most latex distributions (it does not come with MacTeX for example).
 
 \subsection{The \code{highlight} option}
 Version 1.1.0 of \pkg{pgfSweave} introduced the \code{highlight} option.  The default is \code{TRUE} by default so code will be syntax-highlighted with the \pkg{highlight} package. To disable highlighting add \code{\textbackslash SweaveOpts\{highlight=F\}} to disable it. This option can be combined with the \code{keep.source} option or the \code{tidy} option.  For example:

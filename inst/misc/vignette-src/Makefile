@@ -20,8 +20,8 @@ EXEC_PATH=../../../exec/
 CHANGELOG_PATH=../../../
 
 RM_PATH={*,$(DOC_PATH)/*}
-RM_SUFFIX={sh,map,aux,tex,log,dvi,in,fdb_latexmk,out,toc}
-BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk,toc,out}
+RM_SUFFIX={sh,map,aux,tex,log,dvi,in,fdb_latexmk,out,toc,dep,dpth,figlist}
+BUILD_RM_SUFFIX={log,aux,dvi,sh,map,fdb_latexmk,toc,out,dep,dpth,figlist}
 
 #
 VIGNETTE_SOURCE_PDF=pgfSweave-vignette-source.pdf
@@ -42,6 +42,8 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	cp Sweave.sty $(DOC_PATH)/
 	# Copy all the figures
 	cp figs/*.pdf $(DOC_PATH)/figs/
+	cp figs/*.pgf $(DOC_PATH)/figs/
+	cp figs/*.tikz $(DOC_PATH)/figs/
 	# Copy all the example file to include but dont use .Rnw so they are not 
 	# recognised as another vignette 
 	cp -f $(EXAMPLE_PATH)/pgfSweave-example.Rnw \
@@ -53,7 +55,6 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	# Remove the pgfrealjobname command and the path to the example files 
 	# since the new file will be in the same directory 
 	cat pgfSweave-vignette-source.tex \
-		| grep -v "\\pgfrealjobname{pgfSweave-vignette-source}" \
 		| sed 's/\.\.\/\.\.\/example\///g' > tmp
 	# Change the names of the input files
 	cat tmp | sed 's/pgfSweave-example\.Rnw/pgfSweave-example-Rnw.in/g' \
@@ -67,14 +68,14 @@ $(VIGNETTE_SOURCE_PDF):
 $(EXAMPLE_PDF):
 	(cd $(EXAMPLE_PATH)/ ; make)
 
-clean:
+cleanall:
 	rm -rf cache figs *.pdf $(RM_PATH).$(RM_SUFFIX) \
 		$(DOC_PATH)/Sweave.sty $(DOC_PATH)/pgfSweave.Rnw $(DOC_PATH)/*.pdf \
 		$(DOC_PATH)/figs/* tmp $(CHANGELOG) 
 	(cd $(EXAMPLE_PATH) ; make clean)
 	(cd $(TEST_PATH) ; make clean)
 
-cleanforbuild:
+clean:
 	rm -rf cache figs *.pdf $(RM_PATH).$(BUILD_RM_SUFFIX) \
 		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave.tex tmp
 	(cd $(EXAMPLE_PATH) ; make cleanforbuild)

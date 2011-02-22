@@ -1,12 +1,4 @@
 \documentclass{article}
-
-\usepackage{tikz}
-\pgfrealjobname{pgfSweave-example}
-
-\usepackage[margin=1in]{geometry}
-\title{Minimal pgfSweave Example}
-\author{Cameron Bracken}    
-
 \newcommand{\hlnumber}[1]{\textcolor[rgb]{0.0823529411764706,0.0784313725490196,0.709803921568627}{#1}}%
 \newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{1,0,0}{#1}}%
 \newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
@@ -370,6 +362,18 @@
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 
+\newenvironment{Houtput}{\raggedright}{%
+%
+}
+
+\usepackage{tikz}
+\usetikzlibrary{external}
+\tikzexternalize[mode=list and make]
+
+\usepackage[margin=1in]{geometry}
+\title{Minimal pgfSweave Example}
+\author{Cameron Bracken}    
+
 \usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Sweave}
 \begin{document}
 
@@ -383,6 +387,7 @@ the pgfSweave vignette for more usage instructions.
 We embed parts of the examples from the \texttt{kruskal.test} help page 
 into a \LaTeX{} document:
 
+\begin{Houtput}
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }{\ }{\ }{\ }{\ }hey,{\ }a{\ }comment}\mbox{}
@@ -405,12 +410,16 @@ Kruskal-Wallis chi-squared = 29.2666, df = 4, p-value = 6.901e-06
 \end{Soutput}
 
 \end{Schunk}
+\end{Houtput}
 
 \noindent which shows that the location parameter of the Ozone distribution varies 
 significantly from month to month. Finally we include a boxplot of the data:
 
 \begin{figure}[!ht]
+\centering
 %notice the new options
+{\pgfkeys{/pgf/images/include external/.code={\includegraphics[width=3in]{#1}}}
+\begin{Houtput}
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{boxplot}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{,}{\ }\hlargument{main}{\ }\hlargument{=}{\ }\hlstring{"Ozone{\ }distribution"}\hlkeyword{,}\hspace*{\fill}\\
@@ -418,10 +427,13 @@ significantly from month to month. Finally we include a boxplot of the data:
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}
+\end{Houtput}
 
-\beginpgfgraphicnamed{pgfSweave-example-boxplot}
+\tikzsetnextfilename{pgfSweave-example-boxplot}
+
+\tikzexternalfiledependsonfile{pgfSweave-example-boxplot}{pgfSweave-example-boxplot.tikz}
 \input{pgfSweave-example-boxplot.tikz}
-\endpgfgraphicnamed
+}% this brace ends the effect of ‘include external’
 \caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the
  font of the document.}
 \end{figure}

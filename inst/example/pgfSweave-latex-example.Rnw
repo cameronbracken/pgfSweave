@@ -1,6 +1,9 @@
 \documentclass{article}
 
 \usepackage{tikz}
+\tikzset{external/system call={latex \tikzexternalcheckshellescape -halt-on-error 
+  -interaction=batchmode -jobname "\image" "\texsource"; 
+  dvips -o "\image".ps "\image".dvi;}}
 \usepackage[margin=1in]{geometry}
 \title{Minimal pgfSweave Example}
 \author{Cameron Bracken}    

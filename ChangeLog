@@ -1,3 +1,109 @@
+commit 4d07efb597e262913c5112aa712686da9278f043
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 8 14:07:39 2011 -0700
+
+    Redefine Houtput environment to use \raggedright to avoid the extra space added by flushleft
+
+ R/pgfSweaveDriver.R |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit b83eeceb5b7db4c388ddb92140cb5a0c07895a86
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jan 21 10:27:33 2011 -0700
+
+    Greatly reduce package load time (from 5 to 1 second) by using import
+    instead of depends
+
+ DESCRIPTION             |    6 +++---
+ NAMESPACE               |    3 +++
+ R/pgfSweaveDriver.R     |   18 +++++++++++-------
+ exec/pgfsweave-script.R |    4 ----
+ 4 files changed, 17 insertions(+), 14 deletions(-)
+
+commit 916336bf42692191836e42a2f4e8b378854121d5
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Jan 18 17:33:58 2011 -0700
+
+    First cut using the tikz external library, also generate highlighted
+    output in a special environment. See full commit message for details
+    
+    - Use the tikz external library with the `list and make` option. This
+      option allows for externalized graphic dependency checking and
+      parallel compilation of external graphics
+    
+      - The tikz external library with this option uses a slightly
+        different workflow, namely:
+    
+        1. Run (pdf)latex once to generate a makefile with graphic
+           dependencies
+        2. Run make to externalize graphics
+        3. Run (pdf)latex again
+    
+      - pgfSweave() and pgfSweave-script.R have been updated accordingly
+        and now have a new option to specify the number of processors
+      - All the old externalization command stuff has been removed, so no
+        more .sh file!
+      - Instead of the \pgfrealjobname command added, the \tikzexternalize
+        command is added automatically in addition to the
+      - Also use the \tikzexternalfiledependsonfile feature to add
+        dependency on the .tikz file
+    
+    - Externalized graphics now have another layer of crude caching on their
+      own, this was attempted before but now works correctly.  A digest of
+      the entire chunk is computed and stored in a stashR database for the
+      chunk (if cache is already TRUE, then the existing db is used). If
+      anything changes in the code chunk at all, including white space, the
+      graphic is updated, otherwise the figure is not regenerated.  This
+      also helps a bit for plain pdf and eps output.
+    
+    - Highlighted output is now output in a `Houtput` environment just like
+      the regular Sweave echo'd output. This environment is defined by
+      default to be a `flushleft` environment so that graphics can be
+      centered with \centering or something similar. This environment can also
+      be redefined by the user with \renewenvironment
+    
+    - Move some functions around and add some more comments
+
+ R/cacheSweaveUnexportedFunctions.R |   73 +++++++++++++-
+ R/pgfSweave.R                      |   41 ++++----
+ R/pgfSweaveDriver.R                |  194 +++++++++++++++-------------------
+ R/utilities.R                      |  205 ++++--------------------------------
+ exec/pgfsweave-script.R            |   42 +++++---
+ inst/example/pgfSweave-example.Rnw |    6 +-
+ 6 files changed, 227 insertions(+), 334 deletions(-)
+
+commit 40a152d1531f4f62c101c92ef6afcd3630f148cd
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Jan 16 16:57:32 2011 -0700
+
+    Prep for next release
+
+ ChangeLog                                          |  152 ++++++++++++++++++++
+ DESCRIPTION                                        |    2 +-
+ NEWS                                               |    1 +
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2937 -> 2965 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16299 -> 16286 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 26907 -> 26912 bytes
+ inst/doc/pgfSweave-example-Rnw.in                  |    9 +-
+ inst/doc/pgfSweave-example-tex.in                  |   20 ++-
+ inst/doc/pgfSweave-example.pdf                     |  Bin 76150 -> 78139 bytes
+ inst/doc/pgfSweave.Rnw                             |   87 ++++++------
+ inst/doc/pgfSweave.pdf                             |  Bin 276681 -> 278812 bytes
+ inst/doc/pgfSweave_hans.pdf                        |  Bin 236103 -> 236105 bytes
+ inst/misc/vignette-src/Makefile                    |   13 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   73 +++++-----
+ inst/tests/Makefile                                |    2 +-
+ 15 files changed, 260 insertions(+), 99 deletions(-)
+
+commit fcad9715f3ed976c77c7ac99fa4099123d6e976e
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Jan 16 16:56:13 2011 -0700
+
+    Improve automatic insertion of \pgfrealjobname
+
+ R/pgfSweaveDriver.R |   66 +++++++++++++++++++++++++++++---------------------
+ 1 files changed, 38 insertions(+), 28 deletions(-)
+
 commit 199bb28ffa62532c8df42500519ef4516c04e5fc
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Sun Jan 16 14:58:51 2011 -0700

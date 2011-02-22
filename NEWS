@@ -1,15 +1,35 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.2.0 - 2011-02-21
+--------------------------
+* [NEW] Use the tikz externalization library instead of the pgf backend. This 
+        allows for more flexibility and faster compilations but BEWARE, this 
+        requires at least pgf 2.10 and may break backward computability in 
+        some cases 
+* [NEW] GNU Make is now a system requirement for externalizing graphics, 
+        NOT for compiling the package
+* [NEW] Option to specify number of processors when externalizing graphics
+* [NEW] Externalized graphics now have another layer of crude caching
+* [NEW] Highlighted output is now output in a separate environment to fix the 
+        centering issues
+* [NEW] Example document using plain latex and the tikz external library to 
+        generate eps graphics, `inst/example/pgfSweave-latex-example.Rnw`
+* [CHANGED] The `tex.driver' option has been removed, the same effect can be 
+        achieved using the tikz externalization library, see the new 
+        example for how
+* [DEPRECIATED] The `pgf' option is depreciated, please use the `tikz' option
+
+--------------------------
 Version 1.1.3 - 2011-01-07
 --------------------------
 * [NEW] Use the "null device" to avoid generation of Rplots.pdf, as suggested 
-  by yihui, fixes Issue 8
+        by yihui, fixes Issue 8
 * [NEW] New Vignette, courtesy of Hans Ekbrand! Focuses on the use of 
-  pgfSweave with large data sets 
+        pgfSweave with large data sets 
 * [NEW] Example using caching by Yihui, inst/example/caching.Rnw
 * [NEW] Inline comments are now preserved thanks to changes in the 
-  tidy.source() function from the formatR package 
+        tidy.source() function from the formatR package 
 * [NEW] The formatR package is now a dependency of pgfSweave
 * [FIXED] Reusing code chunks now works as expected, fixes Issue 9
 * [FIXED] Links to tidy.source now correctly point to formatR

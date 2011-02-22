@@ -6,6 +6,6 @@ tidy:
 
 clean:
 	rm -rf cache Rplots.*
-	ls | grep -v Rnw | grep -v Makefile | xargs rm
+	ls | grep -v Rnw | grep -v Makefile | xargs rm -rf
 
 cleanforbuild: clean
