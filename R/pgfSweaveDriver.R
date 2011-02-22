@@ -42,7 +42,7 @@ pgfSweaveSetup <- function(file, syntax,
               eval=TRUE, split=FALSE, stylepath=TRUE,
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE,
               tikz=TRUE, external=FALSE, sanitize = FALSE,
-              highlight = TRUE, tidy = FALSE, tex.driver="pdflatex")
+              highlight = TRUE, tidy = FALSE)
 {
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
                      debug=debug, echo=echo, eval=eval,
@@ -58,7 +58,6 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["pgf"]] <- pgf
     out$options[["tikz"]] <- tikz
     out$options[["external"]] <- external
-    out$options[["tex.driver"]] <- tex.driver
     out$options[["sanitize"]] <- sanitize
     out$options[["highlight"]] <- ifelse(echo,highlight,FALSE)
     out$options[["tidy"]] <- tidy
@@ -84,50 +83,6 @@ pgfSweaveSetup <- function(file, syntax,
     out
 }
 
-    # changes in Sweave in 2.12 make it necessary to copy this function here
-    # to register the tex.driver option, I wish there was an easier way....
-pgfSweaveOptions <- function(options)
-{
-
-    ## ATTENTION: Changes in this function have to be reflected in the
-    ## defaults in the init function!
-
-    ## convert a character string to logical
-    c2l <- function(x){
-        if(is.null(x)) return(FALSE)
-        else return(as.logical(toupper(as.character(x))))
-    }
-
-    NUMOPTS <- c("width", "height")
-    NOLOGOPTS <- c(NUMOPTS, "results", "prefix.string",
-                   "engine", "label", "strip.white",
-                   "pdf.version", "pdf.encoding", "tex.driver")
-    for(opt in names(options)){
-        if(! (opt %in% NOLOGOPTS)){
-            oldval <- options[[opt]]
-            if(!is.logical(options[[opt]])){
-                options[[opt]] <- c2l(options[[opt]])
-            }
-            if(is.na(options[[opt]]))
-                stop(gettextf("invalid value for '%s' : %s", opt, oldval),domain = NA)
-        }
-        else if(opt %in% NUMOPTS){
-            options[[opt]] <- as.numeric(options[[opt]])
-        }
-    }
-
-    if(!is.null(options$results))
-        options$results <- tolower(as.character(options$results))
-    options$results <- match.arg(options$results, c("verbatim", "tex", "hide"))
-
-    if(!is.null(options$strip.white))
-        options$strip.white <- tolower(as.character(options$strip.white))
-    options$strip.white <- match.arg(options$strip.white, c("true", "false", "all"))
-    options
-}
-
-    # Copied from Sweave in R version 2.12, internal chages make it necessary
-    # to register the tex.driver option as a "NOLOGOPT"
     # This function checks for the \usepackage{Sweave} line and the
     # \tikzexternalize line
 pgfSweaveWritedoc <- function(object, chunk)

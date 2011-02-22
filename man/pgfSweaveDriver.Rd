@@ -13,8 +13,7 @@ pgfSweaveSetup(file, syntax,
                output = NULL, quiet = FALSE, debug = FALSE, echo = TRUE,
                eval = TRUE, split = FALSE, stylepath = TRUE, pdf = FALSE,
                eps = FALSE, cache = FALSE, pgf = FALSE, tikz = TRUE,
-               external=FALSE, sanitize = FALSE, highlight = TRUE, 
-               tidy=FALSE, tex.driver = "pdflatex")
+               external=FALSE, sanitize = FALSE, highlight = TRUE, tidy=FALSE)
 }
 \arguments{
     \item{file}{A connection or a character string giving the name of the Sweave file to load.}
@@ -35,7 +34,6 @@ pgfSweaveSetup(file, syntax,
     \item{sanitize}{Set default for option \code{sanitize}, see details below.}
     \item{highlight}{Should echo'd code be highlighted with the highlight package.}
     \item{tidy}{Should echo'd code be cleaned up with the \code{\link[formatR]{tidy.source}} function from the \code{\link[formatR]{formatR}} package.}
-    \item{tex.driver}{Set default for option \code{tex.driver}, see details below.}
 }
 \details{
 To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as the \code{driver} option to \code{\link{Sweave}}.  Otherwise use the \code{\link[pgfSweave]{pgfSweave}} function for a simple way to compile to pdf.
@@ -55,8 +53,6 @@ To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as t
 	\item{\code{highlight}}{ If \code{TRUE} output will be syntax highlighted with the \code{\link[highlight]{highlight}} package.}
 	
 	\item{\code{tidy}}{ If \code{TRUE} (default is \code{FALSE}) output code will be cleaned up with the \code{\link[formatR]{tidy.source}} function from the \code{\link[formatR]{formatR}} package.}
-		
-	\item{\code{tex.driver}}{ A character string giving the LaTeX driver to use for compiling external graphics (defaults to ``pdflatex'') }
 	
 }
 	All the \code{\link{Sweave}} and \code{\link[cacheSweave]{cacheSweave}} options are available. Note that the defaults for the \code{\link{Sweave}} options \code{pdf} and \code{eps} are set to \code{FALSE} unlike \code{\link{Sweave}} and \code{\link[cacheSweave]{cacheSweave}}.
