@@ -28,7 +28,7 @@ pgfSweaveDriver <- function() {
        runcode = pgfSweaveRuncode,
        writedoc = pgfSweaveWritedoc,
        finish = utils::RweaveLatexFinish,
-       checkopts = pgfSweaveOptions
+       checkopts = utils::RweaveLatexOptions
        )
 }
 
