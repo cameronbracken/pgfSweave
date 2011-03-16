@@ -5,7 +5,7 @@
 \title{Quality speedy graphics compilation and caching for Sweave}
 
 \description{
-pgfSweave provides a number of improvements to the 
+pgfSweave provides a number of improvements to the
       speed and quality of Sweave output including: (1) capabilities for 
       'caching' graphics generated with Sweave on top of the caching 
       mechanisms provided by cacheSweave, (2) an interface to the tikzDevice 
@@ -18,13 +18,15 @@ pgfSweave provides a number of improvements to the
 }
 
 \usage{
-pgfSweave(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax"), 
-    np = 2, ...)
+	pgfSweave(file, compile.tex = TRUE, graphics.only = FALSE, 
+	    pdf = T, syntax = getOption("SweaveSyntax"), np = 2,...)
 }
 
 \arguments{ 
     \item{file}{A connection or a character string giving the name of the file to load.} 
     \item{compile.tex}{If \code{TRUE} run \code{LaTeX}/\code{pdfLaTeX} on the resulting tex file. If \code{FALSE} only run \code{Sweave}.}
+    \item{graphics.only}{If \code{TRUE} Only run Sweave and then the commands to externalize graphics, don't call \code{\link[tools]{texi2dvi}} to do the final compilation.}
+    \item{pdf}{Passed to \code{\link[tools]{texi2dvi}}. If TRUE (default) then generate a pdf file otherwise generate a dvi file.}
     \item{syntax}{An object of class SweaveSyntax or a character string with its name. The default installation provides SweaveSyntaxNoweb and SweaveSyntaxLatex (passed to Sweave).}
     \item{np}{The number of parallel processes to use for graphics externalization.}
     \item{\dots}{Other options to be passed to \code{\link{texi2dvi}}} 
@@ -94,8 +96,8 @@ setwd(oldcwd)
 
 \dontrun{
 ## Normally to compile to PDF by  
-#    pgfSweave("pgfSweave-example.Rnw",pdf=T) 
-# Here we need the pdf=T argument because it is passed to texi2dvi
+#    pgfSweave("pgfSweave-example.Rnw") 
+# Default as of version 1.2 is pdf=T
 #
 # or use
 #

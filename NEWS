@@ -15,6 +15,9 @@ Version 1.2.0 - 2011-02-21
         centering issues
 * [NEW] Example document using plain latex and the tikz external library to 
         generate eps graphics, `inst/example/pgfSweave-latex-example.Rnw`
+* [CHANGED] The command line interface is now much simpler internally and uses 
+        optparse instead of getopt for more flexibility (the optparse package
+        is now a dependency)
 * [CHANGED] The `tex.driver' option has been removed, the same effect can be 
         achieved using the tikz externalization library, see the new 
         example for how

@@ -1,4 +1,5 @@
-pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax"), np = 2,...){
+pgfSweave <- function(file, compile.tex = TRUE, graphics.only = FALSE, 
+    pdf = T, syntax = getOption("SweaveSyntax"), np = 2,...){
     
     #Run Sweave
     Sweave(file,driver=pgfSweaveDriver,syntax=syntax)
@@ -27,8 +28,10 @@ pgfSweave <- function(file, compile.tex = TRUE, syntax = getOption("SweaveSyntax
         else 
           warning('`make` is not available, graphics will not be externalized.')
 
-        #run texi2dvi on the tex file        
-        tools::texi2dvi(paste(fn,'tex',sep='.'),...)
+        if(!graphics.only){
+            #run texi2dvi on the tex file        
+            tools::texi2dvi(paste(fn,'tex',sep='.'), pdf = pdf, ...)
+        }
     }
 
 }

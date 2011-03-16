@@ -5,7 +5,7 @@ Version: 1.2.0
 Date: 2011-01-16
 Author: Cameron Bracken <cameron.bracken@gmail.com> and Charlie Sharpsteen <source@sharpsteen.net>
 Maintainer: Cameron Bracken <cameron.bracken@gmail.com> 
-Depends: stashR, filehash, highlight, getopt, formatR
+Depends: stashR, filehash, highlight, optparse, formatR
 Imports: digest, tools, utils, tikzDevice, cacheSweave
 SystemRequirement: pgf (>=2.10) (http://sourceforge.net/projects/pgf/) for the 
       vignette and for externalization, GNU Make for externalization

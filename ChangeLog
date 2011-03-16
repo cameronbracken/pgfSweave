@@ -1,3 +1,17 @@
+commit 881f0fae6aff0dbe021007f6166401df6f030777
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Feb 22 13:36:26 2011 -0700
+
+    Actually build both vignettes correctly
+
+ ChangeLog                                 |   19 +++++++++++++++++++
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 2965 -> 3083 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28550 -> 28559 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 78117 -> 78117 bytes
+ inst/doc/pgfSweave_hans.pdf               |  Bin 236093 -> 236093 bytes
+ inst/misc/vignette-src/Makefile           |    4 ++--
+ 6 files changed, 21 insertions(+), 2 deletions(-)
+
 commit e61e2260041fa50209ff553e70a44d3733d99b8f
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Feb 22 13:31:47 2011 -0700
