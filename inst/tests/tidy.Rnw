@@ -12,7 +12,7 @@
 options(keep.space=TRUE,keep.comment=TRUE)  #fdslgkjdf
 @
 
-<<tidy=TRUE>>=
+<<tidy=TRUE,cache=F>>=
 
    ## asdf
 1+1

@@ -499,7 +499,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   }
 
   chunkChanged <- 
-    if( options$external )
+    if( options$cache )
       hasChunkChanged(chunk,chunkprefix,options)
     else
       TRUE
@@ -636,10 +636,22 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
         #if tikz takes precident over pgf option
       suffix <- ifelse(options$tikz,'tikz','pgf')
+      if(!options$external){
+        cat("{\\tikzexternaldisable\n", sep="", file=object$output, append=TRUE)
+        linesout[thisline + 1] <- srcline
+        thisline <- thisline + 1
+      }
+      
       cat("\\input{", paste(chunkprefix,suffix,sep='.'),
         "}\n", sep="", file=object$output, append=TRUE)
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
+      
+      if(!options$external){
+        cat("}\n", sep="", file=object$output, append=TRUE)
+        linesout[thisline + 1] <- srcline
+        thisline <- thisline + 1
+      }
 
     }
     ##end graphics options [CWB]
