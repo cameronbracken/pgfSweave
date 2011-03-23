@@ -1003,15 +1003,6 @@ $ R CMD pgfsweave <yourfile>.Rnw
 
 %--------------------------------------
 %--------------------------------------
-\ques{Can \pkg{pgfSweave} be used to generate eps}
-
-Yes! See section \ref{commandline}.
-\begin{Verbatim}
-$ R CMD pgfsweave <yourfile>.Rnw
-\end{Verbatim}
-
-%--------------------------------------
-%--------------------------------------
 \ques{The changes to my code chunk are not being recognized.}
 
 Occasionally \pkg{pgfSweave} suffers from overzealous caching.  In these cases it may be necessary to manually delete the cache or the figure files. This is something we need to improve but this is better than compiling too often which is what used to happen. 

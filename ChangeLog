@@ -1,3 +1,18 @@
+commit 10b93a75dc50c3dd0560c2b5338b20187b67c3ed
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 23 17:46:27 2011 -0600
+
+    Re-add pgf file for vignette and re-build for release
+
+ ChangeLog                                 |   51 ++++++
+ inst/doc/figs/fig-normalSweave.pdf        |  Bin 2960 -> 3083 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pgf      |  248 +++++++++++++++++++++++++++++
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf |  Bin 28559 -> 28532 bytes
+ inst/doc/pgfSweave-example.pdf            |  Bin 78061 -> 78081 bytes
+ inst/doc/pgfSweave.pdf                    |  Bin 281287 -> 281248 bytes
+ inst/doc/pgfSweave_hans.pdf               |  Bin 236197 -> 236197 bytes
+ 7 files changed, 299 insertions(+), 0 deletions(-)
+
 commit 224c98c100ecaeb90085b30e5978e3736f97e6f1
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Wed Mar 23 17:32:21 2011 -0600
