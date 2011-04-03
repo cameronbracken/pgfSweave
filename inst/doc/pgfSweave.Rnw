@@ -376,8 +376,6 @@
 
 \usepackage[x11names]{xcolor}
 \usepackage{tikz}
-\usetikzlibrary{external}
-\tikzexternalize[mode=list and make]
 
 \usetikzlibrary{positioning,shapes.geometric,arrows}
 \usepackage[nogin,noae]{Sweave}
@@ -828,7 +826,7 @@ And we get (from compiling \texttt{pgfSweave-example-tex.in}):
 \section{The Process}
 The process that \pkg{pgfSweave} uses when caching and externalization are turned on is outlined in the flow chart below:
 
-\tikzsetnextfilename{figs/flow}
+%\tikzsetnextfilename{figs/flow}
 \begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
@@ -911,9 +909,6 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \centering
 
 
-\tikzsetnextfilename{figs/fig-pgfSweave-hist}
-
-\tikzexternalfiledependsonfile{figs/fig-pgfSweave-hist}{figs/fig-pgfSweave-hist.tikz}
 \input{figs/fig-pgfSweave-hist.pgf}
 \caption{This is from \pkg{pgfSweave} with the \code{pgf} option.}\label{pgfSweave-hist}
 \end{minipage}
@@ -925,9 +920,6 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \centering
 
 
-\tikzsetnextfilename{figs/fig-pgfSweave-tikz-hist}
-
-\tikzexternalfiledependsonfile{figs/fig-pgfSweave-tikz-hist}{figs/fig-pgfSweave-tikz-hist.tikz}
 \input{figs/fig-pgfSweave-tikz-hist.tikz}
 \caption{This is from \pkg{pgfSweave} with the \code{tikz} option.}\label{pgfSweave-tikz-hist}
 \end{figure}
@@ -1054,18 +1046,15 @@ in your \verb".Rprofile" file.
 This is a problem with the CVS version of PGF.  The workaround is to load the \pkg{atbegshi} package before PGF or TikZ:
 
 \begin{verbatim}
-\usepackage{atbegshi}
-\usepackage{pgf}
+ \usepackage{atbegshi}
+ \usepackage{pgf}
 \end{verbatim}
 
 or
 
 \begin{verbatim}
-\usepackage{atbegshi}
-\usepackage{tikz}
-\usetikzlibrary{external}
-\tikzexternalize[mode=list and make]
-
+  \usepackage{atbegshi}
+  \usepackage{tikz}
 \end{verbatim}
 
 %--------------------------------------

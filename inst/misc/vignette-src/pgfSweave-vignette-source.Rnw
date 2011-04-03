@@ -405,7 +405,7 @@ And we get (from compiling \texttt{pgfSweave-example.tex}):
 \section{The Process}
 The process that \pkg{pgfSweave} uses when caching and externalization are turned on is outlined in the flow chart below:
 
-\tikzsetnextfilename{figs/flow}
+%\tikzsetnextfilename{figs/flow}
 \begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
@@ -630,15 +630,15 @@ in your \verb".Rprofile" file.
 This is a problem with the CVS version of PGF.  The workaround is to load the \pkg{atbegshi} package before PGF or TikZ:
 
 \begin{verbatim}
-\usepackage{atbegshi}
-\usepackage{pgf}
+ \usepackage{atbegshi}
+ \usepackage{pgf}
 \end{verbatim}
 
 or
 
 \begin{verbatim}
-\usepackage{atbegshi}
-\usepackage{tikz}
+  \usepackage{atbegshi}
+  \usepackage{tikz}
 \end{verbatim}
 
 %--------------------------------------

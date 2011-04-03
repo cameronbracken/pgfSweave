@@ -1,7 +1,7 @@
 Package: pgfSweave
 Type: Package
 Title: Quality speedy graphics compilation and caching with Sweave
-Version: 1.2.0
+Version: 1.2.1
 Date: 2011-01-16
 Author: Cameron Bracken <cameron.bracken@gmail.com> and Charlie Sharpsteen <source@sharpsteen.net>
 Maintainer: Cameron Bracken <cameron.bracken@gmail.com> 

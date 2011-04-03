@@ -430,8 +430,6 @@ significantly from month to month. Finally we include a boxplot of the data:
 \end{Houtput}
 
 \tikzsetnextfilename{pgfSweave-example-boxplot}
-
-\tikzexternalfiledependsonfile{pgfSweave-example-boxplot}{pgfSweave-example-boxplot.tikz}
 \input{pgfSweave-example-boxplot.tikz}
 }% this brace ends the effect of ‘include external’
 \caption{This is from pgfSweave. Text is typset by \LaTeX\ and so matches the

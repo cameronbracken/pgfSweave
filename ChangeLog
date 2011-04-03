@@ -1,3 +1,54 @@
+commit 224c98c100ecaeb90085b30e5978e3736f97e6f1
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 23 17:32:21 2011 -0600
+
+    Fix bug where code was chached when cache=F and explicitly turn off
+    externalizaton when external is not TRUE so that custom commands (such
+    as xelatex) can be used.
+
+ R/pgfSweaveDriver.R |   14 +++++++++++++-
+ inst/tests/tidy.Rnw |    2 +-
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+commit 52c8ea46d491ce1917c57c979ab8860f0b9c85a8
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 23 16:25:58 2011 -0600
+
+    Re-add vignette files
+
+ inst/doc/figs/fig-pgfSweave-hist.pdf |  Bin 0 -> 16274 bytes
+ inst/doc/pgfSweave.pdf               |  Bin 0 -> 281287 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 027c008b4685f03fdd3076f3d0cdd233d2eecc37
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 23 16:23:40 2011 -0600
+
+    Rebuild vignette
+
+ inst/doc/pgfSweave_hans.pdf |  Bin 236197 -> 236197 bytes
+ 1 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 40afcea9f28aaee1e02d43ba10efae7381a05cd1
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 16 15:56:15 2011 -0600
+
+    Update documentation and improve command line script
+
+ ChangeLog                                          |   14 ++
+ DESCRIPTION                                        |    2 +-
+ NEWS                                               |    3 +
+ R/pgfSweave.R                                      |    9 +-
+ exec/pgfsweave-script.R                            |  136 +++++++------------
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 3083 -> 2960 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28559 -> 28559 bytes
+ inst/doc/pgfSweave-example.pdf                     |  Bin 78117 -> 78061 bytes
+ inst/doc/pgfSweave.Rnw                             |   80 +++++++-----
+ inst/doc/pgfSweave_hans.pdf                        |  Bin 236093 -> 236197 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   80 +++++++-----
+ man/pgfSweave.Rd                                   |   12 +-
+ 12 files changed, 179 insertions(+), 157 deletions(-)
+
 commit 881f0fae6aff0dbe021007f6166401df6f030777
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Tue Feb 22 13:36:26 2011 -0700

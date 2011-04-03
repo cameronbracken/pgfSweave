@@ -60,7 +60,10 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	# Remove the pgfrealjobname command and the path to the example files 
 	# since the new file will be in the same directory 
 	cat pgfSweave-vignette-source.tex \
-		| sed 's/\.\.\/\.\.\/example\///g' > tmp
+		| sed 's/\.\.\/\.\.\/example\///g' \
+		| grep -v '^\\usetikzlibrary{external}' \
+		| grep -v '^\\tikzexternalize' \
+		| grep -v '^\\tikzsetnextfilename' > tmp
 	# Change the names of the input files
 	cat tmp | sed 's/pgfSweave-example\.Rnw/pgfSweave-example-Rnw.in/g' \
 			| sed 's/pgfSweave-example\.tex/pgfSweave-example-tex\.in/g' \

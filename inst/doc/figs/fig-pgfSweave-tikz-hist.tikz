@@ -1,4 +1,4 @@
-% Created by tikzDevice version 0.5.3 on 2011-04-03 16:33:35
+% Created by tikzDevice version 0.5.3 on 2011-04-03 17:14:25
 \begin{tikzpicture}[x=1pt,y=1pt]
 \draw[color=white,opacity=0] (0,0) rectangle (216.81,216.81);
 \begin{scope}
@@ -20,52 +20,52 @@
 \definecolor[named]{drawColor}{rgb}{0.40,0.41,0.40}
 \definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 54.47, 61.20) -- (178.58, 61.20);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 61.80, 61.20) -- (179.01, 61.20);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 54.47, 61.20) -- ( 54.47, 55.20);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 61.80, 61.20) -- ( 61.80, 55.20);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 85.50, 61.20) -- ( 85.50, 55.20);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 91.10, 61.20) -- ( 91.10, 55.20);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (116.53, 61.20) -- (116.53, 55.20);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (120.41, 61.20) -- (120.41, 55.20);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (147.55, 61.20) -- (147.55, 55.20);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (149.71, 61.20) -- (149.71, 55.20);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (178.58, 61.20) -- (178.58, 55.20);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (179.01, 61.20) -- (179.01, 55.20);
 
-\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 54.47, 37.20) {-4%
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 61.80, 37.20) {-4%
 };
 
-\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 85.50, 37.20) {-2%
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 91.10, 37.20) {-2%
 };
 
-\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (116.53, 37.20) {0%
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (120.41, 37.20) {0%
 };
 
-\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (147.55, 37.20) {2%
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (149.71, 37.20) {2%
 };
 
-\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (178.58, 37.20) {4%
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (179.01, 37.20) {4%
 };
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20, 65.14) -- ( 49.20,166.82);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20, 65.14) -- ( 49.20,163.72);
 
 \draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20, 65.14) -- ( 43.20, 65.14);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20, 90.56) -- ( 43.20, 90.56);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20, 89.79) -- ( 43.20, 89.79);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20,115.98) -- ( 43.20,115.98);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20,114.43) -- ( 43.20,114.43);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20,141.40) -- ( 43.20,141.40);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20,139.07) -- ( 43.20,139.07);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20,166.82) -- ( 43.20,166.82);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20,163.72) -- ( 43.20,163.72);
 
 \node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 37.20, 65.14) {0%
 };
 
-\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 37.20, 90.56) {500%
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 37.20, 89.79) {500%
 };
 
-\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 37.20,141.40) {1500%
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 37.20,139.07) {1500%
 };
 \end{scope}
 \begin{scope}
@@ -73,38 +73,40 @@
 \definecolor[named]{drawColor}{rgb}{0.40,0.41,0.40}
 \definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 54.47, 65.14) rectangle ( 62.23, 65.24);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 54.47, 65.14) rectangle ( 61.80, 65.19);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 62.23, 65.14) rectangle ( 69.99, 65.75);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 61.80, 65.14) rectangle ( 69.13, 65.14);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 69.99, 65.14) rectangle ( 77.74, 67.68);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 69.13, 65.14) rectangle ( 76.45, 65.49);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 77.74, 65.14) rectangle ( 85.50, 73.38);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 76.45, 65.14) rectangle ( 83.78, 67.31);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 85.50, 65.14) rectangle ( 93.26, 88.88);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 83.78, 65.14) rectangle ( 91.10, 73.62);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 93.26, 65.14) rectangle (101.01,111.71);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 91.10, 65.14) rectangle ( 98.43, 86.14);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (101.01, 65.14) rectangle (108.77,141.30);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 98.43, 65.14) rectangle (105.75,109.90);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (108.77, 65.14) rectangle (116.53,163.67);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (105.75, 65.14) rectangle (113.08,138.19);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (116.53, 65.14) rectangle (124.28,163.16);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (113.08, 65.14) rectangle (120.41,159.63);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (124.28, 65.14) rectangle (132.04,140.08);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (120.41, 65.14) rectangle (127.73,163.67);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (132.04, 65.14) rectangle (139.80,111.15);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (127.73, 65.14) rectangle (135.06,138.48);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (139.80, 65.14) rectangle (147.55, 86.49);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (135.06, 65.14) rectangle (142.38,109.55);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (147.55, 65.14) rectangle (155.31, 73.43);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (142.38, 65.14) rectangle (149.71, 86.24);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (155.31, 65.14) rectangle (163.07, 67.73);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (149.71, 65.14) rectangle (157.03, 73.72);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (163.07, 65.14) rectangle (170.82, 65.65);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (157.03, 65.14) rectangle (164.36, 67.36);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (170.82, 65.14) rectangle (178.58, 65.29);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (164.36, 65.14) rectangle (171.68, 65.34);
 
-\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (178.58, 65.14) rectangle (186.34, 65.19);
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (171.68, 65.14) rectangle (179.01, 65.29);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (179.01, 65.14) rectangle (186.34, 65.19);
 \end{scope}
 \end{tikzpicture}
