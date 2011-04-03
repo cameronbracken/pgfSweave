@@ -91,11 +91,14 @@ pgfSweaveWritedoc <- function(object, chunk)
 
     if(length(grep("\\usepackage[^\\}]*Sweave.*\\}", chunk)))
         object$havesty <- TRUE
-
-    havetikzexternalize <- FALSE
-    if(length(grep("\\tikzexternalize.*^", chunk)))
-        havetikzexternalize <- TRUE
-
+        
+    if(is.null(object$havetikzexternalize)){
+        object$havetikzexternalize <- 
+        if(length(grep("\\tikzexternalize.*^", chunk)))
+            TRUE
+        else 
+            FALSE
+    }
 
     if(!object$havesty){
       begindoc <- "^[[:space:]]*\\\\begin\\{document\\}"
@@ -110,7 +113,7 @@ pgfSweaveWritedoc <- function(object, chunk)
     }
 
       # add tikzexternalize if it doesnt exist
-    if(!havetikzexternalize){
+    if(!object$havetikzexternalize){
         # add the lines after the \usepackage{tikz} statement
       which <- grep("^[[:space:]]*\\\\usepackage\\{.*tikz.*\\}", chunk)
       if(length(which)){
@@ -606,6 +609,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           })
         grDevices::dev.off()
         if(inherits(err, "try-error")) stop(err)
+        
       }
     }
 
@@ -613,12 +617,13 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     if(options$include && options$external) {
       cat("\n\\tikzsetnextfilename{",chunkprefix,"}\n",sep="",
         file=object$output, append=TRUE)
-      cat("\n\\tikzexternalfiledependsonfile{",chunkprefix,"}{",
-        paste(chunkprefix, "tikz", sep="."),"}\n",sep="",
-        file=object$output, append=TRUE)
+      #cat("\n\\tikzexternalfiledependsonfile{",chunkprefix,"}{",
+      #  paste(chunkprefix, "tikz", sep="."),"}\n",sep="",
+      #  file=object$output, append=TRUE)
         
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
+      
     }
 
       # Write the includegraphics command for eps or pdf 
