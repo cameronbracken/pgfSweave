@@ -7,26 +7,36 @@ pgfSweave <- function(file, compile.tex = TRUE, graphics.only = FALSE,
     #if available compile pgf graphics
     if(compile.tex){
         
+        changefile <- '.FigureChunkChanged'
+        
         #Strip the extension
         fn <- tools::file_path_sans_ext(file)
+        makefile <- paste(fn,".makefile",sep='')
 
         # set initial calls to latex or pdflatex to generate makefile and 
         # dependency lists
         cmd <- 
-        if(is.null(match.call()$pdf))
-            Sys.getenv("LATEX","latex")
-        else
+        if(pdf)
             Sys.getenv("PDFLATEX","pdflatex")
+        else
+            Sys.getenv("LATEX","latex")
 
             # Initial call to pdflatex or latex
-        system(paste(cmd,fn))
-
+        if(!file.exists(makefile)){
+            message(paste('Not regenerating makefile for externalization,',
+                'if your figures have changed, remove',makefile, 
+                'and recompile.'))
+            system(paste(cmd,fn))
+        }
+                    
             # call make to externalize graphics
         make <- Sys.which('make')
         if(file.access(make, 1) == 0)
-          system(paste(make," -j ",np," -f ",fn,".makefile",sep=""))
+          system(paste(make," -j ",np," -f ",makefile,sep=""))
         else 
           warning('`make` is not available, graphics will not be externalized.')
+          
+        #if(file.exists(changefile)) file.remove(changefile)
 
         if(!graphics.only){
             #run texi2dvi on the tex file        
