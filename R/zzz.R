@@ -9,7 +9,7 @@
                         stop(gettextf("'%s' package required", pkg))
         }
     
-  requirePGFVersionOrDie("2.10") 
+  requirePGFVersion("2.10") 
 }
 
 .onAttach <- function(lib, pkg) {
@@ -17,7 +17,7 @@
                 stop("'utils' package required to use 'Sweave'")
 }
 
-requirePGFVersionOrDie <- function(req.version="2.10"){
+requirePGFVersion <- function(req.version="2.10"){
   
   texDir <- tempdir()
   cwd <- getwd()
@@ -60,7 +60,10 @@ requirePGFVersionOrDie <- function(req.version="2.10"){
   setwd(cwd)
   
   if(compareVersion(version,req.version) < 0)
-    stop(paste("PGF >=",req.version,"is required to use pgfSweave, you are using version",match))
+    packageStartupMessage(paste("PGF >=",req.version,
+        "is required to use pgfSweave, you are using version",match,
+        "\n\tYou can use pgfSweave but you may not be able to compile",
+        "\n\tdocuments produced by pgfSweave, please update if possible."))
   else
     packageStartupMessage(paste('pgfSweave: Using PGF Version',match))
   
