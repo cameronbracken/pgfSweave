@@ -1,6 +1,16 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.2.1 - 2011-04-03
+--------------------------
+* [NEW] If PGF 2.10 is not available, issue a startup message but still load 
+        the package (So the package can go on CRAN). PGF 2.10 is still 
+        required to compile .tex file produced with pgfSweave
+* [NEW] Remove null device code which could cause problems with grid graphics
+* [NEW] Don't include \tikzexternalfiledependsonfile since it would always 
+        cause recompilation of external graphics
+
+--------------------------
 Version 1.2.0 - 2011-02-21
 --------------------------
 * [NEW] Use the tikz externalization library instead of the pgf backend. This 
