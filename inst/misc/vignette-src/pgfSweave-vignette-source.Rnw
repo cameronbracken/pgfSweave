@@ -2,6 +2,8 @@
 \RequirePackage{atbegshi}
 \documentclass{article}
 
+\usepackage[utf8]{inputenc}
+
 %% $ R CMD pgfsweave pgfSweave-vignette-source.Rnw
 
 % \VignetteIndexEntry{The pgfSweave Package}

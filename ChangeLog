@@ -1,3 +1,55 @@
+commit 1db2157b7f913a011f23c9ac8912b7b265ce983c
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 3 17:21:07 2011 -0600
+
+    Bump version number, recompile vignette to only depend on PGF 2.00
+
+ ChangeLog                                          |   51 ++++++
+ DESCRIPTION                                        |    2 +-
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2960 -> 12749 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pgf               |  188 +++++++++-----------
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28559 -> 28614 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.tikz         |   74 ++++----
+ inst/doc/pgfSweave-example-tex.in                  |    2 -
+ inst/doc/pgfSweave-example.pdf                     |  Bin 78061 -> 78284 bytes
+ inst/doc/pgfSweave.Rnw                             |   21 +--
+ inst/doc/pgfSweave.pdf                             |  Bin 281287 -> 327561 bytes
+ inst/misc/vignette-src/Makefile                    |    5 +-
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |   10 +-
+ 12 files changed, 191 insertions(+), 162 deletions(-)
+
+commit 21154a3acba563ecd2cb2586bb02dfad7acf0acb
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 3 17:20:13 2011 -0600
+
+    Allow package to be installed if PGF 2.10 is not available but issue
+    message at startup.
+
+ R/zzz.R |    9 ++++++---
+ 1 files changed, 6 insertions(+), 3 deletions(-)
+
+commit 1443cf949766b3dcd598a6d94ef799e1abc74c6d
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 3 17:17:55 2011 -0600
+
+    Dont include \tikzexternalfiledependsonfile command because it caused
+    figures to get recompiled every time. Only put in list and make command
+    the first time.
+
+ R/pgfSweaveDriver.R |   23 ++++++++++++++---------
+ 1 files changed, 14 insertions(+), 9 deletions(-)
+
+commit 103005f9ced1a9e07599f5625a1bd6456441473c
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 3 17:16:20 2011 -0600
+
+    Do not run (pdf)latex initially when makefile exists
+
+ R/pgfSweave.R                              |   22 ++-
+ inst/doc/figs/fig-pgfSweave-hist.pgf       |  255 ++++++++++++++++++++++++++++
+ inst/doc/figs/fig-pgfSweave-tikz-hist.tikz |  110 ++++++++++++
+ 3 files changed, 381 insertions(+), 6 deletions(-)
+
 commit 224c98c100ecaeb90085b30e5978e3736f97e6f1
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Wed Mar 23 17:32:21 2011 -0600
