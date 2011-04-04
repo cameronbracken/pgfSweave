@@ -75,11 +75,6 @@ pgfSweaveSetup <- function(file, syntax,
     out[["jobname"]] <- basename(tools::file_path_sans_ext(file))
     ######################################################################
 
-      # Avoids creation of Rplots.pdf
-    options(device = function(...) {
-        .Call("R_GD_nullDevice", PACKAGE = "grDevices")
-    })
-
     out
 }
 
