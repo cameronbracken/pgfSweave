@@ -28,7 +28,7 @@ hasChunkChanged <- function(chunk,chunkprefix,options){
   
      # caching may not be used but use the caching directory anyway
     cachedir <- getCacheDir()
-    chunkDigest <- digest(list(chunk,options$width,options$height))
+    chunkDigest <- digest(list(chunk[1:length(chunk)],options$width,options$height))
     dbName <- makeChunkDatabaseName(cachedir, options, chunkDigest)
     
       # Create 'stashR' database if it does not exist

@@ -74,7 +74,7 @@ pgfSweaveSetup <- function(file, syntax,
     out[["srcfileName"]] <-paste(tools::file_path_sans_ext(file), "tex", sep='')
     out[["jobname"]] <- basename(tools::file_path_sans_ext(file))
     ######################################################################
-
+    
     out
 }
 
@@ -496,13 +496,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     thisline <- thisline + 1
   }
 
-  chunkChanged <- 
-    if( options$cache )
-      hasChunkChanged(chunk,chunkprefix,options)
-    else
-      TRUE
-
   if(options$fig && options$eval){
+      
+    chunkChanged <- 
+      if( options$external )
+        hasChunkChanged(chunk,chunkprefix,options)
+      else
+        TRUE
+    if(chunkChanged & options$external) cat('    Re-running External Chunk:',options$label,'\n')
 
     if(options$eps & !options$pgf & !options$tikz){
         # Still apply graphics caching to postscript device
@@ -612,9 +613,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     if(options$include && options$external) {
       cat("\n\\tikzsetnextfilename{",chunkprefix,"}\n",sep="",
         file=object$output, append=TRUE)
-      #cat("\n\\tikzexternalfiledependsonfile{",chunkprefix,"}{",
-      #  paste(chunkprefix, "tikz", sep="."),"}\n",sep="",
-      #  file=object$output, append=TRUE)
+      cat("\n\\tikzexternalfiledependsonfile{",chunkprefix,"}{",
+        paste(chunkprefix, "tikz", sep="."),"}\n",sep="",
+        file=object$output, append=TRUE)
         
       linesout[thisline + 1] <- srcline
       thisline <- thisline + 1
