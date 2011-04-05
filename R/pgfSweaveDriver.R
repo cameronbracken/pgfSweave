@@ -503,7 +503,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         hasChunkChanged(chunk,chunkprefix,options)
       else
         TRUE
-    if(chunkChanged & options$external) cat('    Re-running External Chunk:',options$label,'\n')
+    if(chunkChanged & options$external) cat('(Re)Running External Chunk:',options$label,'\n')
 
     if(options$eps & !options$pgf & !options$tikz){
         # Still apply graphics caching to postscript device
