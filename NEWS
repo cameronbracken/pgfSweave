@@ -7,8 +7,9 @@ Version 1.2.1 - 2011-04-03
         the package (So the package can go on CRAN). PGF 2.10 is still 
         required to compile .tex file produced with pgfSweave
 * [NEW] Remove null device code which could cause problems with grid graphics
-* [NEW] Don't include \tikzexternalfiledependsonfile since it would always 
-        cause recompilation of external graphics
+* [NEW] Example using xelatex for external graphics
+* [CHANGED] Fix the internal caching of external graphics, it now works as 
+        expected and can save significant time
 
 --------------------------
 Version 1.2.0 - 2011-02-21
