@@ -8,6 +8,9 @@ Version 1.2.1 - 2011-04-03
         required to compile .tex file produced with pgfSweave
 * [NEW] Remove null device code which could cause problems with grid graphics
 * [NEW] Example using xelatex for external graphics
+* [NEW] Chunk options `relwidth' and `relheight' for scaling figures relative 
+        to the `width' and `height' options (thanks to Fabrice Rossi for the 
+        patch)
 * [CHANGED] Fix the internal caching of external graphics, it now works as 
         expected and can save significant time
 
