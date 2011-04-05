@@ -28,7 +28,7 @@ pgfSweaveDriver <- function() {
        runcode = pgfSweaveRuncode,
        writedoc = pgfSweaveWritedoc,
        finish = utils::RweaveLatexFinish,
-       checkopts = utils::RweaveLatexOptions
+       checkopts = pgfSweaveOptions
        )
 }
 
@@ -61,6 +61,8 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["sanitize"]] <- sanitize
     out$options[["highlight"]] <- ifelse(echo,highlight,FALSE)
     out$options[["tidy"]] <- tidy
+    out$options[["relwidth"]] <- 1
+    out$options[["relheight"]] <- 1
     out[["haveHighlightSyntaxDef"]] <- FALSE
     out[["haveRealjobname"]] <- FALSE
     ## end [CWB]
@@ -76,6 +78,23 @@ pgfSweaveSetup <- function(file, syntax,
     ######################################################################
     
     out
+}
+
+    # This function checks the options. Most of the checks is delegated to
+    # utils::RweaveLatexOptions, expect for the rel* options
+pgfSweaveOptions <- function(options)
+{
+    options.norel <- options
+    options.norel[c("relwidth","relheight")] <- NULL
+    options.norel <- utils::RweaveLatexOptions(options.norel)
+    for(opt in c("relwidth","relheight")) {
+        if(!is.null(options[[opt]])) {
+            options.norel[opt] <- as.numeric(options[[opt]])
+        }
+    }
+    options.norel$width <- options.norel$width * options.norel$relwidth
+    options.norel$height <- options.norel$height * options.norel$relheight
+    options.norel
 }
 
     # This function checks for the \usepackage{Sweave} line and the
@@ -168,7 +187,7 @@ pgfSweaveWritedoc <- function(object, chunk)
         opts <- sub(paste(".*", object$syntax$docopt, ".*", sep=""),
                     "\\1", chunk[pos[1L]])
         object$options <- utils:::SweaveParseOptions(opts, object$options,
-                                             utils:::RweaveLatexOptions)
+                                             pgfSweaveOptions)
         if (isTRUE(object$options$concordance)
               && !object$haveconcordance) {
             savelabel <- object$options$label
