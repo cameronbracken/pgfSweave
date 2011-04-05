@@ -63,7 +63,8 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 		| sed 's/\.\.\/\.\.\/example\///g' \
 		| grep -v '^\\usetikzlibrary{external}' \
 		| grep -v '^\\tikzexternalize' \
-		| grep -v '^\\tikzsetnextfilename' > tmp
+		| grep -v '^\\tikzsetnextfilename' \
+		| grep -v '^\\tikzexternalfiledependsonfile'> tmp
 	# Change the names of the input files
 	cat tmp | sed 's/pgfSweave-example\.Rnw/pgfSweave-example-Rnw.in/g' \
 			| sed 's/pgfSweave-example\.tex/pgfSweave-example-tex\.in/g' \

@@ -911,6 +911,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \centering
 
 
+
 \input{figs/fig-pgfSweave-hist.pgf}
 \caption{This is from \pkg{pgfSweave} with the \code{pgf} option.}\label{pgfSweave-hist}
 \end{minipage}
@@ -920,6 +921,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 %% pgf file will get regenerated every time slowing down the whole compilation.
 %% even though cache=TRUE. 
 \centering
+
 
 
 \input{figs/fig-pgfSweave-tikz-hist.tikz}

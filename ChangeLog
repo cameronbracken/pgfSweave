@@ -1,3 +1,110 @@
+commit e1b1d11fee5419f1747636461a5af7f46248826f
+Merge: 629df4f 5536f8f
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 16:26:46 2011 -0600
+
+    Merge branch 'rel-patch2'
+
+commit 629df4f8c9925ccf1a970d10552153ff26123ced
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 16:26:06 2011 -0600
+
+    Only try to call make if the makefile exists
+
+ R/pgfSweave.R |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
+
+commit 5536f8f46e781bb2e8193dcbcbf2265b20612e34
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 16:15:56 2011 -0600
+
+    Apply rel2.patch
+
+ R/pgfSweaveDriver.R |   23 +++++++++++++++++++++--
+ 1 files changed, 21 insertions(+), 2 deletions(-)
+
+commit d6159fa723942cc7ad361290114e555404430d2f
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 16:05:14 2011 -0600
+
+    Slightly change message for re-run external chunks
+
+ R/pgfSweaveDriver.R |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit edc5f628bb174fe19ae84884194863d7a1a41557
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 15:50:57 2011 -0600
+
+    Update NEWS
+
+ NEWS |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+
+commit ff49d90675be7118283af2120c93499cf9c164cf
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 15:48:58 2011 -0600
+
+    XeLaTeX example, see the warning in the file for directions on how to get around the bug in pgf
+
+ inst/example/pgfSweave-xelatex-example.Rnw |   72 ++++++++++++++++++++++++++++
+ 1 files changed, 72 insertions(+), 0 deletions(-)
+
+commit 2d57ccae18b14134aead7851da22cf8fade8d34a
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 14:55:03 2011 -0600
+
+    Fix the internal caching layer so that external graphics are now properly recreated only when the chunk has changed; also fixes the external library dependency feature
+
+ R/pgfSweaveDriver.R |   21 +++++++++++----------
+ R/utilities.R       |    2 +-
+ 2 files changed, 12 insertions(+), 11 deletions(-)
+
+commit 5fc6321fe08d009b07dc89314ab1f8dda0cb7d6f
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 13:24:53 2011 -0600
+
+    Add chunk options 'width' and 'height' to the chunk digest; when chages are made to these options but not the chunk code itself, still regenerate the graphic
+
+ R/utilities.R |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 7aa7eb28373f601b1d65d09e7b1c2b543c1d3a5a
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Apr 4 14:45:24 2011 -0600
+
+    Add encoding to vignette for R 2.13
+
+ ChangeLog                                          |   52 ++++++
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 12749 -> 12524 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pgf               |  186 +++++++++++---------
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28614 -> 28559 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.tikz         |   70 ++++----
+ inst/doc/pgfSweave-example-tex.in                  |   10 +-
+ inst/doc/pgfSweave-example.pdf                     |  Bin 78284 -> 76347 bytes
+ inst/doc/pgfSweave.Rnw                             |    2 +
+ inst/doc/pgfSweave.pdf                             |  Bin 327561 -> 288573 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    2 +
+ 10 files changed, 190 insertions(+), 132 deletions(-)
+
+commit 354e7f790cbf28be8fee88dbc4ee61a349770182
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Apr 4 14:44:32 2011 -0600
+
+    Update News
+
+ NEWS |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
+
+commit 69700eb5e3bfbef6d743d1d719a5b663c799bc00
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sun Apr 3 21:02:43 2011 -0600
+
+    Remove null device code since it can cause problems with grid graphics
+
+ R/pgfSweaveDriver.R |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
+
 commit 1db2157b7f913a011f23c9ac8912b7b265ce983c
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Sun Apr 3 17:21:07 2011 -0600
