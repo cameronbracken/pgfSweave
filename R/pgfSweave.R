@@ -31,13 +31,13 @@ pgfSweave <- function(file, compile.tex = TRUE, graphics.only = FALSE,
                     
             # call make to externalize graphics
         make <- Sys.which('make')
-        if(file.access(make, 1) == 0)
-          system(paste(make," -j ",np," -f ",makefile,sep=""))
-        else 
-          warning('`make` is not available, graphics will not be externalized.')
+        if(file.access(make, 1) == 0){
+            if(file.exists(makefile))
+                system(paste(make," -j ",np," -f ",makefile,sep=""))
+        }else{
+            warning('`make` is not available, graphics will not be externalized.')
+        }
           
-        #if(file.exists(changefile)) file.remove(changefile)
-
         if(!graphics.only){
             #run texi2dvi on the tex file        
             tools::texi2dvi(paste(fn,'tex',sep='.'), pdf = pdf, ...)
