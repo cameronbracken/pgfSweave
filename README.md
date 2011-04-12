@@ -16,7 +16,7 @@ Main development of pgfSweave takes place on the Github site [https://github.com
 
 __Please read the package vignette `inst/doc/pgfSweave.pdf` for more information on installation and usage.__
 
-Also see [http://code.cjb.net/pgfSweave.html]() for a great example.
+Also see [http://code.cjb.net/pgfSweave.html](http://code.cjb.net/pgfSweave.html) for a great example.
 
 
 ##BUGS AND FEATURE REQUESTS
