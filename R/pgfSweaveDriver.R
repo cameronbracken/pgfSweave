@@ -154,7 +154,7 @@ pgfSweaveWritedoc <- function(object, chunk)
       which <- grep(begindoc, chunk)
 
         # add definitions for highlight environment
-      hstyle <- c(hstyle, "\\newenvironment{Houtput}{\\raggedright}{%\n%\n}")
+      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\raggedright}{%\n%\n}")
 
             # put in the style definitions after the \documentclass command
       if(length(which)) {
@@ -291,8 +291,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
   openSinput <- FALSE
   openSchunk <- FALSE
-    # for the highlighted output environment
-  openHoutput <- FALSE
+
+  Sinputenv <- ifelse(options$highlight, "Hinput", "Sinput")
 
   if(length(chunkexps)==0)
     return(object)
@@ -353,22 +353,15 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       cat("\nRnw> ", paste(dce, collapse="\n+  "),"\n")
 
     if(options$echo && length(dce)){
-      if(!openSinput & !options$highlight){
+      if(!openSinput){
         if(!openSchunk){
           cat("\\begin{Schunk}\n",file=chunkout, append=TRUE)
             linesout[thisline + 1] <- srcline
             thisline <- thisline + 1
             openSchunk <- TRUE
         }
-          cat("\\begin{Sinput}",file=chunkout, append=TRUE)
+          cat("\\begin{", Sinputenv, "}", sep="", file=chunkout, append=TRUE)
           openSinput <- TRUE
-      }else if(!openHoutput & options$highlight){
-
-          cat("\\begin{Houtput}\n",file=chunkout, append=TRUE)
-          linesout[thisline + 1] <- srcline
-          thisline <- thisline + 1
-          openHoutput <- TRUE
-
       }
 
          # Actual printing of chunk code
@@ -438,7 +431,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
       if(length(output)>0 & (options$results != "hide")){
         if(openSinput){
-          cat("\n\\end{Sinput}\n", file=chunkout,append=TRUE)
+          cat("\n\\end{", Sinputenv, "}\n", sep="", file=chunkout, append=TRUE)
           linesout[thisline + 1:2] <- srcline
           thisline <- thisline + 2
           openSinput <- FALSE
@@ -488,19 +481,13 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     cat("\n", file=chunkout, append=TRUE)
 
   if(openSinput){
-    cat("\n\\end{Sinput}\n", file=chunkout, append=TRUE)
+    cat("\n\\end{", Sinputenv, "}\n", sep="", file=chunkout, append=TRUE)
     linesout[thisline + 1:2] <- srcline
     thisline <- thisline + 2
   }
 
   if(openSchunk){
     cat("\\end{Schunk}\n", file=chunkout, append=TRUE)
-    linesout[thisline + 1] <- srcline
-    thisline <- thisline + 1
-  }
-
-  if(openHoutput){
-    cat("\\end{Houtput}\n", file=chunkout, append=TRUE)
     linesout[thisline + 1] <- srcline
     thisline <- thisline + 1
   }
