@@ -154,7 +154,7 @@ pgfSweaveWritedoc <- function(object, chunk)
       which <- grep(begindoc, chunk)
 
         # add definitions for highlight environment
-      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\raggedright}{%\n%\n}")
+      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\par\\noindent}{%\n%\n}")
 
             # put in the style definitions after the \documentclass command
       if(length(which)) {
@@ -377,13 +377,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           
         }else{
 
-          if(nce == 1)
-            cat(newline_latex(),file=chunkout, append=TRUE)
-
           highlight(parser.output=parser(text=dce),
             renderer=renderer_latex(document=FALSE),
-            output = chunkout, showPrompts=TRUE,final.newline = TRUE)
-              # highlight doesnt put in an ending newline for some reason
+            output = chunkout, showPrompts=TRUE)
           cat(newline_latex(),file=chunkout, append=TRUE)
 
         }
