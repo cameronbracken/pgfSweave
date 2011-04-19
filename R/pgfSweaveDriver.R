@@ -154,8 +154,7 @@ pgfSweaveWritedoc <- function(object, chunk)
       which <- grep(begindoc, chunk)
 
         # add definitions for highlight environment
-        ## Hinput should start a newline, and cancel the ending hard newline
-      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\par}{\\vspace{-\\baselineskip}}")
+      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\begin{trivlist}\\item}{\\end{trivlist}}")
 
             # put in the style definitions after the \documentclass command
       if(length(which)) {
@@ -294,6 +293,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   openSchunk <- FALSE
 
   Sinputenv <- ifelse(options$highlight, "Hinput", "Sinput")
+  ## Flag for the beginning of Hinput. If so, don't add hard newline_latex
+  beginSinput <- FALSE
 
   if(length(chunkexps)==0)
     return(object)
@@ -363,6 +364,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         }
           cat("\\begin{", Sinputenv, "}", sep="", file=chunkout, append=TRUE)
           openSinput <- TRUE
+          beginSinput <- TRUE
       }
 
          # Actual printing of chunk code
@@ -378,12 +380,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           
         }else{
 
+          if (!beginSinput) cat(newline_latex(), file=chunkout, append=TRUE)
+
           highlight(parser.output=parser(text=dce),
             renderer=renderer_latex(document=FALSE),
             output = chunkout, showPrompts=TRUE)
-          cat(newline_latex(),file=chunkout, append=TRUE)
 
         }
+        beginSinput <- FALSE
 
       }else{
           # regular output, may be tidy'd or not
