@@ -154,7 +154,8 @@ pgfSweaveWritedoc <- function(object, chunk)
       which <- grep(begindoc, chunk)
 
         # add definitions for highlight environment
-      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\par\\noindent}{%\n%\n}")
+        ## Hinput should start a newline, and cancel the ending hard newline
+      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\par}{\\vspace{-\\baselineskip}}")
 
             # put in the style definitions after the \documentclass command
       if(length(which)) {
