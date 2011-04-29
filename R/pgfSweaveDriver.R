@@ -154,7 +154,7 @@ pgfSweaveWritedoc <- function(object, chunk)
       which <- grep(begindoc, chunk)
 
         # add definitions for highlight environment
-      hstyle <- c(hstyle, "\\newenvironment{Houtput}{\\raggedright}{%\n%\n}")
+      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\begin{trivlist}\\item}{\\end{trivlist}}")
 
             # put in the style definitions after the \documentclass command
       if(length(which)) {
@@ -291,8 +291,10 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
   openSinput <- FALSE
   openSchunk <- FALSE
-    # for the highlighted output environment
-  openHoutput <- FALSE
+
+  Sinputenv <- ifelse(options$highlight, "Hinput", "Sinput")
+  ## Flag for the beginning of Hinput. If so, don't add hard newline_latex
+  beginSinput <- FALSE
 
   if(length(chunkexps)==0)
     return(object)
@@ -353,22 +355,16 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       cat("\nRnw> ", paste(dce, collapse="\n+  "),"\n")
 
     if(options$echo && length(dce)){
-      if(!openSinput & !options$highlight){
+      if(!openSinput){
         if(!openSchunk){
           cat("\\begin{Schunk}\n",file=chunkout, append=TRUE)
             linesout[thisline + 1] <- srcline
             thisline <- thisline + 1
             openSchunk <- TRUE
         }
-          cat("\\begin{Sinput}",file=chunkout, append=TRUE)
+          cat("\\begin{", Sinputenv, "}", sep="", file=chunkout, append=TRUE)
           openSinput <- TRUE
-      }else if(!openHoutput & options$highlight){
-
-          cat("\\begin{Houtput}\n",file=chunkout, append=TRUE)
-          linesout[thisline + 1] <- srcline
-          thisline <- thisline + 1
-          openHoutput <- TRUE
-
+          beginSinput <- TRUE
       }
 
          # Actual printing of chunk code
@@ -384,16 +380,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           
         }else{
 
-          if(nce == 1)
-            cat(newline_latex(),file=chunkout, append=TRUE)
+          if (!beginSinput) cat(newline_latex(), file=chunkout, append=TRUE)
 
           highlight(parser.output=parser(text=dce),
             renderer=renderer_latex(document=FALSE),
-            output = chunkout, showPrompts=TRUE,final.newline = TRUE)
-              # highlight doesnt put in an ending newline for some reason
-          cat(newline_latex(),file=chunkout, append=TRUE)
+            output = chunkout, showPrompts=TRUE)
 
         }
+        beginSinput <- FALSE
 
       }else{
           # regular output, may be tidy'd or not
@@ -438,7 +432,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
       if(length(output)>0 & (options$results != "hide")){
         if(openSinput){
-          cat("\n\\end{Sinput}\n", file=chunkout,append=TRUE)
+          cat("\n\\end{", Sinputenv, "}\n", sep="", file=chunkout, append=TRUE)
           linesout[thisline + 1:2] <- srcline
           thisline <- thisline + 2
           openSinput <- FALSE
@@ -488,19 +482,13 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     cat("\n", file=chunkout, append=TRUE)
 
   if(openSinput){
-    cat("\n\\end{Sinput}\n", file=chunkout, append=TRUE)
+    cat("\n\\end{", Sinputenv, "}\n", sep="", file=chunkout, append=TRUE)
     linesout[thisline + 1:2] <- srcline
     thisline <- thisline + 2
   }
 
   if(openSchunk){
     cat("\\end{Schunk}\n", file=chunkout, append=TRUE)
-    linesout[thisline + 1] <- srcline
-    thisline <- thisline + 1
-  }
-
-  if(openHoutput){
-    cat("\\end{Houtput}\n", file=chunkout, append=TRUE)
     linesout[thisline + 1] <- srcline
     thisline <- thisline + 1
   }
