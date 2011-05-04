@@ -384,7 +384,9 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
           highlight(parser.output=parser(text=dce),
             renderer=renderer_latex(document=FALSE),
-            output = chunkout, showPrompts=TRUE)
+            output = chunkout, showPrompts=TRUE, 
+            size=ifelse(is.null(getOption('highlight.size')),
+              "normalsize", getOption('highlight.size')))
 
         }
         beginSinput <- FALSE
