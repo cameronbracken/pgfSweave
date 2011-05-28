@@ -3,6 +3,8 @@
 \documentclass{article}
 
 \usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage[scaled=0.85]{beramono}
 
 %% $ R CMD pgfsweave pgfSweave-vignette-source.Rnw
 
@@ -183,7 +185,7 @@ This option is a boolean value that accesses the \code{tikz()} option of the sam
 
 \subsection{The \code{external} option}
 
-Externalization is a feature of the TikZ package that is the main component of graphics caching in \pkg{pgfSweave}. Graphics that do ont change between successive runs will not be re-compiled, but simply included as pdf files.  For very complex graphs, this may not actually save much time as the inclusion of the large pdf will still take significant time. In these situations, you may want to consider using raster graphics (such as png). 
+Externalization is a feature of the TikZ package that is the main component of graphics caching in \pkg{pgfSweave}. Graphics that don't change between successive runs will not be re-compiled, but simply included as pdf files.  For very complex graphs, this may not actually save much time as the inclusion of the large pdf will still take significant time. In these situations, you may want to consider using raster graphics (such as png). 
 
 Before version 1.2, \pkg{pgfSweave} used the `old' method of externalizing graphics (\verb"\beginpgfgraphicnamed"...). This method works fine but is fairly limited in terms of cool features. As of version 1.2, \pkg{pgfSweave} uses the `new' externalization via the TikZ externalization library. This library has a lot of cool bells and whistles and can even make some speed improvements over the old method. {\color{red} Please refer to the pgf manual for a comprehensive overview of the TikZ externalization library}. 
 
@@ -227,7 +229,7 @@ Output:
  \end{figure}
 \end{Verbatim}
 
- This both registers the graphic to externalize, generating an entry in the makefile for it, and registers a dependency on the tikz file itself so that if it is changed, the graphic is re-externalized. After the \pkg{Sweave} process is done, it is necessary to run \texttt{pdflatex} and make as in the quote from the \texttt{pgf} manual.  This 
+ This both registers the graphic to externalize, generating an entry in the makefile for it, and registers a dependency on the tikz file itself so that if it is changed, the graphic is re-externalized. After the \pkg{Sweave} process is done, it is necessary to run \texttt{pdflatex} and make as in the quote from the \texttt{pgf} manual.
  
 
 \subsection{The \code{$\backslash$tikzexternalize} commmand}

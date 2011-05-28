@@ -364,11 +364,11 @@
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 
-\newenvironment{Houtput}{\raggedright}{%
-%
-}
+\newenvironment{Hinput}{\begin{trivlist}\item}{\end{trivlist}}
 
 \usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage[scaled=0.85]{beramono}
 
 %% $ R CMD pgfsweave pgfSweave-vignette-source.Rnw
 
@@ -545,7 +545,7 @@ This option is a boolean value that accesses the \code{tikz()} option of the sam
 
 \subsection{The \code{external} option}
 
-Externalization is a feature of the TikZ package that is the main component of graphics caching in \pkg{pgfSweave}. Graphics that do ont change between successive runs will not be re-compiled, but simply included as pdf files.  For very complex graphs, this may not actually save much time as the inclusion of the large pdf will still take significant time. In these situations, you may want to consider using raster graphics (such as png). 
+Externalization is a feature of the TikZ package that is the main component of graphics caching in \pkg{pgfSweave}. Graphics that don't change between successive runs will not be re-compiled, but simply included as pdf files.  For very complex graphs, this may not actually save much time as the inclusion of the large pdf will still take significant time. In these situations, you may want to consider using raster graphics (such as png). 
 
 Before version 1.2, \pkg{pgfSweave} used the `old' method of externalizing graphics (\verb"\beginpgfgraphicnamed"...). This method works fine but is fairly limited in terms of cool features. As of version 1.2, \pkg{pgfSweave} uses the `new' externalization via the TikZ externalization library. This library has a lot of cool bells and whistles and can even make some speed improvements over the old method. {\color{red} Please refer to the pgf manual for a comprehensive overview of the TikZ externalization library}. 
 
@@ -589,7 +589,7 @@ Output:
  \end{figure}
 \end{Verbatim}
 
- This both registers the graphic to externalize, generating an entry in the makefile for it, and registers a dependency on the tikz file itself so that if it is changed, the graphic is re-externalized. After the \pkg{Sweave} process is done, it is necessary to run \texttt{pdflatex} and make as in the quote from the \texttt{pgf} manual.  This 
+ This both registers the graphic to externalize, generating an entry in the makefile for it, and registers a dependency on the tikz file itself so that if it is changed, the graphic is re-externalized. After the \pkg{Sweave} process is done, it is necessary to run \texttt{pdflatex} and make as in the quote from the \texttt{pgf} manual.
  
 
 \subsection{The \code{$\backslash$tikzexternalize} commmand}
@@ -676,9 +676,8 @@ Normal:
 \end{Schunk}
 
 With Highlighting:
-\begin{Houtput}
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
+\begin{Schunk}
+\begin{Hinput}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
 \normalfont
 \hspace*{\fill}\\
@@ -695,17 +694,17 @@ With Highlighting:
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
 \normalfont
-\hspace*{\fill}\\
-\hlstd{}
-\end{Houtput}
+
+
+\end{Hinput}
+\end{Schunk}
 
 \subsection{The \code{tidy} option}
 Version 1.1.0 of \pkg{pgfSweave} introduced the \code{tidy} option.  This functionality was built into earlier releases, but is now available as an option for greater control.  Setting this chunk option to \code{TRUE} will clean up your code with an internal version of the \code{tidy.source} function from the \code{formatR} package. Using this option will not only preserve comments in the code but will reformat it's appearance.  This option takes precedent over the \code{keep.source} function but can be combined with the \code{highlight} option. Using the previous example:
 
 Default (highlighting only, cleaned up with parse):
-\begin{Houtput}
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
+\begin{Schunk}
+\begin{Hinput}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
 \normalfont
 \hspace*{\fill}\\
@@ -722,14 +721,14 @@ Default (highlighting only, cleaned up with parse):
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{z}\hlkeyword{)}\mbox{}
 \normalfont
-\hspace*{\fill}\\
-\hlstd{}
-\end{Houtput}
+
+
+\end{Hinput}
+\end{Schunk}
 
 Normal with \code{keep.source=T} (highlighting only, not cleaned up):
-\begin{Houtput}
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
+\begin{Schunk}
+\begin{Hinput}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\hspace*{\fill}\\
 \hlstd{}\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
 \normalfont
@@ -745,9 +744,10 @@ Normal with \code{keep.source=T} (highlighting only, not cleaned up):
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}\hlsymbol{z}\hlkeyword{)}\mbox{}
 \normalfont
-\hspace*{\fill}\\
-\hlstd{}
-\end{Houtput}
+
+
+\end{Hinput}
+\end{Schunk}
 
 Only Tidying:
 \begin{Schunk}
@@ -764,9 +764,8 @@ Only Tidying:
 \end{Schunk}
 
 With Tidying and highlighting:
-\begin{Houtput}
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
+\begin{Schunk}
+\begin{Hinput}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
@@ -787,9 +786,10 @@ With Tidying and highlighting:
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
 \normalfont
-\hspace*{\fill}\\
-\hlstd{}
-\end{Houtput}
+
+
+\end{Hinput}
+\end{Schunk}
 
 NOTE: Inline comments are defined by the \code{tidy.source()} function to be ``two or more spaces plus the hash symbol \# in your source code.'' Two hash symbols will also not work. 
 

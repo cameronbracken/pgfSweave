@@ -362,9 +362,7 @@
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 
-\newenvironment{Houtput}{\raggedright}{%
-%
-}
+\newenvironment{Hinput}{\begin{trivlist}\item}{\end{trivlist}}
 
 \usepackage{tikz}
 \usetikzlibrary{external}
@@ -387,9 +385,8 @@ the pgfSweave vignette for more usage instructions.
 We embed parts of the examples from the \texttt{kruskal.test} help page 
 into a \LaTeX{} document:
 
-\begin{Houtput}
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
+\begin{Schunk}
+\begin{Hinput}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }{\ }{\ }{\ }{\ }hey,{\ }a{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
@@ -400,8 +397,8 @@ into a \LaTeX{} document:
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{print}\hlkeyword{(}\hlfunctioncall{kruskal.test}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{)}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another}\mbox{}
 \normalfont
-\hspace*{\fill}\\
-\hlstd{}\begin{Schunk}
+
+\end{Hinput}
 \begin{Soutput}
 	Kruskal-Wallis rank sum test
 
@@ -410,7 +407,6 @@ Kruskal-Wallis chi-squared = 29.2666, df = 4, p-value = 6.901e-06
 \end{Soutput}
 
 \end{Schunk}
-\end{Houtput}
 
 \noindent which shows that the location parameter of the Ozone distribution varies 
 significantly from month to month. Finally we include a boxplot of the data:
@@ -419,15 +415,15 @@ significantly from month to month. Finally we include a boxplot of the data:
 \centering
 %notice the new options
 {\pgfkeys{/pgf/images/include external/.code={\includegraphics[width=3in]{#1}}}
-\begin{Houtput}
-\hspace*{\fill}\\
-\hlstd{}\ttfamily\noindent
+\begin{Schunk}
+\begin{Hinput}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{boxplot}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{,}{\ }\hlargument{main}{\ }\hlargument{=}{\ }\hlstring{"Ozone{\ }distribution"}\hlkeyword{,}\hspace*{\fill}\\
 \hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlargument{xlab}{\ }\hlargument{=}{\ }\hlstring{"Month"}\hlkeyword{,}{\ }\hlargument{ylab}{\ }\hlargument{=}{\ }\hlstring{"Concentration"}\hlkeyword{)}\mbox{}
 \normalfont
-\hspace*{\fill}\\
-\hlstd{}
-\end{Houtput}
+
+
+\end{Hinput}
+\end{Schunk}
 
 \tikzsetnextfilename{pgfSweave-example-boxplot}
 

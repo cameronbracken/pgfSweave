@@ -1,3 +1,113 @@
+commit 29a4b9ae44804fda444c3f8fd4b04c94a1a84bce
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed May 4 16:29:09 2011 -0600
+
+    Hidden option to access the `size` parameter to highlight, GH-28
+
+ R/pgfSweaveDriver.R |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+commit 0cdf5785592ee6b94a40aeb72ed91253cac51b37
+Merge: c53f9f8 dada019
+Author: Cameron Bracken <cameron.bracken@gmail.com>
+Date:   Thu Apr 28 17:15:15 2011 -0700
+
+    Merged pull request #26 from lq/master.
+    
+    Highlight spacing
+
+commit dada019de51c722bf81d06ccd079745b84849b9d
+Author: Qiang Li <liqiang@picb.ac.cn>
+Date:   Tue Apr 19 18:56:48 2011 +0800
+
+    Removed hard newline_latex at the end of {Sinput}
+    
+    Now the ugly hack \vspace{-\baselineskip} is avoided.
+
+ R/pgfSweaveDriver.R |   10 +++++++---
+ 1 files changed, 7 insertions(+), 3 deletions(-)
+
+commit 1e17cc8e5c3920426ae75e706ecd896c0d5d33be
+Author: Qiang Li <liqiang@picb.ac.cn>
+Date:   Tue Apr 19 13:19:36 2011 +0800
+
+    R/pgfSweaveDriver.R: cancel out the effect of hard newline at the end of Hinput
+    
+    Now we can define Schunk and Hinput based on trivlist, and Soutput based on
+    Verbatim, so that vertical spaces between text/chunk/text and code/output can
+    be individually set with \topsep, e.g.
+    
+    \renewenvironment{Schunk}{\begin{trivlist}\item}{\end{trivlist}}
+    \RequirePackage{fancyvrb}
+    \renewenvironment{Hinput}{\setlength{\topsep}{0pt}\begin{trivlist}\item}
+    {\vspace{-\baselineskip}\end{trivlist}}
+    \RecustomVerbatimEnvironment{Soutput}{Verbatim}{listparameters={\setlength{\topsep}{\smallskipamount}}}
+
+ R/pgfSweaveDriver.R |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+commit e64011b2ed4a89d4592b9d67256ad786c1ca34fd
+Author: Qiang Li <liqiang@picb.ac.cn>
+Date:   Tue Apr 19 03:08:06 2011 +0800
+
+    R/pgfSweaveDriver.R: Removed newline_latex() at the beginning of Sinput.
+    
+    The {Sinput} environment should ensure the newline and determine the
+    surrounding space.
+
+ R/pgfSweaveDriver.R |    8 ++------
+ 1 files changed, 2 insertions(+), 6 deletions(-)
+
+commit 060c03c571f3a6caeaa116ad855476fb63041053
+Author: Qiang Li <liqiang@picb.ac.cn>
+Date:   Mon Apr 18 22:52:05 2011 +0800
+
+    R/pgfSweaveDriver.R: Generates Hinput environments instead of Houtput.
+    
+    Houtput seemed strange. It surrounds both input and output, so customization
+    would also affect the results. I made it a inner environment of Schunk just
+    like Sinput, and renamed it to Hinput accordingly.
+
+ R/pgfSweaveDriver.R |   27 +++++++--------------------
+ 1 files changed, 7 insertions(+), 20 deletions(-)
+
+commit c53f9f81905d1ded6a71ff5de151c0787d8903ec
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 12 16:37:38 2011 -0600
+
+    Fix link in README.md, Issue 24
+
+ README.md |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 8a44f21d1315753295883332d57503624ae99b5c
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 16:43:42 2011 -0600
+
+    Version 1.2.1
+
+ ChangeLog                                  |  107 ++++++++++++++++
+ DESCRIPTION                                |    2 +-
+ inst/doc/figs/fig-normalSweave.pdf         |  Bin 12524 -> 2839 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pgf       |  185 ++++++++++++---------------
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf  |  Bin 28559 -> 28507 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.tikz |   67 +++++------
+ inst/doc/pgfSweave-example-tex.in          |   12 ++-
+ inst/doc/pgfSweave-example.pdf             |  Bin 76347 -> 78304 bytes
+ inst/doc/pgfSweave.Rnw                     |    2 +
+ inst/doc/pgfSweave.pdf                     |  Bin 288573 -> 279712 bytes
+ inst/misc/vignette-src/Makefile            |    3 +-
+ 11 files changed, 234 insertions(+), 144 deletions(-)
+
+commit b81ef0e742e77b7f6caaead783cfc2637f7be970
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue Apr 5 16:43:31 2011 -0600
+
+    Update NEWS
+
+ NEWS |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
 commit e1b1d11fee5419f1747636461a5af7f46248826f
 Merge: 629df4f 5536f8f
 Author: cameronbracken <cameron.bracken@gmail.com>
