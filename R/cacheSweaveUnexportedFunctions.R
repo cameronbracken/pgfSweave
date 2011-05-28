@@ -220,7 +220,7 @@ makeMapFileName <- function(Rnwfile) {
 
 writeChunkMetadata <- function(object, chunk, options) {
         chunkprefix <- utils::RweaveChunkPrefix(options)
-        chunkexps <- parse(text = chunk)
+        chunkexps <- parse(text = chunk, srcfile = NULL)
         chunkDigest <- digest(chunkexps)
         
         options$chunkDigest <- chunkDigest
