@@ -480,9 +480,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     }
   }
 
-  if(options$highlight || options$tidy)
-    cat("\n", file=chunkout, append=TRUE)
-
   if(openSinput){
     cat("\n\\end{", Sinputenv, "}\n", sep="", file=chunkout, append=TRUE)
     linesout[thisline + 1:2] <- srcline
