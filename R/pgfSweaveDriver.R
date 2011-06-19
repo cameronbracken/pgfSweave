@@ -400,7 +400,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
             output = tmpcon, showPrompts=TRUE, 
             size=ifelse(is.null(getOption('highlight.size')),
               "normalsize", getOption('highlight.size')))
-          open(tmpcon, "a")
           cat("\n", file = tmpcon)      # Just in case
           flush(tmpcon)
           write.chunk(readLines(tmpcon))
