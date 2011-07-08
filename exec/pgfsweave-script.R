@@ -2,7 +2,8 @@
 
 ver <- packageDescription('pgfSweave')[['Version']]
 
-suppressPackageStartupMessages(library(optparse))
+if(!suppressPackageStartupMessages(require(optparse)))
+  stop('The optparse package is required to use the command line interface to pgfSweave.')
 
 option_list <- list( 
     make_option(c("-v", "--version"), 

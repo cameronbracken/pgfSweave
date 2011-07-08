@@ -5,8 +5,9 @@ Version: 1.2.1
 Date: 2011-05-05
 Author: Cameron Bracken <cameron.bracken@gmail.com> and Charlie Sharpsteen <source@sharpsteen.net>
 Maintainer: Cameron Bracken <cameron.bracken@gmail.com> 
-Depends: stashR, filehash, highlight, optparse, formatR
+Depends: stashR, filehash, highlight, formatR
 Imports: digest, tools, utils, tikzDevice, cacheSweave
+Enhances: optparse
 SystemRequirement: pgf (>=2.10) (http://sourceforge.net/projects/pgf/) for the 
       vignette and for externalization, GNU Make for externalization
 Description:  pgfSweave provides a number of improvements to the
@@ -22,3 +23,4 @@ Description:  pgfSweave provides a number of improvements to the
 License: GPL (>= 3)
 LazyLoad: yes
 URL: https://r-forge.r-project.org/projects/pgfsweave/
+BugReports: https://github.com/cameronbracken/pgfSweave/issues

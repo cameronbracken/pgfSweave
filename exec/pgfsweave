@@ -3,6 +3,7 @@
 # This script is depreciated in favor of pgfsweave-script.R which 
 # is easier to maintain. There have been changes in pgfSweave-script.R which 
 # are not mirrored here, so really you should not use this script at all.
+# I am really only keeping this as an example.
 
 revision='$Id$'
 version="pgfSweave package ${revision}"
