@@ -1,5 +1,5 @@
 .onLoad <- function(lib, pkg) {
-        pkgList <- c("filehash", "stashR", "cacheSweave", "tikzDevice", "highlight")
+        pkgList <- c("filehash", "stashR", "tikzDevice", "highlight")
         
         for(pkg in pkgList) {
                 status <- suppressMessages({
@@ -8,8 +8,13 @@
                 if(!status)
                         stop(gettextf("'%s' package required", pkg))
         }
-    
-  requirePGFVersion("2.10") 
+  req.version <- "2.10"  
+  installed.version <- getOption('pgfversion')
+  
+  if(!is.null(installed.version))
+    comparePGFVersions(installed.version, req.version)
+  else
+    requirePGFVersion(req.version) 
 }
 
 .onAttach <- function(lib, pkg) {
@@ -59,12 +64,20 @@ requirePGFVersion <- function(req.version="2.10"){
   
   setwd(cwd)
   
+  comparePGFVersions(version, req.version, match)
+
+  options(pgfversion = version) 
+}
+
+comparePGFVersions <- function(version,req.version, alttxt = NULL){
+  
+  if(is.null(alttxt)) alttxt <- version
+  
   if(compareVersion(version,req.version) < 0)
     packageStartupMessage(paste("PGF >=",req.version,
-        "is required to use pgfSweave, you are using version",match,
+        "is required to use pgfSweave, you are using version",alttxt,
         "\n\tYou can use pgfSweave but you may not be able to compile",
         "\n\tdocuments produced by pgfSweave, please update if possible."))
   else
-    packageStartupMessage(paste('pgfSweave: Using PGF Version',match))
-  
+    packageStartupMessage(paste('pgfSweave: Using PGF Version',alttxt))
 }
