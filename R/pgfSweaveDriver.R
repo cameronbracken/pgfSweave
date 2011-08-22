@@ -142,26 +142,28 @@ pgfSweaveWritedoc <- function(object, chunk)
       # check if a single code chunk as the option before hand.
     if (!object$haveHighlightSyntaxDef){
       
-        # get the latex style definitions from the highlight package
-      tf <- tempfile()
-      cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
-      cat(boxes_latex(),sep='\n',file=tf,append=T)
-      hstyle <- readLines(tf)
+      if(is.null(getOption('pgfSweaveNoHighlight'))){
+          # get the latex style definitions from the highlight package
+        tf <- tempfile()
+        cat(styler('default', 'sty', styler_assistant_latex),sep='\n',file=tf)
+        cat(boxes_latex(),sep='\n',file=tf,append=T)
+        hstyle <- readLines(tf)
 
 
-        # find where to put the style definitions
-      begindoc <- "^[[:space:]]*\\\\documentclass.*$"
-      which <- grep(begindoc, chunk)
+          # find where to put the style definitions
+        begindoc <- "^[[:space:]]*\\\\documentclass.*$"
+        which <- grep(begindoc, chunk)
 
-        # add definitions for highlight environment
-      hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\begin{trivlist}\\item}{\\end{trivlist}}")
+          # add definitions for highlight environment
+        hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\begin{trivlist}\\item}{\\end{trivlist}}")
 
-            # put in the style definitions after the \documentclass command
-      if(length(which)) {
-        chunk <- c(chunk[1:which],hstyle,chunk[(which+1):length(chunk)])
-        linesout <- linesout[c(1L:which, which, seq(from = which +
-            1L, length.out = length(linesout) - which))]
-        object$haveHighlightSyntaxDef <- TRUE
+              # put in the style definitions after the \documentclass command
+        if(length(which)) {
+          chunk <- c(chunk[1:which],hstyle,chunk[(which+1):length(chunk)])
+          linesout <- linesout[c(1L:which, which, seq(from = which +
+              1L, length.out = length(linesout) - which))]
+          object$haveHighlightSyntaxDef <- TRUE
+        }
       }
     }
     
