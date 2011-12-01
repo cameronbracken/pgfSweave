@@ -42,12 +42,13 @@ pgfSweaveSetup <- function(file, syntax,
               eval=TRUE, split=FALSE, stylepath=TRUE,
               pdf=FALSE, eps=FALSE, cache=FALSE, pgf=FALSE,
               tikz=TRUE, external=FALSE, sanitize = FALSE,
-              highlight = TRUE, tidy = FALSE)
+              highlight = TRUE, tidy = FALSE, concordance = FALSE, 
+              figs.only = TRUE)
 {
     out <- utils::RweaveLatexSetup(file, syntax, output=output, quiet=quiet,
                      debug=debug, echo=echo, eval=eval,
                      split=split, stylepath=stylepath, pdf=pdf,
-                     eps=eps)
+                     eps=eps, concordance = concordance, figs.only = figs.only)
 
     ######################################################################
     ## Additions here [RDP]
