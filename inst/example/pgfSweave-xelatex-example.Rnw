@@ -6,10 +6,9 @@
 
 %  ******* Warning ******** 
 % the list and make mode of externalization does not create a working makefile
-% when using xelatex, you must translate the incorrect characters is produces 
-% for example:
+% when using xelatex, unless you pass the -8bit option to xelatex, for example:
 %
-% $ cat pgfSweave-xelatex-example.makefile | sed 's/\^\^I/ /g' > pgfSweave-xelatex-example.makefile2
+% $ xelatex -8bit pgfSweave-xelatex-example.tex
 % 
 % then run 
 %
