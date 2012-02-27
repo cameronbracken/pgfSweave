@@ -6,18 +6,28 @@
 
 %  ******* Warning ******** 
 % the list and make mode of externalization does not create a working makefile
-% when using xelatex, you must translate the incorrect characters is produces 
-% for example:
+% when using xelatex, unless you pass the -8bit option to xelatex, for example:
 %
-% $ cat pgfSweave-xelatex-example.makefile | sed 's/\^\^I/ /g' > pgfSweave-xelatex-example.makefile2
+% $ xelatex -8bit pgfSweave-xelatex-example.tex
 % 
 % then run 
 %
 % $ make -f pgfSweave-xelatex-example.makefile2
 %
 
+%  ******* Another Warning ********
+% the Sweave package must be loaded with the noae option for compatibility
+% with fontspec (otherwise cryptic errors about T1 encoding will appear):
+
+\usepackage[noae]{../doc/Sweave}
+
 \usepackage[margin=1in]{geometry}
-\usepackage{mathpazo}
+
+% font selection, logos
+\usepackage{fontspec, metalogo}
+\setmainfont{Times} % Windows: replace with Times New Roman
+\setmonofont{Courier} % Windows: replace with Courier New
+
 \title{Minimal pgfSweave Example}
 \author{Cameron Bracken}    
 
@@ -34,7 +44,7 @@ introduce pgfSweave and highlight the basic differences.  Please refer to
 the pgfSweave vignette for more usage instructions. 
 
 We embed parts of the examples from the \texttt{kruskal.test} help page 
-into a \LaTeX{} document:
+into a \XeLaTeX\ document:
 
 <<data,cache=T,tidy=T>>=
         #     hey, a comment
@@ -53,17 +63,19 @@ significantly from month to month. Finally we include a boxplot of the data:
   #boxplot(Ozone ~ Month, data = airquality,
   #  main='Ozone distribution',xlab='Month',ylab='Concentration')
 
-	  n <- 10
-	  chars <- matrix(intToUtf8(seq(161,,1,10*n),multiple=T),n)
+  # or even better, to show off the Unicode handling:
+  
+  n <- 10
+  chars <- matrix(intToUtf8(seq(161,,1,10*n),multiple=T),n)
 
-	  plot(1:n,type='n',xlab='',ylab='',axes=F, main="UTF-8 Characters")
-	  for(i in 1:n)
-	    for(j in 1:n)
-	      text(i,j,chars[i,j])	
+  plot(1:n,type='n',xlab='',ylab='',axes=F, main="UTF-8 Characters")
+  for(i in 1:n)
+    for(j in 1:n)
+      text(i,j,chars[i,j])
 
 @
 }% this brace ends the effect of ‘include external’
-\caption{This is from pgfSweave. Text is typeset by \LaTeX{} and so matches the
+\caption{This is from pgfSweave. Text is typeset by \XeLaTeX\ and so matches the
  font of the document.}
 \end{figure}
 
