@@ -1,26 +1,43 @@
 Package: pgfSweave
 Type: Package
 Title: Quality speedy graphics compilation and caching with Sweave
-Version: 1.2.1
+Version: 1.3.0
 Date: 2011-05-05
-Author: Cameron Bracken <cameron.bracken@gmail.com> and Charlie Sharpsteen <source@sharpsteen.net>
-Maintainer: Cameron Bracken <cameron.bracken@gmail.com> 
-Depends: stashR, filehash, highlight, formatR, cacheSweave
-Imports: digest, tools, utils, tikzDevice, cacheSweave
+Author: Cameron Bracken <cameron.bracken@gmail.com> and Charlie Sharpsteen
+    <source@sharpsteen.net>
+Maintainer: Cameron Bracken <cameron.bracken@gmail.com>
+Depends:
+    stashR,
+    filehash,
+    highlight,
+    formatR,
+    cacheSweave
+Imports:
+    digest,
+    tools,
+    utils,
+    tikzDevice,
+    cacheSweave
 Enhances: optparse
-SystemRequirement: pgf (>=2.10) (http://sourceforge.net/projects/pgf/) for the 
-      vignette and for externalization, GNU Make for externalization
-Description:  pgfSweave provides a number of improvements to the
-      speed and quality of Sweave output including: (1) capabilities for 
-      'caching' graphics generated with Sweave on top of the caching 
-      mechanisms provided by cacheSweave, (2) an interface to the tikzDevice 
-      package which provides graphics with consistent font style, sizing 
-      and quality as the main document and (3) highlighting of echo'd source 
-      code via the highlight package. pgfSweave provides a new driver for 
-      Sweave (pgfSweaveDriver) with new chunk options tikz, external, 
-      sanitize, highlight and tidy on top of the cache option provided by 
-      cacheSweave.
+SystemRequirement: pgf (>=2.10) (http://sourceforge.net/projects/pgf/) for the
+    vignette and for externalization, GNU Make for externalization
+Description: pgfSweave provides a number of improvements to the
+    speed and quality of Sweave output including: (1) capabilities for
+    'caching' graphics generated with Sweave on top of the caching
+    mechanisms provided by cacheSweave, (2) an interface to the tikzDevice
+    package which provides graphics with consistent font style, sizing
+    and quality as the main document and (3) highlighting of echo'd source
+    code via the highlight package. pgfSweave provides a new driver for
+    Sweave (pgfSweaveDriver) with new chunk options tikz, external,
+    sanitize, highlight and tidy on top of the cache option provided by
+    cacheSweave.
 License: GPL (>= 3)
 LazyLoad: yes
 URL: https://r-forge.r-project.org/projects/pgfsweave/
 BugReports: https://github.com/cameronbracken/pgfSweave/issues
+Collate:
+    'cacheSweaveUnexportedFunctions.R'
+    'pgfSweave.R'
+    'pgfSweaveDriver.R'
+    'utilities.R'
+    'zzz.R'

@@ -3,7 +3,19 @@ Please see the README.md file for development info
 --------------------------
 Version 1.3.0 - 2012-02-26
 --------------------------
-* 
+* [FIX] A bunch of spacing fixes, thanks to Qiang Li
+* [FIX] Fix a bunch of small bugs from newer versions of R
+* [NEW] Add global option pgfSweaveNoHighlight to disable printing of highlight
+        definitions (they are currently always printed). Set the options to any
+        other value than NULL to disable printing of the definitions 
+        e.g. options(pgfSweaveNoHighlight=TRUE)
+* [NEW] Remove the auto installation of command line script
+* [NEW] Add function pgfSweave:::installCommandLineScript(), see above
+* [NEW] PGF version can be specified in you .Rprofile so that it doesn't
+        get checked for like options(pgfversion = "2.10")
+* [NEW] Updated XeLaTeX example, thanks to psibre
+* [NEW] Roxygenize the docs
+        
 
 --------------------------
 Version 1.2.1 - 2011-04-03
