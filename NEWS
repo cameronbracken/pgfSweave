@@ -1,6 +1,11 @@
 Please see the README.md file for development info
 
 --------------------------
+Version 1.3.0 - 2012-02-26
+--------------------------
+* 
+
+--------------------------
 Version 1.2.1 - 2011-04-03
 --------------------------
 * [NEW] If PGF 2.10 is not available, issue a startup message but still load 
@@ -19,7 +24,7 @@ Version 1.2.0 - 2011-02-21
 --------------------------
 * [NEW] Use the tikz externalization library instead of the pgf backend. This 
         allows for more flexibility and faster compilations but BEWARE, this 
-        requires at least pgf 2.10 and may break backward computability in 
+        requires at least pgf 2.10 and may break backward compatability in 
         some cases 
 * [NEW] GNU Make is now a system requirement for externalizing graphics, 
         NOT for compiling the package

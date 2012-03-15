@@ -7,11 +7,10 @@ bindir <- R.home("bin")
 bin_script <- file.path(bindir,'pgfsweave')
 x <- file.remove(bin_script)
 
-rel_script <- "../exec/pgfsweave-script.R"
-abs_script <- file.path(Sys.getenv('R_PACKAGE_DIR'),
-	'exec','pgfsweave-script.R')
+#rel_script <- "../exec/pgfsweave-script.R"
+abs_script <- system.file(package='pgfSweave', 'exec','pgfsweave-script.R')
 
-script <- try(readLines(rel_script),silent=T)
+script <- try(readLines(abs_script),silent=T)
 if(class(script) == "try-error"){
   
   success <- FALSE
