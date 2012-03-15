@@ -1,13 +1,4 @@
 .onLoad <- function(lib, pkg) {
-        pkgList <- c("filehash", "stashR", "tikzDevice", "highlight")
-        
-        for(pkg in pkgList) {
-                status <- suppressMessages({
-                        require(pkg, quietly = TRUE, character.only = TRUE)
-                })
-                if(!status)
-                        stop(gettextf("'%s' package required", pkg))
-        }
   req.version <- "2.10"  
   installed.version <- getOption('pgfversion')
   
@@ -15,11 +6,6 @@
     comparePGFVersions(installed.version, req.version)
   else
     requirePGFVersion(req.version) 
-}
-
-.onAttach <- function(lib, pkg) {
-        if(!require(utils))
-                stop("'utils' package required to use 'Sweave'")
 }
 
 requirePGFVersion <- function(req.version="2.10"){
