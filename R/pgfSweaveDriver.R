@@ -79,6 +79,12 @@
 #' 
 #' cacheSweave vignette:
 #'   \url{http://cran.r-project.org/web/packages/cacheSweave/vignettes/cacheSweave.pdf}
+#' @import utils
+#' @importFrom digest digest
+#' @importFrom tools texi2dvi
+#' @importFrom tikzDevice tikz
+#' @importFrom formatR tidy.source parse.tidy deparse.tidy
+#' @export
 pgfSweaveDriver <- function() {
     list(
        setup = pgfSweaveSetup,
@@ -90,8 +96,8 @@ pgfSweaveDriver <- function() {
 }
 
 
-source('R/cacheSweaveUnexportedFunctions.R')
-source('R/utilities.R')
+#source('R/cacheSweaveUnexportedFunctions.R')
+#source('R/utilities.R')
 
 ## Add the 'pgf' and 'external', 'pdflatex', 'sanitize' option to the list
 pgfSweaveSetup <- function(file, syntax,

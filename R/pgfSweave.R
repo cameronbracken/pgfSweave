@@ -106,6 +106,7 @@
 #' 
 #' ## Use pgfSweave outside of R with the script provided in the pgfSweave exec/ directory
 #' }
+#' @export
 pgfSweave <- function(file, compile.tex = TRUE, graphics.only = FALSE, 
     pdf = T, syntax = getOption("SweaveSyntax"), np = 2,...){
     
