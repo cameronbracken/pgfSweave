@@ -33,7 +33,7 @@ pgfSweaveSetup(file, syntax,
     \item{external}{Set default for option \code{external}, see details below.}
     \item{sanitize}{Set default for option \code{sanitize}, see details below.}
     \item{highlight}{Should echo'd code be highlighted with the highlight package.}
-    \item{tidy}{Should echo'd code be cleaned up with the \code{\link[formatR]{tidy.source}} function from the \code{\link[formatR]{formatR}} package.}
+    \item{tidy}{Should echo'd code be cleaned up with the \code{\link[formatR]{tidy.source}} function from the \pkg{formatR} package.}
 }
 \details{
 To only compile an Rnw to a tex file, \code{pgfSweaveDriver} should be used as the \code{driver} option to \code{\link{Sweave}}.  Otherwise use the \code{\link[pgfSweave]{pgfSweave}} function for a simple way to compile to pdf.
