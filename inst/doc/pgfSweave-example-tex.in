@@ -363,6 +363,7 @@
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
 
 \newenvironment{Hinput}{\begin{trivlist}\item}{\end{trivlist}}
+\usepackage[utf8]{inputenc}
 
 \usepackage{tikz}
 \usetikzlibrary{external}
@@ -374,7 +375,6 @@
 
 \usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/tex/latex/Sweave}
 \begin{document}
-
 
 
 \maketitle
@@ -395,17 +395,11 @@ into a \LaTeX{} document:
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{print}\hlkeyword{(}\hlfunctioncall{kruskal.test}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{)}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{print}\hlkeyword{(}\hlfunctioncall{kruskal.test}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxpercent}InLiNe\usebox{\hlnormalsizeboxunderscore}IdEnTiFiEr\usebox{\hlnormalsizeboxpercent}}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlstring{"\usebox{\hlnormalsizeboxhash}{\ }and{\ }another"}\mbox{}
 \normalfont
 
 \end{Hinput}
-\begin{Soutput}
-	Kruskal-Wallis rank sum test
-
-data:  Ozone by Month 
-Kruskal-Wallis chi-squared = 29.2666, df = 4, p-value = 6.901e-06
-\end{Soutput}
-
 \end{Schunk}
 
 \noindent which shows that the location parameter of the Ozone distribution varies 
@@ -417,10 +411,9 @@ significantly from month to month. Finally we include a boxplot of the data:
 {\pgfkeys{/pgf/images/include external/.code={\includegraphics[width=3in]{#1}}}
 \begin{Schunk}
 \begin{Hinput}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{boxplot}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{,}{\ }\hlargument{main}{\ }\hlargument{=}{\ }\hlstring{"Ozone{\ }distribution"}\hlkeyword{,}\hspace*{\fill}\\
-\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlargument{xlab}{\ }\hlargument{=}{\ }\hlstring{"Month"}\hlkeyword{,}{\ }\hlargument{ylab}{\ }\hlargument{=}{\ }\hlstring{"Concentration"}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }\hlfunctioncall{boxplot}\hlkeyword{(}\hlsymbol{Ozone}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{Month}\hlkeyword{,}{\ }\hlargument{data}{\ }\hlargument{=}{\ }\hlsymbol{airquality}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlargument{main}\hlargument{=}\hlstring{\usebox{\hlnormalsizeboxsinglequote}Ozone{\ }distribution\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{,}\hlargument{xlab}\hlargument{=}\hlstring{\usebox{\hlnormalsizeboxsinglequote}Month\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{,}\hlargument{ylab}\hlargument{=}\hlstring{\usebox{\hlnormalsizeboxsinglequote}Concentration\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{)}\mbox{}
 \normalfont
-
 
 \end{Hinput}
 \end{Schunk}

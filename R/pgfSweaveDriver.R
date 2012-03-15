@@ -22,7 +22,15 @@
 ## Heavily relies on functions of cacheSweave but reimplements the
 ## Sweave driver function.
 
-
+pgfSweaveDriver <- function() {
+    list(
+       setup = pgfSweaveSetup,
+       runcode = pgfSweaveRuncode,
+       writedoc = pgfSweaveWritedoc,
+       finish = utils::RweaveLatexFinish,
+       checkopts = pgfSweaveOptions
+       )
+}
 
 #' The Sweave driver for pgfSweave
 #' 
@@ -60,6 +68,8 @@
 #' @param tidy Should echo'd code be cleaned up with the
 #'   \code{\link[formatR]{tidy.source}} function from the
 #'   \pkg{formatR} package.
+#' @param  concordance \code{\link{RweaveLatex}}
+#' @param figs.only \code{\link{RweaveLatex}}
 #' @return Nothing useful returned.
 #' @note \itemize{ \item For myfile.Rnw, Make sure to call the command
 #'   \\code{pgfrealjobname{myfile}} in the LaTeX header.  \item Calling
@@ -85,7 +95,12 @@
 #' @importFrom tools texi2dvi
 #' @importFrom tikzDevice tikz
 #' @importFrom formatR tidy.source parse.tidy deparse.tidy
-#' @export pgfSweaveDriver
+#' @export 
+
+#source('R/cacheSweaveUnexportedFunctions.R')
+#source('R/utilities.R')
+
+## Add the 'pgf' and 'external', 'pdflatex', 'sanitize' option to the list
 pgfSweaveSetup <- function(file, syntax,
               output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
               eval=TRUE, split=FALSE, stylepath=TRUE,
@@ -193,7 +208,7 @@ pgfSweaveWritedoc <- function(object, chunk)
       if(length(which)){
         chunk[which] <- paste(chunk[which],"\\usetikzlibrary{external}",
           "\\tikzexternalize[mode=list and make]\n", sep="\n")
-        linesout <- linesout[c(1L:which, which, which, seq(from=which+1L, length.out=length(linesout)-which))]
+        linesout <- linesout[c(1L:which, which, seq(from=which+1L, length.out=length(linesout)-which))]
         object$havetikzexternalize <- TRUE
       }
     }
@@ -217,16 +232,16 @@ pgfSweaveWritedoc <- function(object, chunk)
           # add definitions for highlight environment
         hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\begin{trivlist}\\item}{\\end{trivlist}}")
 
-            # put in the style definitions after the \documentclass command
+              # put in the style definitions after the \documentclass command
         if(length(which)) {
           chunk <- c(chunk[1:which],hstyle,chunk[(which+1):length(chunk)])
-          linesout <- linesout[c(1L:which, rep(which, length(hstyle)), seq(from = which +
-            1L, length.out = length(linesout) - which))]
+          linesout <- linesout[c(1L:which, which, seq(from = which +
+              1L, length.out = length(linesout) - which))]
           object$haveHighlightSyntaxDef <- TRUE
         }
       }
     }
-
+    
     while(length(pos <- grep(object$syntax$docexpr, chunk)))
     {
         cmdloc <- regexpr(object$syntax$docexpr, chunk[pos[1L]])
@@ -327,20 +342,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   }
   else  chunkout <- object$output
 
-  write.chunk <- function(str, file = chunkout) {
-    cat(str, file=file, append=TRUE)
-    lo <- linesout
-    tl <- thisline
-
-    nlines <- sum(strsplit(str, NULL)[[1]] == "\n")
-
-    if (nlines > 0) {
-      lo[tl + 1:nlines] <- srcline
-      assign("linesout", lo, parent.env(environment()))
-      assign("thisline", tl + nlines, parent.env(environment()))
-    }
-   }
-
   saveopts <- options(keep.source=options$keep.source)
   on.exit(options(saveopts))
 
@@ -433,12 +434,14 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     if(options$echo && length(dce)){
       if(!openSinput){
         if(!openSchunk){
-          write.chunk("\\begin{Schunk}\n")
-          openSchunk <- TRUE
+          cat("\\begin{Schunk}\n",file=chunkout, append=TRUE)
+            linesout[thisline + 1] <- srcline
+            thisline <- thisline + 1
+            openSchunk <- TRUE
         }
-        write.chunk(paste("\\begin{", Sinputenv, "}", sep=""))
-        openSinput <- TRUE
-        beginSinput <- TRUE
+          cat("\\begin{", Sinputenv, "}", sep="", file=chunkout, append=TRUE)
+          openSinput <- TRUE
+          beginSinput <- TRUE
       }
 
          # Actual printing of chunk code
@@ -448,37 +451,35 @@ pgfSweaveRuncode <- function(object, chunk, options) {
         if(length(grep("^[[:space:]]*$",dce)) >= 1 & length(dce) == 1){
           
             # for blank lines for which parser throws an error
-          write.chunk(translator_latex(paste(getOption("prompt"),'\n', sep="")))
-          write.chunk(newline_latex())
+          cat(translator_latex(paste(getOption("prompt"),'\n', sep="")),
+            file=chunkout, append=TRUE, sep="")
+          cat(newline_latex(),file=chunkout, append=TRUE)
+          
         }else{
-          if (!beginSinput) 
-            write.chunk(newline_latex())
 
-          tmpcon <- file()
+          if (!beginSinput) cat(newline_latex(), file=chunkout, append=TRUE)
 
           highlight(parser.output=parser(text=dce),
             renderer=renderer_latex(document=FALSE),
-            output = tmpcon, showPrompts=TRUE, 
+            output = chunkout, showPrompts=TRUE, 
             size=ifelse(is.null(getOption('highlight.size')),
               "normalsize", getOption('highlight.size')))
-          cat("\n", file = tmpcon)      # Just in case
-          flush(tmpcon)
-          write.chunk(readLines(tmpcon))
-          close(tmpcon)
 
         }
         beginSinput <- FALSE
 
       }else{
           # regular output, may be tidy'd or not
-        write.chunk(paste("\n",paste(getOption("prompt"), dce[1:leading], sep="",
-          collapse="\n"),sep=""))
-        if (length(dce) > leading) {
-          write.chunk(paste("\n", paste(getOption("continue"), dce[-(1:leading)], sep="",
-            collapse="\n"), sep=""))
-        }
+        cat("\n",paste(getOption("prompt"), dce[1:leading], sep="",
+          collapse="\n"), file=chunkout, append=TRUE, sep="")
+        if (length(dce) > leading)
+          cat("\n", paste(getOption("continue"), dce[-(1:leading)], sep="",
+            collapse="\n"), file=chunkout, append=TRUE, sep="")
+            
       }
       
+      linesout[thisline + 1:length(dce)] <- srcline
+      thisline <- thisline + length(dce)
     }
 
       # do not evaluate empty expressions, these may occur when tidy=T
@@ -510,16 +511,22 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
       if(length(output)>0 & (options$results != "hide")){
         if(openSinput){
-          write.chunk(paste("\n\\end{", Sinputenv, "}\n", sep=""))
+          cat("\n\\end{", Sinputenv, "}\n", sep="", file=chunkout, append=TRUE)
+          linesout[thisline + 1:2] <- srcline
+          thisline <- thisline + 2
           openSinput <- FALSE
         }
 
         if(options$results=="verbatim"){
           if(!openSchunk){
-            write.chunk("\\begin{Schunk}\n")
+            cat("\\begin{Schunk}\n",file=chunkout, append=TRUE)
+            linesout[thisline + 1] <- srcline
+            thisline <- thisline + 1
             openSchunk <- TRUE
           }
-          write.chunk("\\begin{Soutput}\n")
+          cat("\\begin{Soutput}\n",file=chunkout, append=TRUE)
+          linesout[thisline + 1] <- srcline
+          thisline <- thisline + 1
         }
 
         output <- paste(output,collapse="\n")
@@ -531,33 +538,48 @@ pgfSweaveRuncode <- function(object, chunk, options) {
             output <- sub("\n[[:space:]]*\n", "\n", output)
         }
 
-        write.chunk(output)
+        cat(output, file=chunkout, append=TRUE)
+        count <- sum(strsplit(output, NULL)[[1]] == "\n")
+
+        if (count > 0) {
+          linesout[thisline + 1:count] <- srcline
+          thisline <- thisline + count
+        }
+
         remove(output)
 
         if(options$results=="verbatim"){
-          write.chunk("\n\\end{Soutput}\n")
+          cat("\n\\end{Soutput}\n", file=chunkout, append=TRUE)
+          linesout[thisline + 1:2] <- srcline
+          thisline <- thisline + 2
         }
       }
     }
   }
 
   if(openSinput){
-    write.chunk(paste("\n\\end{", Sinputenv, "}\n", sep=""))
+    cat("\n\\end{", Sinputenv, "}\n", sep="", file=chunkout, append=TRUE)
+    linesout[thisline + 1:2] <- srcline
+    thisline <- thisline + 2
   }
 
   if(openSchunk){
-    write.chunk("\\end{Schunk}\n")
+    cat("\\end{Schunk}\n", file=chunkout, append=TRUE)
+    linesout[thisline + 1] <- srcline
+    thisline <- thisline + 1
   }
 
   if(is.null(options$label) & options$split)
     close(chunkout)
 
   if(options$split & options$include){
-    write.chunk(paste("\\input{", chunkprefix, "}\n", sep=""),
-      file=object$output)
+    cat("\\input{", chunkprefix, "}\n", sep="",
+      file=object$output, append=TRUE)
+    linesout[thisline + 1] <- srcline
+    thisline <- thisline + 1
   }
 
-  if(options$fig && options$eval) {
+  if(options$fig && options$eval){
       
     chunkChanged <- 
       if( options$external )
@@ -672,34 +694,47 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
       # Write the extrnalization commands
     if(options$include && options$external) {
-      write.chunk(paste("\n\\tikzsetnextfilename{",chunkprefix,"}\n",sep=""),
-                        file=object$output)
-      write.chunk(paste("\n\\tikzexternalfiledependsonfile{",chunkprefix,"}{",
-                        paste(chunkprefix, "tikz", sep="."),"}\n",sep=""),
-                        file=object$output)
+      cat("\n\\tikzsetnextfilename{",chunkprefix,"}\n",sep="",
+        file=object$output, append=TRUE)
+      cat("\n\\tikzexternalfiledependsonfile{",chunkprefix,"}{",
+        paste(chunkprefix, "tikz", sep="."),"}\n",sep="",
+        file=object$output, append=TRUE)
         
+      linesout[thisline + 1] <- srcline
+      thisline <- thisline + 1
+      
     }
 
       # Write the includegraphics command for eps or pdf 
       # only if we are not useing pgf or tikz
     if(options$include && !options$pgf && !options$tikz && !options$external) {
 
-      write.chunk(paste("\\includegraphics{", chunkprefix, "}\n", sep=""),
-                        file=object$output)
+      cat("\\includegraphics{", chunkprefix, "}\n", sep="",
+        file=object$output, append=TRUE)
+      linesout[thisline + 1] <- srcline
+      thisline <- thisline + 1
+
     }
       # input statements for tikz and pgf
     if(options$include && (options$pgf || options$tikz)) {
+
         #if tikz takes precident over pgf option
       suffix <- ifelse(options$tikz,'tikz','pgf')
       if(!options$external){
-        write.chunk("{\\tikzexternaldisable\n", file=object$output)
+        cat("{\\tikzexternaldisable\n", sep="", file=object$output, append=TRUE)
+        linesout[thisline + 1] <- srcline
+        thisline <- thisline + 1
       }
       
-      write.chunk(paste("\\input{", paste(chunkprefix,suffix,sep='.'),
-                        "}\n", sep=""), file=object$output)
+      cat("\\input{", paste(chunkprefix,suffix,sep='.'),
+        "}\n", sep="", file=object$output, append=TRUE)
+      linesout[thisline + 1] <- srcline
+      thisline <- thisline + 1
       
       if(!options$external){
-        write.chunk("}\n", file=object$output)
+        cat("}\n", sep="", file=object$output, append=TRUE)
+        linesout[thisline + 1] <- srcline
+        thisline <- thisline + 1
       }
 
     }

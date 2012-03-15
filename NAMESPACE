@@ -1,5 +1,5 @@
 export(pgfSweave)
-export(pgfSweaveDriver)
+export(pgfSweaveSetup)
 import(utils)
 importFrom(digest,digest)
 importFrom(formatR,deparse.tidy)

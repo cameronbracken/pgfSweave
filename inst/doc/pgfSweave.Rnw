@@ -397,7 +397,6 @@
 \begin{document}
 
 
-
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=FALSE and tikz=TRUE.
 %% to get normal Sweave behavior set pgf=FALSE and external=FALSE 
@@ -666,35 +665,38 @@ The original code in the chunk looks like:
 Normal:
 \begin{Schunk}
 \begin{Sinput}
-> x <- numeric(100)
-> for (i in 1:100) {
-+     x[i] <- rnorm(1)
-+ }
-> y <- rnorm(100)
-> plot(x, y)
+>         # here is a comment
+>     x <- numeric(100)
+>     for( i in 1:100){
++         x[i] <- rnorm(1)
++     }
+>         # OR
+>     y <- rnorm(100)  # and another comment
+>     plot(x,y)
 \end{Sinput}
 \end{Schunk}
 
 With Highlighting:
 \begin{Schunk}
 \begin{Hinput}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\hspace*{\fill}\\
+\hlstd{}\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlkeyword{for}{\ }\hlkeyword{(}\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlprompt{+{\ }}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlkeyword{for}\hlkeyword{(}{\ }\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }OR}\hspace*{\fill}\\
+\hlstd{}\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlsymbol{y}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}\hlsymbol{y}\hlkeyword{)}\mbox{}
 \normalfont
-
 
 \end{Hinput}
 \end{Schunk}
@@ -705,23 +707,21 @@ Version 1.1.0 of \pkg{pgfSweave} introduced the \code{tidy} option.  This functi
 Default (highlighting only, cleaned up with parse):
 \begin{Schunk}
 \begin{Hinput}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\hspace*{\fill}\\
+\hlstd{}\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{numeric}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }here{\ }is{\ }a{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlkeyword{for}{\ }\hlkeyword{(}\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}{\ }\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlprompt{+{\ }}{\ }{\ }{\ }{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hspace*{\fill}\\
-\hlstd{}\hlprompt{+{\ }}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlkeyword{for}\hlkeyword{(}{\ }\hlsymbol{i}{\ }\hlkeyword{in}{\ }\hlnumber{1}\hlkeyword{:}\hlnumber{100}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}{\ }\hlsymbol{x}\hlkeyword{[}\hlsymbol{i}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{1}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlsymbol{z}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{rnorm}\hlkeyword{(}\hlnumber{100}\hlkeyword{)}{\ }{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}{\ }and{\ }another{\ }comment}\mbox{}
 \normalfont
 \hspace*{\fill}\\
 \hlstd{}\ttfamily\noindent
-\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{z}\hlkeyword{)}\mbox{}
+\hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}\hlsymbol{z}\hlkeyword{)}\mbox{}
 \normalfont
-
 
 \end{Hinput}
 \end{Schunk}
@@ -745,7 +745,6 @@ Normal with \code{keep.source=T} (highlighting only, not cleaned up):
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}{\ }{\ }{\ }{\ }\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}\hlsymbol{z}\hlkeyword{)}\mbox{}
 \normalfont
 
-
 \end{Hinput}
 \end{Schunk}
 
@@ -755,11 +754,10 @@ Only Tidying:
 > # here is a comment
 > x <- numeric(100)  # here is a comment
 > for (i in 1:100) {
-    x[i] <- rnorm(1)
-}
++     x[i] <- rnorm(1)
++ }
 > y <- rnorm(100)  # and another comment
 > plot(x, y)
-
 \end{Sinput}
 \end{Schunk}
 
@@ -786,7 +784,6 @@ With Tidying and highlighting:
 \hlstd{}\ttfamily\noindent
 \hlprompt{\usebox{\hlnormalsizeboxgreaterthan}{\ }}\hlfunctioncall{plot}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlsymbol{y}\hlkeyword{)}\mbox{}
 \normalfont
-
 
 \end{Hinput}
 \end{Schunk}
@@ -895,14 +892,12 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \section{Consistency in style between graphics and text}
 %% initial calculations
 
-
  In Figure \ref{normalSweave}, notice the inconsistency in font and size between the default \lang{R} output and the default \LaTeX{} output.  Fonts and font sizes can be changed from \lang{R} but it is hard to be precise.  What if you decide to change the font and and point size of your entire document?  In Figure \ref{pgfSweave-hist} and \ref{pgfSweave-tikz-hist} the text is consistent with the rest of the document.
 
 \begin{figure}[!ht]
 \begin{minipage}{.45\linewidth}
 \centering
-
-\includegraphics{figs/fig-normalSweave}
+\includegraphics{fig-normalSweave}
 \caption{This is normal \pkg{Sweave}.}\label{normalSweave}
 \end{minipage}
 \begin{minipage}[!ht]{.45\linewidth}
@@ -911,8 +906,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \centering
 
 
-
-\input{figs/fig-pgfSweave-hist.pgf}
+\input{fig-pgfSweave-hist.pgf}
 \caption{This is from \pkg{pgfSweave} with the \code{pgf} option.}\label{pgfSweave-hist}
 \end{minipage}
 \end{figure}
@@ -923,8 +917,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \centering
 
 
-
-\input{figs/fig-pgfSweave-tikz-hist.tikz}
+\input{fig-pgfSweave-tikz-hist.tikz}
 \caption{This is from \pkg{pgfSweave} with the \code{tikz} option.}\label{pgfSweave-tikz-hist}
 \end{figure}
 
