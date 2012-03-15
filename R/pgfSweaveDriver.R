@@ -35,6 +35,7 @@
 #' pdf.
 #' 
 #' @aliases pgfSweaveDriver pgfSweaveSetup
+#' @rdname pgfSweaveDriver
 #' @param file A connection or a character string giving the name of the Sweave
 #'   file to load.
 #' @param syntax See \code{\link{RweaveLatex}}
@@ -58,7 +59,7 @@
 #'   package.
 #' @param tidy Should echo'd code be cleaned up with the
 #'   \code{\link[formatR]{tidy.source}} function from the
-#'   \code{\link[formatR]{formatR}} package.
+#'   \pkg{formatR} package.
 #' @return Nothing useful returned.
 #' @note \itemize{ \item For myfile.Rnw, Make sure to call the command
 #'   \\code{pgfrealjobname{myfile}} in the LaTeX header.  \item Calling
@@ -84,22 +85,7 @@
 #' @importFrom tools texi2dvi
 #' @importFrom tikzDevice tikz
 #' @importFrom formatR tidy.source parse.tidy deparse.tidy
-#' @export
-pgfSweaveDriver <- function() {
-    list(
-       setup = pgfSweaveSetup,
-       runcode = pgfSweaveRuncode,
-       writedoc = pgfSweaveWritedoc,
-       finish = utils::RweaveLatexFinish,
-       checkopts = pgfSweaveOptions
-       )
-}
-
-
-#source('R/cacheSweaveUnexportedFunctions.R')
-#source('R/utilities.R')
-
-## Add the 'pgf' and 'external', 'pdflatex', 'sanitize' option to the list
+#' @export pgfSweaveDriver
 pgfSweaveSetup <- function(file, syntax,
               output=NULL, quiet=FALSE, debug=FALSE, echo=TRUE,
               eval=TRUE, split=FALSE, stylepath=TRUE,
@@ -142,6 +128,16 @@ pgfSweaveSetup <- function(file, syntax,
     ######################################################################
     
     out
+}
+
+pgfSweaveDriver <- function() {
+    list(
+       setup = pgfSweaveSetup,
+       runcode = pgfSweaveRuncode,
+       writedoc = pgfSweaveWritedoc,
+       finish = utils::RweaveLatexFinish,
+       checkopts = pgfSweaveOptions
+       )
 }
 
     # This function checks the options. Most of the checks is delegated to
@@ -222,11 +218,12 @@ pgfSweaveWritedoc <- function(object, chunk)
         hstyle <- c(hstyle, "\\newenvironment{Hinput}{\\begin{trivlist}\\item}{\\end{trivlist}}")
 
             # put in the style definitions after the \documentclass command
-      if(length(which)) {
-        chunk <- c(chunk[1:which],hstyle,chunk[(which+1):length(chunk)])
-        linesout <- linesout[c(1L:which, rep(which, length(hstyle)), seq(from = which +
+        if(length(which)) {
+          chunk <- c(chunk[1:which],hstyle,chunk[(which+1):length(chunk)])
+          linesout <- linesout[c(1L:which, rep(which, length(hstyle)), seq(from = which +
             1L, length.out = length(linesout) - which))]
-        object$haveHighlightSyntaxDef <- TRUE
+          object$haveHighlightSyntaxDef <- TRUE
+        }
       }
     }
 
@@ -437,11 +434,11 @@ pgfSweaveRuncode <- function(object, chunk, options) {
       if(!openSinput){
         if(!openSchunk){
           write.chunk("\\begin{Schunk}\n")
-            openSchunk <- TRUE
+          openSchunk <- TRUE
         }
-          write.chunk(paste("\\begin{", Sinputenv, "}", sep=""))
-          openSinput <- TRUE
-          beginSinput <- TRUE
+        write.chunk(paste("\\begin{", Sinputenv, "}", sep=""))
+        openSinput <- TRUE
+        beginSinput <- TRUE
       }
 
          # Actual printing of chunk code
@@ -454,9 +451,8 @@ pgfSweaveRuncode <- function(object, chunk, options) {
           write.chunk(translator_latex(paste(getOption("prompt"),'\n', sep="")))
           write.chunk(newline_latex())
         }else{
-          if (!beginSinput) {
+          if (!beginSinput) 
             write.chunk(newline_latex())
-          }
 
           tmpcon <- file()
 
