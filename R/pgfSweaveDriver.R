@@ -22,7 +22,15 @@
 ## Heavily relies on functions of cacheSweave but reimplements the
 ## Sweave driver function.
 
-
+pgfSweaveDriver <- function() {
+    list(
+       setup = pgfSweaveSetup,
+       runcode = pgfSweaveRuncode,
+       writedoc = pgfSweaveWritedoc,
+       finish = utils::RweaveLatexFinish,
+       checkopts = pgfSweaveOptions
+       )
+}
 
 #' The Sweave driver for pgfSweave
 #' 
@@ -35,6 +43,7 @@
 #' pdf.
 #' 
 #' @aliases pgfSweaveDriver pgfSweaveSetup
+#' @rdname pgfSweaveDriver
 #' @param file A connection or a character string giving the name of the Sweave
 #'   file to load.
 #' @param syntax See \code{\link{RweaveLatex}}
@@ -58,7 +67,9 @@
 #'   package.
 #' @param tidy Should echo'd code be cleaned up with the
 #'   \code{\link[formatR]{tidy.source}} function from the
-#'   \code{\link[formatR]{formatR}} package.
+#'   \pkg{formatR} package.
+#' @param  concordance \code{\link{RweaveLatex}}
+#' @param figs.only \code{\link{RweaveLatex}}
 #' @return Nothing useful returned.
 #' @note \itemize{ \item For myfile.Rnw, Make sure to call the command
 #'   \\code{pgfrealjobname{myfile}} in the LaTeX header.  \item Calling
@@ -84,17 +95,7 @@
 #' @importFrom tools texi2dvi
 #' @importFrom tikzDevice tikz
 #' @importFrom formatR tidy.source parse.tidy deparse.tidy
-#' @export
-pgfSweaveDriver <- function() {
-    list(
-       setup = pgfSweaveSetup,
-       runcode = pgfSweaveRuncode,
-       writedoc = pgfSweaveWritedoc,
-       finish = utils::RweaveLatexFinish,
-       checkopts = pgfSweaveOptions
-       )
-}
-
+#' @export 
 
 #source('R/cacheSweaveUnexportedFunctions.R')
 #source('R/utilities.R')

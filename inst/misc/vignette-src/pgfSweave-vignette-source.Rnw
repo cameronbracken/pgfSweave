@@ -35,13 +35,13 @@
   require(cacheSweave)
   setCacheDir("cache")
   require(tikzDevice)
-  if(!file.exists('figs')) dir.create('figs')
+  #if(!file.exists('figs')) dir.create('figs')
 @
 
 %% Cache all of the code chunks and generate external figures by default 
 %% the pgfSweave defaults are pdf=FALSE and eps=FALSE and pgf=FALSE and tikz=TRUE.
 %% to get normal Sweave behavior set pgf=FALSE and external=FALSE 
-\SweaveOpts{prefix.string=figs/fig,fig=T,eps=F,pdf=F,cache=T,tikz=T,external=T}
+\SweaveOpts{prefix.string=fig,fig=T,eps=F,pdf=F,cache=T,tikz=T,external=T}
 
 \begin{center}
 {\Large The \pkg{pgfSweave} Package}\\

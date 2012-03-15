@@ -44,11 +44,11 @@ $(VIGNETTE_HANS_PDF): $(VIGNETTE_HANS_RNW)
 
 $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 	# Copy Sweave.sty
-	cp Sweave.sty $(DOC_PATH)/
+	# cp Sweave.sty $(DOC_PATH)/
 	# Copy all the figures
-	cp figs/*.pdf $(DOC_PATH)/figs/
-	cp figs/*.pgf $(DOC_PATH)/figs/
-	cp figs/*.tikz $(DOC_PATH)/figs/
+	cp *.pdf $(DOC_PATH)
+	cp *.pgf $(DOC_PATH)
+	cp *.tikz $(DOC_PATH)
 	# Copy all the example file to include but dont use .Rnw so they are not 
 	# recognised as another vignette 
 	cp -f $(EXAMPLE_PATH)/pgfSweave-example.Rnw \
@@ -78,14 +78,14 @@ $(EXAMPLE_PDF):
 	(cd $(EXAMPLE_PATH)/ ; make)
 
 cleanall:
-	rm -rf cache figs *.pdf $(RM_PATH).$(RM_SUFFIX) \
+	rm -rf cache *.pdf $(RM_PATH).$(RM_SUFFIX) \
 		$(DOC_PATH)/Sweave.sty $(DOC_PATH)/pgfSweave.Rnw $(DOC_PATH)/*.pdf \
-		$(DOC_PATH)/figs/* tmp $(CHANGELOG) 
+		tmp $(CHANGELOG) 
 	(cd $(EXAMPLE_PATH) ; make clean)
 	(cd $(TEST_PATH) ; make clean)
 
 clean:
-	rm -rf cache figs *.pdf $(RM_PATH).$(BUILD_RM_SUFFIX) \
+	rm -rf cache *.pdf $(RM_PATH).$(BUILD_RM_SUFFIX) \
 		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave.tex \
 		$(DOC_PATH)/pgfSweave_hans.tex tmp
 	(cd $(EXAMPLE_PATH) ; make cleanforbuild)

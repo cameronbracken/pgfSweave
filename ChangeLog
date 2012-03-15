@@ -1,3 +1,245 @@
+commit 8f00570ea40b0bba322c246e4e0c4333a96f8c50
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Mar 15 00:19:27 2012 -0700
+
+    Update NEWS and DESCRIPTION for new version 1.3.0
+
+ DESCRIPTION |   51 ++++++++++++++++++++++++++++++++++-----------------
+ NEWS        |   14 +++++++++++++-
+ 2 files changed, 47 insertions(+), 18 deletions(-)
+
+commit 63652515e771b9e1e7a6a519cb07d1c07fb3a098
+Merge: 9ec3a2d f339a64
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 14 23:25:44 2012 -0700
+
+    Merge branch 'master' of github.com:cameronbracken/pgfSweave
+
+commit 9ec3a2d0bcc0402a0b88025f18d3511815fcd61b
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 14 23:23:02 2012 -0700
+
+    Roxegenize docs
+
+ NAMESPACE              |   15 ++--
+ R/pgfSweave.R          |    1 +
+ R/pgfSweaveDriver.R    |   10 ++-
+ man/pgfSweave.Rd       |  170 +++++++++++++++++++++++++++---------------------
+ man/pgfSweaveDriver.Rd |  157 ++++++++++++++++++++++++---------------------
+ 5 files changed, 198 insertions(+), 155 deletions(-)
+
+commit 184c07a447677a54341e92dea2494286f2372c04
+Merge: cb36897 bf5b655
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 14 22:38:04 2012 -0700
+
+    Merge branch 'docs'
+
+commit cb3689772db07d3a8d65ecda639a7f7107495ea4
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 14 22:18:45 2012 -0700
+
+    Fix link in docs, fixed GH-35
+
+ man/pgfSweaveDriver.Rd |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit cea3c877827bc1a7b7b4e47548ee43fc4b75c814
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 14 22:13:54 2012 -0700
+
+    Dont automatically install command line script, it is against the rules. Modify the install scrip to be called from a regular session so the user can install it themselves later.
+
+ NEWS                  |    7 ++++++-
+ R/pgfSweave.R         |    4 ++++
+ exec/install-script.R |    7 +++----
+ src/Makevars          |    6 ------
+ src/dummy.c           |    8 --------
+ 5 files changed, 13 insertions(+), 19 deletions(-)
+
+commit 4d4f44bc633f840e61c0054dbf2d13f560ad5e52
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Wed Mar 14 22:01:04 2012 -0700
+
+    Get rid of .onAttach, it didnt do anything and get rid of package loading in .onLoad
+
+ R/zzz.R |   14 --------------
+ 1 files changed, 0 insertions(+), 14 deletions(-)
+
+commit f339a643406dbb7a7ecd9ec9b249b02163543f35
+Merge: 9cc0095 d5b04a6
+Author: Cameron Bracken <cameron.bracken@gmail.com>
+Date:   Sun Feb 26 19:10:25 2012 -0800
+
+    Merge pull request #39 from psibre/master
+    
+    xelatex example updates
+
+commit d5b04a651d5fdab7704722c61660db5d56779c5e
+Author: Ingmar Steiner <ingmar.steiner@inria.fr>
+Date:   Mon Feb 13 13:03:03 2012 +0100
+
+    modified xelatex example further,
+    
+    particularly for use with fontspec (practically ubiquitous in xelatex documents)
+    Note: the actual fonts used (Times, Courier) may not be available everywhere.
+    
+    For details on the potential ae conflict of Sweave and fontspec, see, e.g., http://www.theresearchkitchen.com/archives/118
+
+ inst/example/pgfSweave-xelatex-example.Rnw |   31 +++++++++++++++++++--------
+ 1 files changed, 22 insertions(+), 9 deletions(-)
+
+commit 871fc2171ee70439dce79b3e93bf3f197e350dfd
+Author: Ingmar Steiner <ingmar.steiner@inria.fr>
+Date:   Mon Feb 13 11:49:52 2012 +0100
+
+    updated xelatex example and softened warning;
+    
+    if xelatex is called with -8bit option, generated makefile is not malformed, and does not need to be hacked with sed or perl
+    
+    see for example, http://tex.stackexchange.com/a/14776
+
+ inst/example/Makefile                      |    9 +++++++--
+ inst/example/pgfSweave-xelatex-example.Rnw |    5 ++---
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+
+commit 9cc009512dd0968a17ba056deab5b56b55a58534
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Dec 1 14:51:54 2011 -0700
+
+    Importing cacheSweave doesnt work, need a dependency
+
+ DESCRIPTION |    2 +-
+ NAMESPACE   |    3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+commit 6e2d0a3858a883e87bc4d1648c917e7880d9b20c
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Dec 1 14:51:12 2011 -0700
+
+    Add support for figs.only option to Sweave (TRUE by defualt)
+
+ R/pgfSweaveDriver.R |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+
+commit 413d1d6404669a190c27541e6357feca7520f9f0
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Aug 22 12:39:35 2011 -0600
+
+    Add global option pgfSweaveNoHighlight to disable printing of highlight definitions (they are currently always printed.)
+    
+    Set the options to any other value than NULL to disable printing of the definitions e.g. options(pgfSweaveNoHighlight=TRUE)
+
+ R/pgfSweaveDriver.R |   42 ++++++++++++++++++++++--------------------
+ 1 files changed, 22 insertions(+), 20 deletions(-)
+
+commit bf5b65532c9ed6f9f88d876fc2c88ecfc74cd0f2
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Mon Aug 22 12:37:20 2011 -0600
+
+    Roxygenize docs
+
+ R/pgfSweave.R       |  110 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ R/pgfSweaveDriver.R |   57 ++++++++++++++++++++++++++
+ 2 files changed, 166 insertions(+), 1 deletions(-)
+
+commit fc21a9d22861f6739d8765aa3330ca498093cfd0
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jul 8 14:20:41 2011 -0600
+
+    Can now specify your installed PGF version in your .Rprofile to circumvent the check at startup, `options(pgfversion = "2.10")`; This gets the package load time down to a bare minimum, the rest of the time is from loading other packages:
+    
+    $Rcpp
+    [1] 0.314
+    
+    $parser
+    [1] 0.044
+    
+    $codetools
+    [1] 0.029
+    
+    $formatR
+    [1] 0.029
+    
+    $filehash
+    [1] 0.094
+    
+    $stashR
+    [1] 0.067
+    
+    $tikzDevice
+    [1] 0.094
+    
+    $highlight
+    [1] 0.088
+    
+    $pgfSweave
+    [1] 0.044
+    
+    packs <- c('Rcpp', 'parser', 'codetools', 'formatR', 'filehash',
+      'tikzDevice', 'highlight', 'stashR', 'pgfSweave')
+    ti <- list()
+    for(p in packs)
+        ti[[p]] <- system.time(suppressPackageStartupMessages(library(p,character.only=TRUE)))
+
+ R/zzz.R |   25 +++++++++++++++++++------
+ 1 files changed, 19 insertions(+), 6 deletions(-)
+
+commit 9264763b9dae55c032e23018001cb57fd6bcb83d
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Fri Jul 8 13:16:17 2011 -0600
+
+    Move optparse to 'Enhances' and add a check for it in the command line
+    script.
+
+ DESCRIPTION             |    4 +++-
+ exec/pgfsweave          |    1 +
+ exec/pgfsweave-script.R |    3 ++-
+ 3 files changed, 6 insertions(+), 2 deletions(-)
+
+commit f1e4d03c3ab7e9014b6a22dd695f4cf5007a5649
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Tue May 31 12:25:29 2011 -0600
+
+    Fix spacing bug for highlight=F, tidy=T, wasn't caught with previous spacing fixes, GH-31
+
+ R/pgfSweaveDriver.R |    3 ---
+ 1 files changed, 0 insertions(+), 3 deletions(-)
+
+commit 54e1c783f5162251c9eb2c7fed997cf931f43bc7
+Merge: e13ae66 ec0225e
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat May 28 17:39:22 2011 -0600
+
+    Merge branch 'master' of github.com:cameronbracken/pgfSweave
+
+commit e13ae6680c28237ba79e509a1e95a4fea425ac3f
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Sat May 28 17:22:17 2011 -0600
+
+    Fix typos in the vignette
+
+ ChangeLog                                          |  110 ++++++++++++
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 2839 -> 12554 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pgf               |  180 +++++++++++---------
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 28507 -> 35472 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.tikz         |   77 +++++----
+ inst/doc/pgfSweave-example-tex.in                  |   26 ++--
+ inst/doc/pgfSweave-example.pdf                     |  Bin 78304 -> 77979 bytes
+ inst/doc/pgfSweave.Rnw                             |   58 +++---
+ inst/doc/pgfSweave.pdf                             |  Bin 279712 -> 289790 bytes
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    6 +-
+ 10 files changed, 294 insertions(+), 163 deletions(-)
+
+commit ec0225ef4a84f66a77023760ba1f3c742d68ad55
+Merge: 29a4b9a 50566c1
+Author: Cameron Bracken <cameron.bracken@gmail.com>
+Date:   Mon May 9 11:52:35 2011 -0700
+
+    Merge pull request #30 from lq/master
+    
+    caching does not work properly when keep.source=TRUE
+
 commit 29a4b9ae44804fda444c3f8fd4b04c94a1a84bce
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Wed May 4 16:29:09 2011 -0600
@@ -6,6 +248,15 @@ Date:   Wed May 4 16:29:09 2011 -0600
 
  R/pgfSweaveDriver.R |    4 +++-
  1 files changed, 3 insertions(+), 1 deletions(-)
+
+commit 50566c11734cb8719c0b33c06df7578711259a32
+Author: Qiang Li <liqiang@picb.ac.cn>
+Date:   Wed May 4 01:11:42 2011 +0800
+
+    fixed: keep.source breaks cache
+
+ R/cacheSweaveUnexportedFunctions.R |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 commit 0cdf5785592ee6b94a40aeb72ed91253cac51b37
 Merge: c53f9f8 dada019

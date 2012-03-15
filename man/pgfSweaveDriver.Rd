@@ -1,9 +1,14 @@
-\name{pgfSweaveDriver}
+\name{pgfSweaveSetup}
 \alias{pgfSweaveDriver}
 \alias{pgfSweaveSetup}
 \title{The Sweave driver for pgfSweave}
 \usage{
-  pgfSweaveDriver()
+  pgfSweaveSetup(file, syntax, output = NULL,
+    quiet = FALSE, debug = FALSE, echo = TRUE, eval = TRUE,
+    split = FALSE, stylepath = TRUE, pdf = FALSE,
+    eps = FALSE, cache = FALSE, pgf = FALSE, tikz = TRUE,
+    external = FALSE, sanitize = FALSE, highlight = TRUE,
+    tidy = FALSE, concordance = FALSE, figs.only = TRUE)
 }
 \arguments{
   \item{file}{A connection or a character string giving the
@@ -51,7 +56,11 @@
 
   \item{tidy}{Should echo'd code be cleaned up with the
   \code{\link[formatR]{tidy.source}} function from the
-  \code{\link[formatR]{formatR}} package.}
+  \pkg{formatR} package.}
+
+  \item{concordance}{\code{\link{RweaveLatex}}}
+
+  \item{figs.only}{\code{\link{RweaveLatex}}}
 }
 \value{
   Nothing useful returned.
