@@ -410,6 +410,8 @@ And we get (from compiling \texttt{pgfSweave-example.tex}):
 The process that \pkg{pgfSweave} uses when caching and externalization are turned on is outlined in the flow chart below:
 
 %\tikzsetnextfilename{figs/flow}
+{
+\tikzexternaldisable
 \begin{figure}[!ht]
 \centering
 \begin{tikzpicture}
@@ -470,6 +472,7 @@ The process that \pkg{pgfSweave} uses when caching and externalization are turne
 \end{tikzpicture}
 \caption{Flow chart of \pkg{pgfSweave} procedure.}\label{flow}
 \end{figure}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

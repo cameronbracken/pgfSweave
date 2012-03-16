@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\usepackage[utf8]{inputenc}
+
 \usepackage{tikz}
 \tikzset{external/system call={latex \tikzexternalcheckshellescape -halt-on-error 
   -interaction=batchmode -jobname "\image" "\texsource"; 
