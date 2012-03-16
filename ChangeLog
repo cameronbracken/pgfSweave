@@ -1,3 +1,33 @@
+commit 7b2454db7cfc952425b8673045f324066e314790
+Author: cameronbracken <cameron.bracken@gmail.com>
+Date:   Thu Mar 15 00:43:00 2012 -0700
+
+    Modifications for check, rebuild vignette
+
+ .Rinstignore                                       |    1 +
+ ChangeLog                                          |  251 ++++++++++++++++++++
+ NAMESPACE                                          |    2 +-
+ R/pgfSweaveDriver.R                                |   27 +-
+ inst/doc/Sweave.sty                                |   33 ---
+ inst/doc/fig-normalSweave.pdf                      |  Bin 0 -> 4622 bytes
+ inst/doc/fig-pgfSweave-hist.pgf                    |  234 ++++++++++++++++++
+ inst/doc/fig-pgfSweave-tikz-hist.pdf               |  Bin 0 -> 28468 bytes
+ inst/doc/fig-pgfSweave-tikz-hist.tikz              |   97 ++++++++
+ inst/doc/figs/fig-normalSweave.pdf                 |  Bin 12554 -> 0 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pdf               |  Bin 16274 -> 0 bytes
+ inst/doc/figs/fig-pgfSweave-hist.pgf               |  248 -------------------
+ inst/doc/figs/fig-pgfSweave-tikz-hist.pdf          |  Bin 35472 -> 0 bytes
+ inst/doc/figs/fig-pgfSweave-tikz-hist.tikz         |  108 ---------
+ inst/doc/pgfSweave-example-tex.in                  |   17 +-
+ inst/doc/pgfSweave-example.pdf                     |  Bin 77979 -> 77314 bytes
+ inst/doc/pgfSweave.Rnw                             |   59 ++---
+ inst/doc/pgfSweave.pdf                             |  Bin 289790 -> 281270 bytes
+ inst/misc/vignette-src/Makefile                    |   14 +-
+ inst/misc/vignette-src/Sweave.sty                  |   33 ---
+ .../vignette-src/pgfSweave-vignette-source.Rnw     |    4 +-
+ man/pgfSweaveDriver.Rd                             |   15 +-
+ 22 files changed, 650 insertions(+), 493 deletions(-)
+
 commit 8f00570ea40b0bba322c246e4e0c4333a96f8c50
 Author: cameronbracken <cameron.bracken@gmail.com>
 Date:   Thu Mar 15 00:19:27 2012 -0700

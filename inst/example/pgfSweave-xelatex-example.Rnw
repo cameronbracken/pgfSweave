@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\usepackage[utf8]{inputenc}
+
 \usepackage{tikz}
 \tikzset{external/system call={xelatex \tikzexternalcheckshellescape -halt-on-error 
   -interaction=batchmode -jobname "\image" "\texsource"}}
@@ -19,7 +21,7 @@
 % the Sweave package must be loaded with the noae option for compatibility
 % with fontspec (otherwise cryptic errors about T1 encoding will appear):
 
-\usepackage[noae]{../doc/Sweave}
+\usepackage[noae]{Sweave}
 
 \usepackage[margin=1in]{geometry}
 

@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\usepackage[utf8]{inputenc}
+
 \usepackage{tikz}
 \usepackage[margin=1in]{geometry}
 \title{Minimal pgfSweave Example}

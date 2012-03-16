@@ -13,7 +13,7 @@
 
 # Internal values
 
-DOC_PATH=../../doc/
+DOC_PATH=../../vignettes/
 EXAMPLE_PATH=../../example/
 TEST_PATH=../../tests/
 EXEC_PATH=../../../exec/
@@ -64,11 +64,12 @@ $(VIGNETTE_DUMMY_RNW): $(EXAMPLE_PDF)  $(VIGNETTE_SOURCE_PDF)
 		| grep -v '^\\usetikzlibrary{external}' \
 		| grep -v '^\\tikzexternalize' \
 		| grep -v '^\\tikzsetnextfilename' \
-		| grep -v '^\\tikzexternalfiledependsonfile'> tmp
+		| grep -v '^\\tikzexternalfiledependsonfile' \
+		| grep -v '^\\\tikzexternaldisable' > tmp
 	# Change the names of the input files
 	cat tmp | sed 's/pgfSweave-example\.Rnw/pgfSweave-example-Rnw.in/g' \
 			| sed 's/pgfSweave-example\.tex/pgfSweave-example-tex\.in/g' \
-			> ../../doc/pgfSweave.Rnw
+			> $(DOC_PATH)/pgfSweave.Rnw
 
 $(VIGNETTE_SOURCE_PDF):
 	echo `pwd`
@@ -87,7 +88,7 @@ cleanall:
 clean:
 	rm -rf cache *.pdf $(RM_PATH).$(BUILD_RM_SUFFIX) \
 		./pgfSweave-vignette-source.tex $(DOC_PATH)/pgfSweave.tex \
-		$(DOC_PATH)/pgfSweave_hans.tex tmp
+		$(DOC_PATH)/pgfSweave_hans.tex tmp $(DOC_PATH)/Rplots.pdf
 	(cd $(EXAMPLE_PATH) ; make cleanforbuild)
 	(cd $(TEST_PATH) ; make cleanforbuild)
 
