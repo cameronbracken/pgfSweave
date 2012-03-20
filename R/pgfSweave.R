@@ -158,3 +158,4 @@ pgfSweave <- function(file, compile.tex = TRUE, graphics.only = FALSE,
 installCommandLineScript <- function(){
     source(system.file(package='pgfSweave','exec','install-script.R'))
 }
+

@@ -128,6 +128,7 @@ pgfSweaveSetup <- function(file, syntax,
     out$options[["tidy"]] <- tidy
     out$options[["relwidth"]] <- 1
     out$options[["relheight"]] <- 1
+    out$concordance <- ifelse(getOption('pgfSweaveConcordance'),TRUE, out$concordance)
     out[["haveHighlightSyntaxDef"]] <- FALSE
     out[["haveRealjobname"]] <- FALSE
     ## end [CWB]
