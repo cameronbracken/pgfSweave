@@ -155,6 +155,35 @@ pgfSweave <- function(file, compile.tex = TRUE, graphics.only = FALSE,
 
 }
 
+getChunkOptions <- function(){
+    list(
+        prefix.string = 'character',
+        eval = 'logical',
+        fig = 'logical',
+        width = 'numeric',
+        height = 'numeric',
+        pdf = 'logical',
+        echo = 'logical',
+        keep.source = 'logical',
+        results = list('verbatim','tex','hide'),
+        split = 'logical',
+        strip.white = list('true','false','all'),
+        include = 'logical',
+        expand = 'logical',
+        concordance = 'logical',
+        figs.only = 'logical',
+        cache = 'logical',
+        pgf = 'logical',
+        tikz = 'logical',
+        external = 'logical',
+        sanitize = 'logical',
+        highlight = 'logical',
+        tidy = 'logical',
+        relwidth = 'numeric',
+        relheight = 'numeric'
+    )
+}
+
 installCommandLineScript <- function(){
     source(system.file(package='pgfSweave','exec','install-script.R'))
 }

@@ -301,8 +301,6 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     }
     if(options$keep.source) cat(" keep.source")
     if(options$eval){
-      if(options$print) cat(" print")
-      if(options$term) cat(" term")
       cat("", options$results)
       if(options$fig){
         if(options$eps) cat(" eps")
@@ -731,6 +729,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
     ##end graphics options [CWB]
     #############################################
   }
+  browser()
   object$linesout <- c(object$linesout, linesout)
   return(object)
 }
