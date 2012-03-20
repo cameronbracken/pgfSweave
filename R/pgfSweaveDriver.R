@@ -151,7 +151,7 @@ pgfSweaveDriver <- function() {
        setup = pgfSweaveSetup,
        runcode = pgfSweaveRuncode,
        writedoc = pgfSweaveWritedoc,
-       finish = utils::RweaveLatexFinish,
+       finish = pgfSweaveLatexFinish,
        checkopts = pgfSweaveOptions
        )
 }
@@ -266,19 +266,19 @@ pgfSweaveWritedoc <- function(object, chunk)
                     "\\1", chunk[pos[1L]])
         object$options <- utils:::SweaveParseOptions(opts, object$options,
                                              pgfSweaveOptions)
-        if (isTRUE(object$options$concordance)
-              && !object$haveconcordance) {
+        if (isTRUE(object$options$concordance) && !object$haveconcordance) {
             savelabel <- object$options$label
             object$options$label <- "concordance"
             prefix <- utils:::RweaveChunkPrefix(object$options)
             object$options$label <- savelabel
-            object$concordfile <- paste(prefix, "tex", sep=".")
+            object$concordfile <- paste(prefix, 'tex', sep=".")
             chunk[pos[1L]] <- sub(object$syntax$docopt,
                                  paste("\\\\input{", prefix, "}", sep=""),
                                  chunk[pos[1L]])
             object$haveconcordance <- TRUE
-        } else
+        } else {
             chunk[pos[1L]] <- sub(object$syntax$docopt, "", chunk[pos[1L]])
+        }
     }
 
     cat(chunk, sep="\n", file=object$output, append=TRUE)
@@ -744,4 +744,36 @@ pgfSweaveRuncode <- function(object, chunk, options) {
   }
   object$linesout <- c(object$linesout, linesout)
   return(object)
+}
+
+# this is from R 2.13, later versions break pgfSweave concordance
+pgfSweaveLatexFinish <- function(object, error = FALSE)
+{
+    outputname <- summary(object$output)$description
+    inputname <- object$filename
+    if (!object$quiet && !error)
+        cat("\n",
+            sprintf("You can now run (pdf)latex on '%s'", outputname),
+            "\n", sep = "")
+    close(object$output)
+    if (length(object$chunkout))
+        for (con in object$chunkout) close(con)
+    if (object$haveconcordance) {
+        ## This output format is subject to change.  Currently it contains
+        ## three parts, separated by colons:
+        ## 1.  The output .tex filename
+        ## 2.  The input .Rnw filename
+        ## 3.  The input line numbers corresponding to each output line.
+        ##     This are compressed using the following simple scheme:
+        ##     The first line number, followed by
+        ##     a run-length encoded diff of the rest of the line numbers.
+        linesout <- object$linesout
+        vals <- rle(diff(linesout))
+        vals <- c(linesout[1L], as.numeric(rbind(vals$lengths, vals$values)))
+        concordance <- paste(strwrap(paste(vals, collapse = " ")), collapse = " %\n")
+        special <- paste("\\Sconcordance{concordance:", outputname, ":",
+                         inputname, ":%\n", concordance,"}\n", sep = "")
+        cat(special, file = object$concordfile)
+    }
+    invisible(outputname)
 }
