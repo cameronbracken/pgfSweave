@@ -18,6 +18,15 @@ __Please read the package vignette `inst/doc/pgfSweave.pdf` for more information
 
 Also see [http://code.cjb.net/pgfSweave.html](http://code.cjb.net/pgfSweave.html) for a great example.
 
+## Installation
+Normally:
+
+    install.packages('pgfSweave')
+
+From Github:
+
+    library(devtools)
+    install_github('pgfSweave','cameronbracken')
 
 ##BUGS AND FEATURE REQUESTS
 * See [https://github.com/cameronbracken/pgfSweave/issues]()

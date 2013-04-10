@@ -1,8 +1,8 @@
 Package: pgfSweave
 Type: Package
 Title: Quality speedy graphics compilation and caching with Sweave
-Version: 1.3.0
-Date: 2011-05-05
+Version: 1.4.0
+Date: 2013-04-10
 Author: Cameron Bracken <cameron.bracken@gmail.com> and Charlie Sharpsteen
     <source@sharpsteen.net>
 Maintainer: Cameron Bracken <cameron.bracken@gmail.com>
@@ -19,7 +19,7 @@ Imports:
     tikzDevice,
     cacheSweave
 Enhances: optparse
-SystemRequirement: pgf (>=2.10) (http://sourceforge.net/projects/pgf/) for the
+SystemRequirements: pgf (>=2.10) (http://sourceforge.net/projects/pgf/) for the
     vignette and for externalization, GNU Make for externalization
 Description: pgfSweave provides a number of improvements to the
     speed and quality of Sweave output including: (1) capabilities for
@@ -33,7 +33,7 @@ Description: pgfSweave provides a number of improvements to the
     cacheSweave.
 License: GPL (>= 3)
 LazyLoad: yes
-URL: https://r-forge.r-project.org/projects/pgfsweave/
+URL: https://github.com/cameronbracken/pgfsweave
 BugReports: https://github.com/cameronbracken/pgfSweave/issues
 Collate:
     'cacheSweaveUnexportedFunctions.R'

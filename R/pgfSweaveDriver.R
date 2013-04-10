@@ -458,7 +458,7 @@ pgfSweaveRuncode <- function(object, chunk, options) {
 
           if (!beginSinput) cat(newline_latex(), file=chunkout, append=TRUE)
 
-          highlight(parser.output=parser(text=dce),
+          highlight(parse.output=parse(text=dce),
             renderer=renderer_latex(document=FALSE),
             output = chunkout, showPrompts=TRUE, 
             size=ifelse(is.null(getOption('highlight.size')),
